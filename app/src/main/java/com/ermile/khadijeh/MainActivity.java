@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
         MenuItem home = menu.findItem(R.id.item_home);
         home.setTitle("صفحه اصلی");
-        
+
         MenuItem pay = menu.findItem(R.id.item_pay);
         pay.setTitle("پرداخت نذورات");
 
