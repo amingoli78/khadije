@@ -1,19 +1,33 @@
 package com.ermile.khadijeh;
 
-import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.internal.BottomNavigationItemView;
-import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
-import java.lang.reflect.Field;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.ermile.khadijeh.network.AppContoroler;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,145 +44,149 @@ public class MainActivity extends AppCompatActivity {
         final int versionCode = BuildConfig.VERSION_CODE;
         String versionName = BuildConfig.VERSION_NAME;
 
-
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        final BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         fragmentManager = getSupportFragmentManager();
 
-        disableShiftMode(bottomNav);
 
-        bottomNav.setSelectedItemId(R.id.item_1);
 
-        bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        final WebView webView = findViewById(R.id.webview);
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        final SwipeRefreshLayout swipe = findViewById(R.id.swipref);
+        //------------------------------------------------------------
+        swipe.setRefreshing(true);
+        webView.setWebViewClient(new WebViewClient() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            public void onPageFinished(WebView view, String url) {
+                swipe.setRefreshing(false);
+            }});
 
-                switch (item.getItemId()) {
 
-                    case R.id.item_1:
-                        fragment = new f_one();
-                        break;
+        final String url = "http://www.google.com";
+        webView.loadUrl(url);
 
-                    case R.id.item_2:
-                        fragment = new f_two();
-                        break;
-
-                    case R.id.item_3:
-                        fragment = new f_one();
-                        break;
-                    case R.id.item_4:
-                        fragment = new f_one();
-                        break;
-                    case R.id.item_5:
-                        fragment = new f_one();
-                        break;
-
-                }
-
-                final FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.main_container, fragment).commit();
-                return true;
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                webView.loadUrl(url);
             }
         });
 
+        Menu menu = bottomNav.getMenu();
+        MenuItem ad = menu.add("شما");
+        MenuItem login = menu.findItem(R.id.item_1);
+        login.setTitle("خانه");
+        login.setIcon()
 
 
 
-//        // JSON
-//        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, "http://mimsg.ir/json_app/app.json", null, new Response.Listener<JSONObject>() {
-//            @Override
-//            public void onResponse(JSONObject response) {
-//                try {
-//
-//                    // new version for app
-//                    int app_version = response.getInt("version");
-//                    if (versionCode < app_version) {
-//                        Notification.Builder nb = new Notification.Builder(MainActivity.this);
-//                        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-//                        nb.setContentTitle("بروزرسانی")
-//                                .setContentText("نسخه جدید رو دانلود کنید!")
-//                                .setTicker("برو دانلود کن دیگه")
-//                                .setSmallIcon(android.R.drawable.stat_sys_download)
-//                                .setAutoCancel(false)
-//                                .setSound(alarmSound);
-//                        Notification notif = nb.build();
-//                        NotificationManager notifManager = (NotificationManager) MainActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
-//                        notifManager.notify(0, notif);
-//                    }
-//                    // notif
-//                    boolean notif_bol = response.getBoolean("notif");
-//                    String notif_title = response.getString("title_notif");
-//                    String notif_des = response.getString("des_notif");
-//                    if (notif_bol == true) {
-//                        Notification.Builder nb = new Notification.Builder(MainActivity.this);
-//                        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-//                        nb.setContentTitle(notif_title)
-//                                .setContentText(notif_des)
-//                                .setTicker("برو دانلود کن دیگه")
-//                                .setSmallIcon(android.R.drawable.stat_sys_download)
-//                                .setAutoCancel(false)
-//                                .setSound(alarmSound);
-//                        Notification notif = nb.build();
-//                        NotificationManager notifManager = (NotificationManager) MainActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
-//                        notifManager.notify(1, notif);
-//                    }
-//                    // toolbar and tab Top or Bottom?
-////                    is top
-//                    boolean tab_pos = response.getBoolean("Tab_IsTop");
-//                    if (tab_pos == true) {
-//                        tab_top.setVisibility(View.VISIBLE);
-//                        viewPager = findViewById(R.id.viewPager_top);
-//                        tabLayout = findViewById(R.id.tabLayout_top);
-//
-//                        setupViewPager(viewPager);
-//                        tabLayout.setupWithViewPager(viewPager);
-//
-//                    } else {
-//                        tab_bottom.setVisibility(View.VISIBLE);
-//                        viewPager = findViewById(R.id.viewPager_bottom);
-//                        tabLayout = findViewById(R.id.tabLayout_bottom);
-//
-//                        setupViewPager(viewPager);
-//                        tabLayout.setupWithViewPager(viewPager);
-//
-//                        tabLayout.getTabAt(0).setIcon(R.drawable.ic_home);
-//
-//                    }
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//            }
-//        });AppContoroler.getInstance().addToRequestQueue(req);
-//        // END JSON
 
 
-    }
+        // JSON
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, "http://mimsg.ir/json_app/app.json", null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
 
-    // Method for disabling ShiftMode of BottomNavigationView
-    @SuppressLint("RestrictedApi")
-    private void disableShiftMode(BottomNavigationView view) {
-        BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
-        try {
-            Field shiftingMode = menuView.getClass().getDeclaredField("mShiftingMode");
-            shiftingMode.setAccessible(true);
-            shiftingMode.setBoolean(menuView, false);
-            shiftingMode.setAccessible(false);
-            for (int i = 0; i < menuView.getChildCount(); i++) {
-                BottomNavigationItemView item = (BottomNavigationItemView) menuView.getChildAt(i);
-                item.setShifting(false);
-                // set once again checked value, so view will be updated
-                item.setChecked(item.getItemData().isChecked());
+                    // new version for app
+                    int app_version = response.getInt("version");
+                    if (versionCode < app_version) {
+                        Notification.Builder nb = new Notification.Builder(MainActivity.this);
+                        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                        nb.setContentTitle("بروزرسانی")
+                                .setContentText("نسخه جدید رو دانلود کنید!")
+                                .setTicker("برو دانلود کن دیگه")
+                                .setSmallIcon(android.R.drawable.stat_sys_download)
+                                .setAutoCancel(false)
+                                .setSound(alarmSound);
+                        Notification notif = nb.build();
+                        NotificationManager notifManager = (NotificationManager) MainActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
+                        notifManager.notify(0, notif);
+                    }
+                    // notif
+                    boolean notif_bol = response.getBoolean("notif");
+                    String notif_title = response.getString("title_notif");
+                    String notif_des = response.getString("des_notif");
+                    if (notif_bol == true) {
+                        Notification.Builder nb = new Notification.Builder(MainActivity.this);
+                        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                        nb.setContentTitle(notif_title)
+                                .setContentText(notif_des)
+                                .setTicker("برو دانلود کن دیگه")
+                                .setSmallIcon(android.R.drawable.stat_sys_download)
+                                .setAutoCancel(false)
+                                .setSound(alarmSound);
+                        Notification notif = nb.build();
+                        NotificationManager notifManager = (NotificationManager) MainActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
+                        notifManager.notify(1, notif);
+                    }
+                    // toolbar and tab Top or Bottom?
+
+                    bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+                        @Override
+                        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                            switch (item.getItemId()) {
+
+                                case R.id.item_1:
+                                    webView.loadUrl("https://translate.google.com");
+                                    swipe.setRefreshing(true);
+                                    webView.setWebViewClient(new WebViewClient() {
+                                        @Override
+                                        public void onPageFinished(WebView view, String url) {
+                                            swipe.setRefreshing(false);
+                                        }});
+
+                                    break;
+
+                                case R.id.item_2:
+                                    webView.loadUrl("https://translate.google.com");
+                                    swipe.setRefreshing(true);
+                                    webView.setWebViewClient(new WebViewClient() {
+                                        @Override
+                                        public void onPageFinished(WebView view, String url) {
+                                            swipe.setRefreshing(false);
+                                        }});
+                                    break;
+
+                                case R.id.item_3:
+                                    webView.loadUrl("https://translate.google.com");
+                                    swipe.setRefreshing(true);
+                                    webView.setWebViewClient(new WebViewClient() {
+                                        @Override
+                                        public void onPageFinished(WebView view, String url) {
+                                            swipe.setRefreshing(false);
+                                        }});
+                                    break;
+                                case R.id.item_4:
+                                    webView.loadUrl("https://translate.google.com");
+                                    swipe.setRefreshing(true);
+                                    webView.setWebViewClient(new WebViewClient() {
+                                        @Override
+                                        public void onPageFinished(WebView view, String url) {
+                                            swipe.setRefreshing(false);
+                                        }});
+                                    break;
+
+                            }
+                            return true;
+                        }
+                    });
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (NoSuchFieldException e) {
-            Log.e("BNVHelper", "Unable to get shift mode field", e);
-        } catch (IllegalAccessException e) {
-            Log.e("BNVHelper", "Unable to change value of shift mode", e);
-        }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        });AppContoroler.getInstance().addToRequestQueue(req);
+        // END JSON
+
+
     }
+
 
 
 }
