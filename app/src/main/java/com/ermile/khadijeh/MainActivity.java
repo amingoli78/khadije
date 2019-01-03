@@ -3,6 +3,8 @@ package com.ermile.khadijeh;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,6 +26,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.bumptech.glide.Glide;
 import com.ermile.khadijeh.network.AppContoroler;
 
 import org.json.JSONException;
@@ -62,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
             }});
 
 
-        final String url = "http://www.google.com";
+        final String url = "https://khadije.com";
         webView.loadUrl(url);
 
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -72,11 +75,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        String myBitmap = "https://cdn2.iconfinder.com/data/icons/innovation-technology-1/512/tech_0001-512.png";
+
+
         Menu menu = bottomNav.getMenu();
-        MenuItem ad = menu.add("شما");
-        MenuItem login = menu.findItem(R.id.item_1);
-        login.setTitle("خانه");
-        login.setIcon()
+        MenuItem tasharof = menu.findItem(R.id.item_tasharof);
+        tasharof.setTitle("درخواست تشرف");
+
+        MenuItem home = menu.findItem(R.id.item_home);
+        home.setTitle("صفحه اصلی");
+        
+        MenuItem pay = menu.findItem(R.id.item_pay);
+        pay.setTitle("پرداخت نذورات");
 
 
 
@@ -128,8 +139,8 @@ public class MainActivity extends AppCompatActivity {
 
                             switch (item.getItemId()) {
 
-                                case R.id.item_1:
-                                    webView.loadUrl("https://translate.google.com");
+                                case R.id.item_tasharof:
+                                    webView.loadUrl("https://khadije.com/trip");
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
                                         @Override
@@ -139,8 +150,8 @@ public class MainActivity extends AppCompatActivity {
 
                                     break;
 
-                                case R.id.item_2:
-                                    webView.loadUrl("https://translate.google.com");
+                                case R.id.item_home:
+                                    webView.loadUrl("https://khadije.com");
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
                                         @Override
@@ -149,17 +160,8 @@ public class MainActivity extends AppCompatActivity {
                                         }});
                                     break;
 
-                                case R.id.item_3:
-                                    webView.loadUrl("https://translate.google.com");
-                                    swipe.setRefreshing(true);
-                                    webView.setWebViewClient(new WebViewClient() {
-                                        @Override
-                                        public void onPageFinished(WebView view, String url) {
-                                            swipe.setRefreshing(false);
-                                        }});
-                                    break;
-                                case R.id.item_4:
-                                    webView.loadUrl("https://translate.google.com");
+                                case R.id.item_pay:
+                                    webView.loadUrl("https://khadije.com/donate");
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
                                         @Override
