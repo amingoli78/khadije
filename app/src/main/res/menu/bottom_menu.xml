@@ -6,9 +6,9 @@
 
     <group>
         <item
-            android:id="@+id/item_tasharof"
+            android:id="@+id/item_pay"
             android:title="@string/action_search"
-            android:icon="@drawable/ic_tasharof">
+            android:icon="@drawable/ic_pay">
         </item>
         <item
             android:id="@+id/item_home"
@@ -16,9 +16,9 @@
             android:icon="@drawable/ic_home">
         </item>
         <item
-            android:id="@+id/item_pay"
+            android:id="@+id/item_trip"
             android:title="@string/action_hot_deals"
-            android:icon="@drawable/ic_pay">
+            android:icon="@drawable/ic_tasharof">
         </item>
     </group>
 

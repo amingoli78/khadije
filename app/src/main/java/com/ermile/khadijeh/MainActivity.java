@@ -3,6 +3,7 @@ package com.ermile.khadijeh;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.RingtoneManager;
@@ -24,6 +25,7 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -32,6 +34,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.bumptech.glide.Glide;
 import com.ermile.khadijeh.network.AppContoroler;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -50,68 +53,131 @@ public class MainActivity extends AppCompatActivity {
         final int versionCode = BuildConfig.VERSION_CODE;
         String versionName = BuildConfig.VERSION_NAME;
 
-        final BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-        fragmentManager = getSupportFragmentManager();
-        bottomNav.setSelectedItemId(R.id.item_home);
 
-        final WebView webView = findViewById(R.id.webview);
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        final SwipeRefreshLayout swipe = findViewById(R.id.swipref);
-        //------------------------------------------------------------
-        swipe.setRefreshing(true);
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                swipe.setRefreshing(false);
-            }});
-
-
-        final String url = "https://khadije.com";
-        webView.loadUrl(url);
-
-        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                webView.loadUrl(url);
-            }
-        });
-
-        Menu menu = bottomNav.getMenu();
-
-        MenuItem tasharof = menu.findItem(R.id.item_tasharof);
-        tasharof.setTitle("درخواست تشرف");
-        // set size title for pay item
-        SpannableString spanString_tasharof = new SpannableString(menu.findItem(R.id.item_tasharof).getTitle().toString());
-        int end_tasharof = spanString_tasharof.length();
-        spanString_tasharof.setSpan(new RelativeSizeSpan(0.8f), 0, end_tasharof, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        tasharof.setTitle(spanString_tasharof);
-
-        MenuItem home = menu.findItem(R.id.item_home);
-        home.setTitle("صفحه اصلی");
-        // set size title for pay item
-        SpannableString spanString_home = new SpannableString(menu.findItem(R.id.item_home).getTitle().toString());
-        int end_home = spanString_home.length();
-        spanString_home.setSpan(new RelativeSizeSpan(0.8f), 0, end_home, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        home.setTitle(spanString_home);
-
-        MenuItem pay = menu.findItem(R.id.item_pay);
-        pay.setTitle("پرداخت نذورات");
-        // set size title for pay item
-        SpannableString spanString_pay = new SpannableString(menu.findItem(R.id.item_pay).getTitle().toString());
-        int end_pay = spanString_pay.length();
-        spanString_pay.setSpan(new RelativeSizeSpan(1.2f), 0, end_pay, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        pay.setTitle(spanString_pay);
 
 
 
 
 
         // JSON
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, "http://mimsg.ir/json_app/app.json", null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, "https://khadije.com/hook/app/android", null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+
+                    JSONArray navigation_btn = response.getJSONArray("navigation");
+                    JSONObject pay = navigation_btn.getJSONObject(0);
+                    JSONObject home = navigation_btn.getJSONObject(1);
+                    JSONObject trip = navigation_btn.getJSONObject(2);
+
+                    String trip_title = pay.getString("title");
+                    final String trip_url = pay.getString("url");
+
+                    String home_title = home.getString("title");
+                    final String home_url = home.getString("url");
+
+                    String pay_title = trip.getString("title");
+                    final String pay_url = trip.getString("url");
+
+                    //static
+                    final BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+                    fragmentManager = getSupportFragmentManager();
+                    bottomNav.setSelectedItemId(R.id.item_home);
+
+                    final WebView webView = findViewById(R.id.webview);
+                    WebSettings webSettings = webView.getSettings();
+                    webSettings.setJavaScriptEnabled(true);
+                    final SwipeRefreshLayout swipe = findViewById(R.id.swipref);
+                    //------------------------------------------------------------
+                    swipe.setRefreshing(true);
+                    webView.setWebViewClient(new WebViewClient() {
+                        @Override
+                        public void onPageFinished(WebView view, String url) {
+                            swipe.setRefreshing(false);
+                        }});
+                    // download json
+                    final String url = home_url;
+                    webView.loadUrl(url);
+
+                    swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                        @Override
+                        public void onRefresh() {
+                            webView.loadUrl(url);
+                        }
+                    });
+
+                    Menu menu = bottomNav.getMenu();
+
+                    MenuItem trip_menu = menu.findItem(R.id.item_trip);
+                    trip_menu.setTitle(trip_title);
+                    // set size title for pay item
+                    SpannableString spanString_tasharof = new SpannableString(menu.findItem(R.id.item_trip).getTitle().toString());
+                    int end_tasharof = spanString_tasharof.length();
+                    spanString_tasharof.setSpan(new RelativeSizeSpan(0.8f), 0, end_tasharof, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    trip_menu.setTitle(spanString_tasharof);
+
+                    MenuItem home_menu = menu.findItem(R.id.item_home);
+                    home_menu.setTitle(home_title);
+                    // set size title for pay item
+                    SpannableString spanString_home = new SpannableString(menu.findItem(R.id.item_home).getTitle().toString());
+                    int end_home = spanString_home.length();
+                    spanString_home.setSpan(new RelativeSizeSpan(0.8f), 0, end_home, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    home_menu.setTitle(spanString_home);
+
+                    MenuItem pay_menu = menu.findItem(R.id.item_pay);
+                    pay_menu.setTitle(pay_title);
+                    // set size title for pay item
+                    SpannableString spanString_pay = new SpannableString(menu.findItem(R.id.item_pay).getTitle().toString());
+                    int end_pay = spanString_pay.length();
+                    spanString_pay.setSpan(new RelativeSizeSpan(1.2f), 0, end_pay, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    pay_menu.setTitle(spanString_pay);
+
+                    // toolbar and tab Top or Bottom?
+
+                    bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+                        @Override
+                        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                            switch (item.getItemId()) {
+
+                                case R.id.item_trip:
+                                    webView.loadUrl(trip_url);
+                                    swipe.setRefreshing(true);
+                                    webView.setWebViewClient(new WebViewClient() {
+                                        @Override
+                                        public void onPageFinished(WebView view, String url) {
+                                            swipe.setRefreshing(false);
+                                        }});
+
+                                    break;
+
+                                case R.id.item_home:
+                                    webView.loadUrl(home_url);
+                                    swipe.setRefreshing(true);
+                                    webView.setWebViewClient(new WebViewClient() {
+                                        @Override
+                                        public void onPageFinished(WebView view, String url) {
+                                            swipe.setRefreshing(false);
+                                        }});
+                                    break;
+
+                                case R.id.item_pay:
+                                    startActivity(new Intent(MainActivity.this,deviceinfo.class));
+//                                    webView.loadUrl(pay_url);
+//                                    swipe.setRefreshing(true);
+//                                    webView.setWebViewClient(new WebViewClient() {
+//                                        @Override
+//                                        public void onPageFinished(WebView view, String url) {
+//                                            swipe.setRefreshing(false);
+//                                        }});
+                                    break;
+
+                            }
+                            return true;
+                        }
+                    });
+
+                    //////////////
 
                     // new version for app
                     int app_version = response.getInt("version");
@@ -145,49 +211,7 @@ public class MainActivity extends AppCompatActivity {
                         NotificationManager notifManager = (NotificationManager) MainActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
                         notifManager.notify(1, notif);
                     }
-                    // toolbar and tab Top or Bottom?
 
-                    bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-                        @Override
-                        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                            switch (item.getItemId()) {
-
-                                case R.id.item_tasharof:
-                                    webView.loadUrl("https://khadije.com/trip");
-                                    swipe.setRefreshing(true);
-                                    webView.setWebViewClient(new WebViewClient() {
-                                        @Override
-                                        public void onPageFinished(WebView view, String url) {
-                                            swipe.setRefreshing(false);
-                                        }});
-
-                                    break;
-
-                                case R.id.item_home:
-                                    webView.loadUrl("https://khadije.com");
-                                    swipe.setRefreshing(true);
-                                    webView.setWebViewClient(new WebViewClient() {
-                                        @Override
-                                        public void onPageFinished(WebView view, String url) {
-                                            swipe.setRefreshing(false);
-                                        }});
-                                    break;
-
-                                case R.id.item_pay:
-                                    webView.loadUrl("https://khadije.com/donate");
-                                    swipe.setRefreshing(true);
-                                    webView.setWebViewClient(new WebViewClient() {
-                                        @Override
-                                        public void onPageFinished(WebView view, String url) {
-                                            swipe.setRefreshing(false);
-                                        }});
-                                    break;
-
-                            }
-                            return true;
-                        }
-                    });
 
                 } catch (JSONException e) {
                     e.printStackTrace();
