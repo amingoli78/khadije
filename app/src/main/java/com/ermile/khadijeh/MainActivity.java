@@ -4,16 +4,14 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
@@ -21,7 +19,6 @@ import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -31,7 +28,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.bumptech.glide.Glide;
 import com.ermile.khadijeh.network.AppContoroler;
 
 import org.json.JSONArray;
@@ -39,7 +35,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
-
+    public Handler mHandler;
+    public boolean continue_or_stop;
 
     private Fragment fragment;
     private FragmentManager fragmentManager;
@@ -102,9 +99,48 @@ public class MainActivity extends AppCompatActivity {
                     swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                         @Override
                         public void onRefresh() {
-                            webView.loadUrl(url);
+                            webView.loadUrl(webView.getUrl());
+                            Toast.makeText(MainActivity.this, "link is:"+webView.getUrl(), Toast.LENGTH_SHORT).show();
                         }
                     });
+
+
+
+                    // Chek net every 5 seconds
+                    mHandler = new Handler();
+                    continue_or_stop = true;
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            while (continue_or_stop) {
+                                try {
+                                    Thread.sleep(1000);
+                                    mHandler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+
+                                            if(bottomNav.getSelectedItemId() == R.id.item_home){
+
+                                                if (webView.getUrl().equals("https://khadije.com")){}
+                                                if (webView.getUrl().equals("https://khadije.com/donate")){bottomNav.setSelectedItemId(R.id.item_trip);}
+                                            }
+                                            if(bottomNav.getSelectedItemId() == R.id.item_trip){
+
+                                                if (webView.getUrl().equals("https://khadije.com/donate")){}
+                                                if (webView.getUrl().equals("https://khadije.com")){bottomNav.setSelectedItemId(R.id.item_home);}
+                                            }
+
+                                        }
+                                    });
+                                } catch (Exception e) {
+                                }
+                            }
+                        }
+                    }).start();
+
+
+
+
 
                     Menu menu = bottomNav.getMenu();
 
@@ -113,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                     // set size title for pay item
                     SpannableString spanString_tasharof = new SpannableString(menu.findItem(R.id.item_trip).getTitle().toString());
                     int end_tasharof = spanString_tasharof.length();
-                    spanString_tasharof.setSpan(new RelativeSizeSpan(0.8f), 0, end_tasharof, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    spanString_tasharof.setSpan(new RelativeSizeSpan(1.0f), 0, end_tasharof, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     trip_menu.setTitle(spanString_tasharof);
 
                     MenuItem home_menu = menu.findItem(R.id.item_home);
@@ -129,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
                     // set size title for pay item
                     SpannableString spanString_pay = new SpannableString(menu.findItem(R.id.item_pay).getTitle().toString());
                     int end_pay = spanString_pay.length();
-                    spanString_pay.setSpan(new RelativeSizeSpan(1.2f), 0, end_pay, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    spanString_pay.setSpan(new RelativeSizeSpan(0.8f), 0, end_pay, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     pay_menu.setTitle(spanString_pay);
 
                     // toolbar and tab Top or Bottom?

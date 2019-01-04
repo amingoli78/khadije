@@ -41,7 +41,7 @@ public class deviceinfo extends AppCompatActivity {
 
     /////////////////////////////////////////////////////////////
     private void requestPermission() {
-        Toast.makeText(deviceinfo.this, "Requesting permission", Toast.LENGTH_SHORT).show();
+        Toast.makeText(deviceinfo.this, "بدون دریافت سطح دسترسی!", Toast.LENGTH_SHORT).show();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             this.requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE},
                     REQUEST_CODE_PHONE_STATE_READ);
@@ -78,17 +78,17 @@ public class deviceinfo extends AppCompatActivity {
 
 
         textView.setText(
-                        "Board : " + Build.BOARD + "\n"+"\n"+
-                        "Brand : " + Build.BRAND + "\n"+"\n"+
-                        "DEVICE : " + Build.DEVICE + "\n"+"\n"+
-                        "Display : " + Build.DISPLAY + "\n"+"\n"+
-                        "FINGERPRINT : " + Build.FINGERPRINT + "\n"+"\n"+
-                        "HARDWARE : " + Build.HARDWARE + "\n"+"\n"+
-                        "ID : " + Build.ID + "\n"+"\n"+
-                        "Manufacturer : " + Build.MANUFACTURER + "\n"+"\n"+
-                        "MODEL : " + Build.MODEL + "\n"+"\n"+
-                        "SERIAL : " + Build.SERIAL + "\n"+"\n"+
-                        "VERSION : " + Build.VERSION.SDK_INT + "\n"+"\n"
+                        "Board : " + Build.BOARD + "\n"+"bot loader:"+ Build.BOOTLOADER +"\n"+
+                        "Brand : " + Build.BRAND + "\n"+"host:"+ Build.HOST+"\n"+
+                        "DEVICE : " + Build.DEVICE + "\n"+"product:"+ Build.PRODUCT+"\n"+
+                        "Display : " + Build.DISPLAY + "\n"+"tag:"+ Build.TAGS+"\n"+
+                        "FINGERPRINT : " + Build.FINGERPRINT + "\n"+"type:"+ Build.TYPE+"\n"+
+                        "HARDWARE : " + Build.HARDWARE + "\n"+"UNKNOWN:"+ Build.UNKNOWN+"\n"+
+                        "ID : " + Build.ID + "\n"+"user:"+ Build.USER+"\n"+
+                        "Manufacturer : " + Build.MANUFACTURER + "\n"+"TIME:"+ Build.TIME +"\n"+
+                        "MODEL : " + Build.MODEL + "\n"+
+                        "SERIAL : " + Build.SERIAL + "\n"+
+                        "VERSION : " + Build.VERSION.SDK_INT + "\n"
         );
     }
 }
