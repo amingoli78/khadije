@@ -21,14 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <TextView
-        android:textSize="20dp"
-        android:textAlignment="center"
-        android:textColor="#ffffff"
-        android:text="درحال بارگذاری.."
-        android:layout_marginTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+
 
 
 </LinearLayout>

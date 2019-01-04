@@ -15,6 +15,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,8 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
         final BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         fragmentManager = getSupportFragmentManager();
-
-
+        bottomNav.setSelectedItemId(R.id.item_home);
 
         final WebView webView = findViewById(R.id.webview);
         WebSettings webSettings = webView.getSettings();
@@ -75,19 +77,31 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        String myBitmap = "https://cdn2.iconfinder.com/data/icons/innovation-technology-1/512/tech_0001-512.png";
-
-
         Menu menu = bottomNav.getMenu();
+
         MenuItem tasharof = menu.findItem(R.id.item_tasharof);
         tasharof.setTitle("درخواست تشرف");
+        // set size title for pay item
+        SpannableString spanString_tasharof = new SpannableString(menu.findItem(R.id.item_tasharof).getTitle().toString());
+        int end_tasharof = spanString_tasharof.length();
+        spanString_tasharof.setSpan(new RelativeSizeSpan(0.8f), 0, end_tasharof, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tasharof.setTitle(spanString_tasharof);
 
         MenuItem home = menu.findItem(R.id.item_home);
         home.setTitle("صفحه اصلی");
+        // set size title for pay item
+        SpannableString spanString_home = new SpannableString(menu.findItem(R.id.item_home).getTitle().toString());
+        int end_home = spanString_home.length();
+        spanString_home.setSpan(new RelativeSizeSpan(0.8f), 0, end_home, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        home.setTitle(spanString_home);
 
         MenuItem pay = menu.findItem(R.id.item_pay);
         pay.setTitle("پرداخت نذورات");
+        // set size title for pay item
+        SpannableString spanString_pay = new SpannableString(menu.findItem(R.id.item_pay).getTitle().toString());
+        int end_pay = spanString_pay.length();
+        spanString_pay.setSpan(new RelativeSizeSpan(1.2f), 0, end_pay, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        pay.setTitle(spanString_pay);
 
 
 
