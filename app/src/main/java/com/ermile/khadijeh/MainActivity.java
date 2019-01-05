@@ -32,12 +32,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MainActivity extends AppCompatActivity {
-    public Handler mHandler;
-    public boolean continue_or_stop;
+import java.util.Locale;
 
-    private Fragment fragment;
-    private FragmentManager fragmentManager;
+public class MainActivity extends AppCompatActivity {
+
+
 
 
     @Override
@@ -45,38 +44,56 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final int versionCode = BuildConfig.VERSION_CODE;
-        String versionName = BuildConfig.VERSION_NAME;
+
+
+        String lan = Locale.getDefault().getLanguage();
+        if (lan.equals("en")){
+            en();
+        }
 
 
 
 
 
 
+
+
+
+
+
+
+    }
+
+
+
+    public void en(){
 
         // JSON
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, "https://khadije.com/api/v5/detail", null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, "https://khadije.com/en/api/v5/detail", null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    final Handler mHandler;
+                    final boolean continue_or_stop;
+                    final int versionCode = BuildConfig.VERSION_CODE;
+                    String versionName = BuildConfig.VERSION_NAME;
 
                     JSONArray navigation_btn = response.getJSONArray("navigation");
                     JSONObject pay = navigation_btn.getJSONObject(0);
                     JSONObject home = navigation_btn.getJSONObject(1);
                     JSONObject trip = navigation_btn.getJSONObject(2);
 
-                    String trip_title = pay.getString("title");
-                    final String trip_url = pay.getString("url");
+                    String pay_title = pay.getString("title");
+                    final String pay_url = pay.getString("url");
 
                     String home_title = home.getString("title");
                     final String home_url = home.getString("url");
 
-                    String pay_title = trip.getString("title");
-                    final String pay_url = trip.getString("url");
+                    String trip_title = trip.getString("title");
+                    final String trip_url = trip.getString("url");
 
                     //static
                     final BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-                    fragmentManager = getSupportFragmentManager();
                     bottomNav.setSelectedItemId(R.id.item_home);
 
                     final WebView webView = findViewById(R.id.webview);
@@ -93,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
                     // download json
                     final String url = home_url;
                     webView.loadUrl(url);
-
                     swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                         @Override
                         public void onRefresh() {
@@ -112,26 +128,19 @@ public class MainActivity extends AppCompatActivity {
                         public void run() {
                             while (continue_or_stop) {
                                 try {
-                                    Thread.sleep(1000);
+                                    Thread.sleep(300);
                                     mHandler.post(new Runnable() {
                                         @Override
                                         public void run() {
 
                                             if(bottomNav.getSelectedItemId() == R.id.item_home){
-
-                                                if (webView.getUrl().equals("https://khadije.com"))
-                                                {
-
-                                                }
+                                                if (webView.getUrl().equals("https://khadije.com/")) { }
                                                 if (webView.getUrl().equals("https://khadije.com/donate")|| webView.getUrl().equals("https://khadije.com/ar/donate")|| webView.getUrl().equals("https://khadije.com/en/donate"))
-                                                {
-                                                    bottomNav.setSelectedItemId(R.id.item_trip);
-                                                }
+                                                { bottomNav.setSelectedItemId(R.id.item_pay); }
                                             }
-                                            if(bottomNav.getSelectedItemId() == R.id.item_trip){
-
+                                            if(bottomNav.getSelectedItemId() == R.id.item_pay){
                                                 if (webView.getUrl().equals("https://khadije.com/donate")){}
-                                                if (webView.getUrl().equals("https://khadije.com")){bottomNav.setSelectedItemId(R.id.item_home);}
+                                                if (webView.getUrl().equals("https://khadije.com/")){bottomNav.setSelectedItemId(R.id.item_home);}
                                             }
 
                                         }
@@ -148,29 +157,26 @@ public class MainActivity extends AppCompatActivity {
 
                     Menu menu = bottomNav.getMenu();
 
-                    MenuItem trip_menu = menu.findItem(R.id.item_trip);
-                    trip_menu.setTitle(trip_title);
+                    MenuItem pay_menu = menu.findItem(R.id.item_pay);
+                    pay_menu.setTitle(pay_title);
                     // set size title for pay item
-                    SpannableString spanString_tasharof = new SpannableString(menu.findItem(R.id.item_trip).getTitle().toString());
-                    int end_tasharof = spanString_tasharof.length();
-                    spanString_tasharof.setSpan(new RelativeSizeSpan(1.0f), 0, end_tasharof, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    trip_menu.setTitle(spanString_tasharof);
+                    SpannableString spanString_pay = new SpannableString(menu.findItem(R.id.item_trip).getTitle().toString());
+                    int end_tasharof = spanString_pay.length();
+                    spanString_pay.setSpan(new RelativeSizeSpan(0.8f), 0, end_tasharof, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
                     MenuItem home_menu = menu.findItem(R.id.item_home);
                     home_menu.setTitle(home_title);
                     // set size title for pay item
                     SpannableString spanString_home = new SpannableString(menu.findItem(R.id.item_home).getTitle().toString());
                     int end_home = spanString_home.length();
-                    spanString_home.setSpan(new RelativeSizeSpan(0.8f), 0, end_home, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    home_menu.setTitle(spanString_home);
+                    spanString_home.setSpan(new RelativeSizeSpan(0.6f), 0, end_home, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-                    MenuItem pay_menu = menu.findItem(R.id.item_pay);
-                    pay_menu.setTitle(pay_title);
+                    MenuItem trip_menu = menu.findItem(R.id.item_trip);
+                    trip_menu.setTitle(trip_title);
                     // set size title for pay item
-                    SpannableString spanString_pay = new SpannableString(menu.findItem(R.id.item_pay).getTitle().toString());
-                    int end_pay = spanString_pay.length();
-                    spanString_pay.setSpan(new RelativeSizeSpan(0.8f), 0, end_pay, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    pay_menu.setTitle(spanString_pay);
+                    SpannableString spanString_trip = new SpannableString(menu.findItem(R.id.item_pay).getTitle().toString());
+                    int end_pay = spanString_trip.length();
+                    spanString_trip.setSpan(new RelativeSizeSpan(0.6f), 0, end_pay, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
                     // toolbar and tab Top or Bottom?
                     bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -179,8 +185,8 @@ public class MainActivity extends AppCompatActivity {
 
                             switch (item.getItemId()) {
 
-                                case R.id.item_trip:
-                                    webView.loadUrl(trip_url);
+                                case R.id.item_pay:
+                                    webView.loadUrl(pay_url);
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
                                         @Override
@@ -201,9 +207,9 @@ public class MainActivity extends AppCompatActivity {
                                         }});
                                     break;
 
-                                case R.id.item_pay:
+                                case R.id.item_trip:
                                     startActivity(new Intent(MainActivity.this,deviceinfo.class));
-//                                    webView.loadUrl(pay_url);
+//                                    webView.loadUrl(trip_url);
 //                                    swipe.setRefreshing(true);
 //                                    webView.setWebViewClient(new WebViewClient() {
 //                                        @Override
@@ -265,7 +271,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });AppContoroler.getInstance().addToRequestQueue(req);
         // END JSON
-
 
     }
 
