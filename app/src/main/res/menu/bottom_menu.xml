@@ -7,17 +7,17 @@
     <group>
         <item
             android:id="@+id/item_pay"
-            android:title="@string/action_search"
+            android:title=""
             android:icon="@drawable/ic_tasharof">
         </item>
         <item
             android:id="@+id/item_home"
-            android:title="@string/action_cart"
+            android:title=""
             android:icon="@drawable/ic_home">
         </item>
         <item
             android:id="@+id/item_trip"
-            android:title="@string/action_hot_deals"
+            android:title=""
             android:icon="@drawable/ic_pay">
         </item>
     </group>

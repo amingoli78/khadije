@@ -23,13 +23,11 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.ermile.khadijeh.network.AppContoroler;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // JSON
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, "https://khadije.com/hook/app/android", null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, "https://khadije.com/api/v5/detail", null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -121,8 +119,14 @@ public class MainActivity extends AppCompatActivity {
 
                                             if(bottomNav.getSelectedItemId() == R.id.item_home){
 
-                                                if (webView.getUrl().equals("https://khadije.com")){}
-                                                if (webView.getUrl().equals("https://khadije.com/donate")){bottomNav.setSelectedItemId(R.id.item_trip);}
+                                                if (webView.getUrl().equals("https://khadije.com"))
+                                                {
+
+                                                }
+                                                if (webView.getUrl().equals("https://khadije.com/donate")|| webView.getUrl().equals("https://khadije.com/ar/donate")|| webView.getUrl().equals("https://khadije.com/en/donate"))
+                                                {
+                                                    bottomNav.setSelectedItemId(R.id.item_trip);
+                                                }
                                             }
                                             if(bottomNav.getSelectedItemId() == R.id.item_trip){
 
@@ -169,7 +173,6 @@ public class MainActivity extends AppCompatActivity {
                     pay_menu.setTitle(spanString_pay);
 
                     // toolbar and tab Top or Bottom?
-
                     bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
                         @Override
                         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -184,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
                                         public void onPageFinished(WebView view, String url) {
                                             swipe.setRefreshing(false);
                                         }});
+
 
                                     break;
 
@@ -213,18 +217,20 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
-                    //////////////
-
                     // new version for app
-                    int app_version = response.getInt("version");
-                    if (versionCode < app_version) {
+                    JSONObject new_version = response.getJSONObject("app_version");
+                    int nv_code = new_version.getInt("code");
+                    String nv_title = new_version.getString("title");
+                    String nv_des = new_version.getString("content_text");
+                    Boolean nv_caselable = new_version.getBoolean("auto_hide");
+
+                    if (versionCode < nv_code) {
                         Notification.Builder nb = new Notification.Builder(MainActivity.this);
                         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                        nb.setContentTitle("بروزرسانی")
-                                .setContentText("نسخه جدید رو دانلود کنید!")
-                                .setTicker("برو دانلود کن دیگه")
+                        nb.setContentTitle( nv_title )
+                                .setContentText( nv_des )
                                 .setSmallIcon(android.R.drawable.stat_sys_download)
-                                .setAutoCancel(false)
+                                .setAutoCancel( nv_caselable )
                                 .setSound(alarmSound);
                         Notification notif = nb.build();
                         NotificationManager notifManager = (NotificationManager) MainActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
