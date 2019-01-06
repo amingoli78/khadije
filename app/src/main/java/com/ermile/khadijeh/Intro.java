@@ -30,6 +30,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.ermile.khadijeh.network.AppContoroler;
 import org.json.JSONArray;
@@ -49,7 +50,7 @@ public class Intro extends AppCompatActivity {
     ViewPager viewpager; //  for dots & Button in XML
     private LinearLayout dotsLayout; // dots in XML
     private TextView[] dots; // for add dots
-    public int count = 4; // Slide number
+    public int count = 0; // Slide number
     private Button btnSkip, btnNext ; // Button in XML
     private first_oppen prefManager; // Checking for first time launch
 
@@ -68,17 +69,53 @@ public class Intro extends AppCompatActivity {
             finish();
         }
 
-        // JSON Methods
-        StringRequest stringRequest3 = new StringRequest(Request.Method.GET, "http://mimsg.ir/json_app/app.json", new Response.Listener<String>() {
+        JsonObjectRequest stringRequest313 = new JsonObjectRequest(Request.Method.GET, "https://khadije.com/api/v5/detail", null, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(String response) {
+            public void onResponse(JSONObject response) {
                 try {
-                    JSONObject mainObject = new JSONObject(response);
-                    Boolean fullscreen = mainObject.getBoolean("fullscreen");
-                    if (fullscreen == true)
-                    {
-//                        hideSystemUI();
-                    }
+                    JSONObject intro = response.getJSONObject("intro");
+                    JSONArray intro_slide = intro.getJSONArray("slide");
+                    int countAll = intro_slide.length();
+                    count = countAll;
+
+                    // XML
+                    setContentView(R.layout.intro);
+                    // Chang ID XML
+                    dotsLayout = findViewById(R.id.layoutDots); // OOOO
+                    btnNext = findViewById(R.id.btn_next); //  NEXT
+                    btnSkip = findViewById(R.id.btn_skip); //  SKIP
+                    viewpager = findViewById(R.id.view_pagers); // view page in XML
+                    // set
+                    PagerAdapter = new ViewpagersAdapter(Intro.this); // add Adapter (in line 55)
+                    viewpager.setAdapter(PagerAdapter); // set Adapter to View pager in XML
+//                    viewpager.addOnPageChangeListener(viewPagerPageChangeListener); // for dots next page
+                    // adding bottom dots
+                    addBottomDots(0, countAll);
+                    // making notification bar transparent
+                    changeStatusBarColor();
+                    // set On Click Listener
+                    btnSkip.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            launchHomeScreen();
+                        }
+                    });
+                    btnNext.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // checking for last page
+                            // if last page home screen will be launched
+                            int current = getItem(+1);
+                            if (current < count ) {
+                                // move to next screen
+                                viewpager.setCurrentItem(current);
+                            } else {
+                                launchHomeScreen();
+                            }
+                        }
+                    });
+
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -87,45 +124,12 @@ public class Intro extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
             }
-        });AppContoroler.getInstance().addToRequestQueue(stringRequest3);
+        });
+
+        AppContoroler.getInstance().addToRequestQueue(stringRequest313);
 
 
-        // XML
-        setContentView(R.layout.intro);
-        // Chang ID XML
-        dotsLayout = findViewById(R.id.layoutDots); // OOOO
-        btnNext = findViewById(R.id.btn_next); //  NEXT
-        btnSkip = findViewById(R.id.btn_skip); //  SKIP
-        viewpager = findViewById(R.id.view_pagers); // view page in XML
-        // set
-        PagerAdapter = new ViewpagersAdapter(this); // add Adapter (in line 55)
-        viewpager.setAdapter(PagerAdapter); // set Adapter to View pager in XML
-        viewpager.addOnPageChangeListener(viewPagerPageChangeListener); // for dots next page
-        // adding bottom dots
-        addBottomDots(0);
-        // making notification bar transparent
-        changeStatusBarColor();
-        // set On Click Listener
-        btnSkip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                launchHomeScreen();
-            }
-        });
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // checking for last page
-                // if last page home screen will be launched
-                int current = getItem(+1);
-                if (current < count ) {
-                    // move to next screen
-                    viewpager.setCurrentItem(current);
-                } else {
-                    launchHomeScreen();
-                }
-            }
-        });
+
 
 
 
@@ -134,9 +138,9 @@ public class Intro extends AppCompatActivity {
     /**
      * Change Number page & Dots
      */
-    private void addBottomDots(int currentPage) {
+    private void addBottomDots(int currentPage, int myCount) {
 
-        dots = new TextView[count];
+        dots = new TextView[myCount];
 
         int[] colorsActive = getResources().getIntArray(R.array.array_dot_active);
         int[] colorsInactive = getResources().getIntArray(R.array.array_dot_inactive);
@@ -164,29 +168,29 @@ public class Intro extends AppCompatActivity {
         finish();
     }
 
-    /**
-     * change listener in Last Page
-     */
-    ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageSelected(int position) {
-            addBottomDots(position);
-            // changing the next button text 'NEXT' / 'GOT IT'
-            if (position == count - 1) {
-                // last page. make button text to GOT IT
-                btnNext.setText("ورود به سرشمار");
-                btnSkip.setVisibility(View.GONE);
-            } else {
-                // still pages are left
-                btnNext.setText("بعدی");
-                btnSkip.setVisibility(View.VISIBLE);
-            }
-        }
-        @Override
-        public void onPageScrolled(int arg0, float arg1, int arg2) { }
-        @Override
-        public void onPageScrollStateChanged(int arg0) { }
-    };
+    // /**
+    //  * change listener in Last Page
+    //  */
+    // ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
+    //     @Override
+    //     public void onPageSelected(int position) {
+    //         addBottomDots(position, count);
+    //         // changing the next button text 'NEXT' / 'GOT IT'
+    //         if (position == count - 1) {
+    //             // last page. make button text to GOT IT
+    //             btnNext.setText("ورود به سرشمار");
+    //             btnSkip.setVisibility(View.GONE);
+    //         } else {
+    //             // still pages are left
+    //             btnNext.setText("بعدی");
+    //             btnSkip.setVisibility(View.VISIBLE);
+    //         }
+    //     }
+    //     @Override
+    //     public void onPageScrolled(int arg0, float arg1, int arg2) { }
+    //     @Override
+    //     public void onPageScrollStateChanged(int arg0) { }
+    // };
 
     /**
      * Making notification bar transparent
