@@ -21,7 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".deviceinfo"></activity>
+        <activity android:name=".deviceinfo" />
+        <activity android:name=".Intro"></activity>
     </application>
 
 </manifest>
