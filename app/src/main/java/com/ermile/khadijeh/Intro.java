@@ -1,22 +1,19 @@
 package com.ermile.khadijeh;
 
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,14 +25,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.ermile.khadijeh.network.AppContoroler;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,35 +53,6 @@ public class Intro extends AppCompatActivity {
     private Button btnSkip, btnNext ; // Button in XML
     private first_oppen prefManager; // Checking for first time launch
 
-
-    /**
-     * Full Screen Method
-     */
-    private void hideSystemUI() {
-        // Enables regular immersive mode.
-        // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
-        // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-        View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_IMMERSIVE
-                        // Set the content to appear under the system bars so that the
-                        // content doesn't resize when the system bars hide and show.
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        // Hide the nav bar and status bar
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
-    }
-    // Shows the system bars by removing all the flags
-    // except for the ones that make the content appear under the system bars.
-    private void showSystemUI() {
-        View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-    }
 
     /**
      * onCreate Method
@@ -110,7 +77,7 @@ public class Intro extends AppCompatActivity {
                     Boolean fullscreen = mainObject.getBoolean("fullscreen");
                     if (fullscreen == true)
                     {
-                        hideSystemUI();
+//                        hideSystemUI();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -245,8 +212,9 @@ public class Intro extends AppCompatActivity {
         }
 
         @Override
-        public int getCount() {
-            return count;
+        public int getCount()
+        {
+             return count;
         }
 
         @Override
@@ -266,50 +234,65 @@ public class Intro extends AppCompatActivity {
             final LinearLayout color_bg = view.findViewById(R.id.background_slide);
             final ImageView imgview = view.findViewById(R.id.img_slide);
 
+            final TextView url = view.findViewById(R.id.url);
+
             final ProgressBar progress_slide = view.findViewById(R.id.progress_slide);
 
             if (imgview != null){
                 progress_slide.setVisibility(View.GONE);
             }
+
+            int languish = 2;
+
+            switch (languish){
+                case 1:
+                    url.setText("https://khadije.com/api/v5/detail");
+                    break;
+                case 2:
+                    url.setText("https://khadije.com/ar/api/v5/detail");
+                    break;
+                case 3:
+                    url.setText("https://khadije.com/ar/api/v5/detail");
+                    break;
+            }
+
+
+
+
             // JSON Methods
-            StringRequest stringRequest3 = new StringRequest(Request.Method.GET, "http://mimsg.ir/json_app/app.json", new Response.Listener<String>() {
+            JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url.getText().toString(), null, new Response.Listener<JSONObject>() {
                 @Override
-                public void onResponse(String response) {
+                public void onResponse(JSONObject response) {
                     try {
-                        JSONObject mainObject = new JSONObject(response);
+                        // get objects
+                        JSONObject intro = response.getJSONObject("intro");
+                        JSONArray intro_slide = intro.getJSONArray("slide");
 
+                        int countAll = intro_slide.length();
 
-                        JSONObject contactArray = mainObject.getJSONObject("intro");
-                        // List Array
-                        JSONArray list_title = contactArray.getJSONArray("title");
-                        JSONArray list_desc = contactArray.getJSONArray("desc");
-                        JSONArray list_background = contactArray.getJSONArray("background");
-                        JSONArray list_img = contactArray.getJSONArray("img");
+                        int j        = countAll - 1;
+
+                        String[] intro_title      = new String[countAll];
+                        String[] intro_desc       = new String[countAll];
+                        String[] intro_background = new String[countAll];
+                        String[] intro_image      = new String[countAll];
+
+                        for(int i = 0; i <= j; i++)
+                        {
+                            JSONObject temp_intro = intro_slide.getJSONObject(i);
+                            intro_title[i]        =  temp_intro.getString("title");
+                            intro_desc[i]         =  temp_intro.getString("desc");
+                            intro_background[i]   =  temp_intro.getString("background");
+                            intro_image[i]        =  temp_intro.getString("image");
+                        }
                         // Title
-                        String[] title_array = new String[list_title.length()];
-                        for (int i = 0; i < list_title.length(); i++) {
-                            title_array[i] = list_title.getString(i);
-                        }
-                        title.setText(title_array[position]);
+                        title.setText(intro_title[position]);
                         // Description
-                        String[] desc_array = new String[list_desc.length()];
-                        for (int i = 0; i < list_desc.length(); i++) {
-                            desc_array[i] = list_desc.getString(i);
-                        }
-                        des.setText(desc_array[position]);
+                        des.setText(intro_desc[position]);
                         // Color Background
-                        String[] background_array = new String[list_background.length()];
-                        for (int i = 0; i < list_background.length(); i++) {
-                            background_array[i] = list_background.getString(i);
-                        }
-                        color_bg.setBackgroundColor(Color.parseColor(background_array[position]));
+                        color_bg.setBackgroundColor(Color.parseColor(intro_background[position]));
                         // Image
-                        String[] img_array = new String[list_img.length()];
-                        for (int i = 0; i < list_img.length(); i++) {
-                            img_array[i] = list_img.getString(i);
-                        }
-                        Glide.with(context).load(img_array[position]).into(imgview);
-
+                        Glide.with(context).load(intro_image[position]).into(imgview);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -321,21 +304,9 @@ public class Intro extends AppCompatActivity {
                     title.setVisibility(View.GONE);
                     des.setVisibility(View.GONE);
                     imgview.setVisibility(View.GONE);
-
                 }
-            });AppContoroler.getInstance().addToRequestQueue(stringRequest3);
-//            {
-//                // POST
-//                @Override
-//                public Map<String, String> getHeaders() throws AuthFailureError {
-//                    Map<String, String> map = new HashMap<>();
-//                    map.put("X-Mashape-Key", "5QcEEQtRvZmshU9N2rj5kgihulsHp1XpWGEjsnUSlZkuUfNHhe");
-//                    map.put("Accept", "application/json");
-//                    return map;
-//                }
-//            };AppController.getInstance().addToRequestQueue(stringRequest3);
-//            // END JSON
-
+            });AppContoroler.getInstance().addToRequestQueue(req);
+            // END JSON
             container.addView(view);
             return view;
         }
@@ -345,10 +316,6 @@ public class Intro extends AppCompatActivity {
             container.removeView( (LinearLayout) object);
         }
     }
-
-
-
-
 
     /**
      * Async Task to check whether internet connection is working.

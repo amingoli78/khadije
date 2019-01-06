@@ -39,11 +39,11 @@ import java.util.Map;
 public class splash extends AppCompatActivity {
     TextView txt;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
 
         new splash.NetCheck().execute();
         boolean connected = true;
@@ -57,7 +57,6 @@ public class splash extends AppCompatActivity {
         if (connected == false){
             new splash.NetCheck().execute();
         }
-
         if (connected == true){
             new Handler().postDelayed(new Runnable() {
                 @Override
