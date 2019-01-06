@@ -212,14 +212,13 @@ public class MainActivity extends AppCompatActivity {
                                     break;
 
                                 case R.id.item_trip:
-                                    startActivity(new Intent(MainActivity.this,deviceinfo.class));
-//                                    webView.loadUrl(trip_url);
-//                                    swipe.setRefreshing(true);
-//                                    webView.setWebViewClient(new WebViewClient() {
-//                                        @Override
-//                                        public void onPageFinished(WebView view, String url) {
-//                                            swipe.setRefreshing(false);
-//                                        }});
+                                    webView.loadUrl(trip_url);
+                                    swipe.setRefreshing(true);
+                                    webView.setWebViewClient(new WebViewClient() {
+                                        @Override
+                                        public void onPageFinished(WebView view, String url) {
+                                            swipe.setRefreshing(false);
+                                        }});
                                     break;
 
                             }
@@ -419,14 +418,13 @@ public class MainActivity extends AppCompatActivity {
                                     break;
 
                                 case R.id.item_trip:
-                                    startActivity(new Intent(MainActivity.this,deviceinfo.class));
-//                                    webView.loadUrl(trip_url);
-//                                    swipe.setRefreshing(true);
-//                                    webView.setWebViewClient(new WebViewClient() {
-//                                        @Override
-//                                        public void onPageFinished(WebView view, String url) {
-//                                            swipe.setRefreshing(false);
-//                                        }});
+                                    webView.loadUrl(trip_url);
+                                    swipe.setRefreshing(true);
+                                    webView.setWebViewClient(new WebViewClient() {
+                                        @Override
+                                        public void onPageFinished(WebView view, String url) {
+                                            swipe.setRefreshing(false);
+                                        }});
                                     break;
 
                             }
@@ -628,14 +626,13 @@ public class MainActivity extends AppCompatActivity {
                                     break;
 
                                 case R.id.item_trip:
-                                    startActivity(new Intent(MainActivity.this,deviceinfo.class));
-//                                    webView.loadUrl(trip_url);
-//                                    swipe.setRefreshing(true);
-//                                    webView.setWebViewClient(new WebViewClient() {
-//                                        @Override
-//                                        public void onPageFinished(WebView view, String url) {
-//                                            swipe.setRefreshing(false);
-//                                        }});
+                                    webView.loadUrl(trip_url);
+                                    swipe.setRefreshing(true);
+                                    webView.setWebViewClient(new WebViewClient() {
+                                        @Override
+                                        public void onPageFinished(WebView view, String url) {
+                                            swipe.setRefreshing(false);
+                                        }});
                                     break;
 
                             }
