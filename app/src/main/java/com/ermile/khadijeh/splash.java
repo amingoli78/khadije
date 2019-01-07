@@ -1,5 +1,6 @@
 package com.ermile.khadijeh;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,27 +9,21 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.ermile.khadijeh.network.AppContoroler;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -37,7 +32,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class splash extends AppCompatActivity {
-    TextView txt;
 
 
     @Override
@@ -69,6 +63,19 @@ public class splash extends AppCompatActivity {
         }
 
 
+        Dialog dialog = new Dialog(this);
+        dialog.setTitle("asdasdas");
+
+
+
+
+        final SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
+        final SharedPreferences.Editor editor = shared.edit();
+
+
+
+
+
 
 
         // Device info
@@ -91,7 +98,13 @@ public class splash extends AppCompatActivity {
         final String serial = Build.SERIAL;
         final String sdk_version = String.valueOf(Build.VERSION.SDK_INT);
         final String time = String.valueOf(Build.TIME);
+        final String tooken = shared.getString("myStringName", "no-tooken");
+        final Boolean byss = shared.getBoolean("by", false);
 
+        final Boolean firstoppen = shared.getBoolean("by", false);
+        final Boolean farsi = shared.getBoolean("by", false);
+        final Boolean pf_arabic = shared.getBoolean("by", false);
+        final Boolean pf_english = shared.getBoolean("by", false);
 
 
 
@@ -107,8 +120,13 @@ public class splash extends AppCompatActivity {
                     String token = result.getString("usertoken");
 
                     // save TOKEN
-                    txt = findViewById(R.id.txtt);
-                    txt.setText(token);
+                    editor.putString("myStringName", token);
+                    editor.putBoolean("by",true);
+                    editor.apply();
+                    if (byss == true){
+                        Toast.makeText(splash.this, "ss: " +tooken , Toast.LENGTH_SHORT).show();
+                    }else {Toast.makeText(splash.this, "no", Toast.LENGTH_SHORT).show();}
+
 
 
 
@@ -152,12 +170,21 @@ public class splash extends AppCompatActivity {
                 posting.put("sdk_version", sdk_version );
                 posting.put("time", time );
                 posting.put("modle", modle );
+                if (byss == true){
+                    posting.put("tooken", tooken );
+                }
+
+
 
                 return posting;
             }
         };AppContoroler.getInstance().addToRequestQueue(post_id);
 
     }
+
+
+
+
 
     /**
      * Check Network

@@ -29,15 +29,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <TextView
-            android:gravity="center"
-            android:layout_margin="5dp"
-            android:alpha="0.5"
-            android:text=""
-            android:id="@+id/txtt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
 
     </LinearLayout>
 

@@ -20,6 +20,16 @@
             android:title=""
             android:icon="@drawable/ic_tasharof">
         </item>
+        <item
+            android:id="@+id/item_trip2"
+            android:title=""
+            android:icon="@drawable/ic_tasharof">
+        </item>
+        <item
+            android:id="@+id/item_trip3"
+            android:title=""
+            android:icon="@drawable/ic_tasharof">
+        </item>
     </group>
 
 
