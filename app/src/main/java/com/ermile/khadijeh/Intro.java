@@ -2,6 +2,7 @@ package com.ermile.khadijeh;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -244,21 +245,23 @@ public class Intro extends AppCompatActivity {
 
             int languish = 2;
 
-            switch (languish){
-                case 1:
-                    url.setText("https://khadije.com/api/v5/detail");
-                    break;
-                case 2:
-                    url.setText("https://khadije.com/ar/api/v5/detail");
-                    break;
-                case 3:
-                    url.setText("https://khadije.com/ar/api/v5/detail");
-                    break;
+            final SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
+            final SharedPreferences.Editor editor = shared.edit();
+
+            final Boolean farsi = shared.getBoolean("farsi", false);
+            final Boolean arabic = shared.getBoolean("arabic", false);
+            final Boolean english = shared.getBoolean("english", false);
+
+
+            if (farsi){
+                url.setText("https://khadije.com/api/v5/android");
             }
-
-
-
-
+            if (arabic){
+                url.setText("https://khadije.com/ar/api/v5/android");
+            }
+            if (english){
+                url.setText("https://khadije.com/ar/api/v5/android");
+            }
             // JSON Methods
             JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url.getText().toString(), null, new Response.Listener<JSONObject>() {
                 @Override

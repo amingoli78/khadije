@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -46,15 +47,21 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        String lan = Locale.getDefault().getLanguage();
+        final SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
+        final SharedPreferences.Editor editor = shared.edit();
 
-        if (lan.equals("fa")){
+        final Boolean farsi = shared.getBoolean("farsi", false);
+        final Boolean arabic = shared.getBoolean("arabic", false);
+        final Boolean english = shared.getBoolean("english", false);
+
+
+        if (farsi){
             fa();
         }
-        if (lan.equals("ar")){
+        if (arabic){
             ar();
         }
-        if (lan.equals("en")){
+        if (english){
             en();
         }
 
@@ -73,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
     // Fa lang
     public void fa(){
         // JSON
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, "https://khadije.com/api/v5/detail", null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, "https://khadije.com/api/v5/android", null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -279,7 +286,7 @@ public class MainActivity extends AppCompatActivity {
     // Ar lang
     public void ar(){
         // JSON
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, "https://khadije.com/ar/api/v5/detail", null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, "https://khadije.com/ar/api/v5/android", null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -487,7 +494,7 @@ public class MainActivity extends AppCompatActivity {
     // En lang
     public void en(){
         // JSON
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, "https://khadije.com/en/api/v5/detail", null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, "https://khadije.com/en/api/v5/android", null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {

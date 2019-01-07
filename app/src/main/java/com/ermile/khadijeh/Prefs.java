@@ -12,7 +12,7 @@ public class Prefs extends PreferenceActivity {
         super.onCreate(savedInstanceState);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        Boolean first = prefs.getBoolean("firstoppen",false);
+        Boolean first = prefs.getBoolean("firstoppen",true);
 
         String myString = prefs.getString("myStringName", "");
         Boolean byy = prefs.getBoolean("by", false);

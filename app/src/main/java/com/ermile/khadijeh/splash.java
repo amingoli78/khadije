@@ -2,6 +2,7 @@ package com.ermile.khadijeh;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -12,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
@@ -29,6 +31,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class splash extends AppCompatActivity {
@@ -48,25 +51,9 @@ public class splash extends AppCompatActivity {
             connected = true;
         } else{ connected = false; }
 
-        if (connected == false){
+        if (!connected){
             new splash.NetCheck().execute();
         }
-        if (connected == true){
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Intent i = new Intent(splash.this, Intro.class);
-                    startActivity(i);
-                    finish();
-                }
-            }, 2000);
-        }
-
-
-        Dialog dialog = new Dialog(this);
-        dialog.setTitle("asdasdas");
-
-
 
 
         final SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
@@ -101,10 +88,64 @@ public class splash extends AppCompatActivity {
         final String tooken = shared.getString("myStringName", "no-tooken");
         final Boolean byss = shared.getBoolean("by", false);
 
-        final Boolean firstoppen = shared.getBoolean("by", false);
-        final Boolean farsi = shared.getBoolean("by", false);
-        final Boolean pf_arabic = shared.getBoolean("by", false);
-        final Boolean pf_english = shared.getBoolean("by", false);
+        final Boolean firstoppen = shared.getBoolean("firstoppen", true);
+        final Boolean farsi = shared.getBoolean("farsi", false);
+        final Boolean arabic = shared.getBoolean("arabic", false);
+        final Boolean english = shared.getBoolean("english", false);
+
+
+        /**
+         * Alert Dialog
+         */
+        String lan = Locale.getDefault().getLanguage();
+
+        Toast.makeText(this, "app is: "+ firstoppen , Toast.LENGTH_SHORT).show();
+
+        if (connected){
+            if (!lan.equals("fa") && firstoppen == true) {
+                // setup the alert builder
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                // add a list
+                builder.setCancelable(false);
+                String[] lang = {"فارسی", "العربية", "English"};
+                builder.setItems(lang, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0: // fa
+                                editor.putBoolean("firstoppen",false);
+                                editor.putBoolean("farsi",true);
+                                going();
+                                break;
+                            case 1: // ar
+                                editor.putBoolean("firstoppen",false);
+                                editor.putBoolean("arabic",true);
+                                going();
+                                break;
+                            case 2: // en
+                                editor.putBoolean("firstoppen",false);
+                                editor.putBoolean("english",true);
+                                going();
+                                break;
+                        }
+                    }
+                });
+                // create and show the alert dialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            } if (lan.equals("fa") && firstoppen){
+                editor.putBoolean("firstoppen",false);
+                editor.putBoolean("farsi",true);
+                going();
+            }
+        }
+
+
+        if (connected && !firstoppen){
+            going();
+        }
+
+
 
 
 
@@ -118,21 +159,10 @@ public class splash extends AppCompatActivity {
                     String sending = mainObject.getString("ok");
                     JSONObject result = mainObject.getJSONObject("result");
                     String token = result.getString("usertoken");
-
                     // save TOKEN
                     editor.putString("myStringName", token);
                     editor.putBoolean("by",true);
                     editor.apply();
-                    if (byss == true){
-                        Toast.makeText(splash.this, "ss: " +tooken , Toast.LENGTH_SHORT).show();
-                    }else {Toast.makeText(splash.this, "no", Toast.LENGTH_SHORT).show();}
-
-
-
-
-
-
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -141,7 +171,7 @@ public class splash extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error net", Toast.LENGTH_SHORT).show();
             }
         })
 
@@ -185,11 +215,21 @@ public class splash extends AppCompatActivity {
 
 
 
+    public void going(){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent i = new Intent(splash.this, Intro.class);
+                startActivity(i);
+                finish();
+            }
+        }, 2000);
+    }
+
 
     /**
      * Check Network
      */
-
     public class NetCheck extends AsyncTask<String,String,Boolean>
     {
 
