@@ -36,7 +36,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:background="@null"
-        android:text="بعدی"
+        android:text=""
         android:textColor="#1a1414" />
 
     <Button
@@ -58,7 +58,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:background="@null"
-        android:text="بستن"
+        android:text=""
         android:textColor="#1a1414" />
 
 </RelativeLayout>

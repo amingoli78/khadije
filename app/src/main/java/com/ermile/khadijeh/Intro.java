@@ -69,27 +69,6 @@ public class Intro extends AppCompatActivity {
             finish();
         }
 
-        // JSON Methods
-        StringRequest stringRequest3 = new StringRequest(Request.Method.GET, "http://mimsg.ir/json_app/app.json", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject mainObject = new JSONObject(response);
-                    Boolean fullscreen = mainObject.getBoolean("fullscreen");
-                    if (fullscreen == true)
-                    {
-//                        hideSystemUI();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {  // Error NET
-            @Override
-            public void onErrorResponse(VolleyError error) {
-            }
-        });AppContoroler.getInstance().addToRequestQueue(stringRequest3);
-
 
         // XML
         setContentView(R.layout.intro);
@@ -101,7 +80,64 @@ public class Intro extends AppCompatActivity {
         // set
         PagerAdapter = new ViewpagersAdapter(this); // add Adapter (in line 55)
         viewpager.setAdapter(PagerAdapter); // set Adapter to View pager in XML
-        viewpager.addOnPageChangeListener(viewPagerPageChangeListener); // for dots next page
+        viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(final int position) {
+                addBottomDots(position);
+                // changing the next button text 'NEXT' / 'GOT IT'
+                final SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
+                final SharedPreferences.Editor editor = shared.edit();
+                final Boolean farsi = shared.getBoolean("farsi", false);
+                final Boolean arabic = shared.getBoolean("arabic", false);
+                final Boolean english = shared.getBoolean("english", false);
+                String url = "";
+                if (farsi){ url = "https://khadije.com/api/v5/android"; }
+                if (arabic){ url = "https://khadije.com/ar/api/v5/android" ; }
+                if (english){ url = "https://khadije.com/en/api/v5/android"; }
+                // JSON Methods
+                JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url , null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            // get objects
+                            JSONObject intro = response.getJSONObject("intro");
+                            JSONObject btn = intro.getJSONObject("btn");
+                            String btn_next = btn.getString("next");
+                            String btn_enter = btn.getString("enter");
+
+                            if (position == count - 1) {
+                                // last page. make button text to GOT IT
+                                btnNext.setText(btn_enter);
+                                btnSkip.setVisibility(View.GONE);
+                            } else {
+                                // still pages are left
+                                btnNext.setText(btn_next);
+                                btnSkip.setVisibility(View.VISIBLE);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {  // Error NET
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                });AppContoroler.getInstance().addToRequestQueue(req);
+                // END JSON
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        }); // for dots next page
         // adding bottom dots
         addBottomDots(0);
         // making notification bar transparent
@@ -166,30 +202,6 @@ public class Intro extends AppCompatActivity {
     }
 
     /**
-     * change listener in Last Page
-     */
-    ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageSelected(int position) {
-            addBottomDots(position);
-            // changing the next button text 'NEXT' / 'GOT IT'
-            if (position == count - 1) {
-                // last page. make button text to GOT IT
-                btnNext.setText("ورود به سرشمار");
-                btnSkip.setVisibility(View.GONE);
-            } else {
-                // still pages are left
-                btnNext.setText("بعدی");
-                btnSkip.setVisibility(View.VISIBLE);
-            }
-        }
-        @Override
-        public void onPageScrolled(int arg0, float arg1, int arg2) { }
-        @Override
-        public void onPageScrollStateChanged(int arg0) { }
-    };
-
-    /**
      * Making notification bar transparent
      */
     private void changeStatusBarColor() {
@@ -235,7 +247,6 @@ public class Intro extends AppCompatActivity {
             final LinearLayout color_bg = view.findViewById(R.id.background_slide);
             final ImageView imgview = view.findViewById(R.id.img_slide);
 
-            final TextView url = view.findViewById(R.id.url);
 
             final ProgressBar progress_slide = view.findViewById(R.id.progress_slide);
 
@@ -243,7 +254,6 @@ public class Intro extends AppCompatActivity {
                 progress_slide.setVisibility(View.GONE);
             }
 
-            int languish = 2;
 
             final SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
             final SharedPreferences.Editor editor = shared.edit();
@@ -253,34 +263,38 @@ public class Intro extends AppCompatActivity {
             final Boolean english = shared.getBoolean("english", false);
 
 
+            String url = "";
+
             if (farsi){
-                url.setText("https://khadije.com/api/v5/android");
+                url = "https://khadije.com/api/v5/android";
             }
             if (arabic){
-                url.setText("https://khadije.com/ar/api/v5/android");
+                url = "https://khadije.com/ar/api/v5/android" ;
             }
             if (english){
-                url.setText("https://khadije.com/ar/api/v5/android");
+                url = "https://khadije.com/en/api/v5/android";
             }
             // JSON Methods
-            JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url.getText().toString(), null, new Response.Listener<JSONObject>() {
+            JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url , null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
                         // get objects
                         JSONObject intro = response.getJSONObject("intro");
+                        JSONObject btn = intro.getJSONObject("btn");
+                        String btn_skip = btn.getString("back");
+                        String btn_next = btn.getString("next");
+                        btnSkip.setText(btn_skip);
+                        btnNext.setText(btn_next);
+
                         JSONArray intro_slide = intro.getJSONArray("slide");
-
                         int countAll = intro_slide.length();
-
-                        int j        = countAll - 1;
-
+                        int array        = countAll - 1;
                         String[] intro_title      = new String[countAll];
                         String[] intro_desc       = new String[countAll];
                         String[] intro_background = new String[countAll];
                         String[] intro_image      = new String[countAll];
-
-                        for(int i = 0; i <= j; i++)
+                        for(int i = 0; i <= array; i++)
                         {
                             JSONObject temp_intro = intro_slide.getJSONObject(i);
                             intro_title[i]        =  temp_intro.getString("title");
