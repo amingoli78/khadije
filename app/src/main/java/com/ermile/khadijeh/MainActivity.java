@@ -27,6 +27,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.bumptech.glide.BuildConfig;
 import com.ermile.khadijeh.network.AppContoroler;
 
 import org.json.JSONArray;
@@ -149,7 +150,6 @@ public class MainActivity extends AppCompatActivity {
                                                 if (webView.getUrl().equals("https://khadije.com/donate")){}
                                                 if (webView.getUrl().equals("https://khadije.com/")){bottomNav.setSelectedItemId(R.id.item_home);}
                                             }
-
                                         }
                                     });
                                 } catch (Exception e) {
@@ -169,35 +169,35 @@ public class MainActivity extends AppCompatActivity {
                     // set size title for pay item
                     SpannableString spanString_pay = new SpannableString(menu.findItem(R.id.item_pay).getTitle().toString());
                     int end_pay = spanString_pay.length();
-                    spanString_pay.setSpan(new RelativeSizeSpan(0.8f), 0, end_pay, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    spanString_pay.setSpan(new RelativeSizeSpan(0.5f), 0, end_pay, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
                     MenuItem home_menu = menu.findItem(R.id.item_home);
                     home_menu.setTitle(home_title);
                     // set size title for pay item
                     SpannableString spanString_home = new SpannableString(menu.findItem(R.id.item_home).getTitle().toString());
                     int end_home = spanString_home.length();
-                    spanString_home.setSpan(new RelativeSizeSpan(0.6f), 0, end_home, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    spanString_home.setSpan(new RelativeSizeSpan(0.5f), 0, end_home, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
                     MenuItem trip_menu = menu.findItem(R.id.item_trip);
                     trip_menu.setTitle(trip_title);
                     // set size title for pay item
                     SpannableString spanString_trip = new SpannableString(menu.findItem(R.id.item_trip).getTitle().toString());
                     int end_trip = spanString_trip.length();
-                    spanString_trip.setSpan(new RelativeSizeSpan(0.6f), 0, end_trip, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    spanString_trip.setSpan(new RelativeSizeSpan(0.5f), 0, end_trip, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
                     MenuItem delneveshte_menu = menu.findItem(R.id.item_delneveshte);
                     delneveshte_menu.setTitle(delneveshte_title);
                     // set size title for pay item
                     SpannableString spanString_delneveshte = new SpannableString(menu.findItem(R.id.item_delneveshte).getTitle().toString());
                     int end_delneveshte = spanString_delneveshte.length();
-                    spanString_delneveshte.setSpan(new RelativeSizeSpan(0.6f), 0, end_delneveshte, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    spanString_delneveshte.setSpan(new RelativeSizeSpan(0.5f), 0, end_delneveshte, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
                     MenuItem setting_menu = menu.findItem(R.id.item_setting);
                     setting_menu.setTitle(setting_title);
                     // set size title for pay item
                     SpannableString spanString_setting = new SpannableString(menu.findItem(R.id.item_setting).getTitle().toString());
                     int end_setting = spanString_setting.length();
-                    spanString_setting.setSpan(new RelativeSizeSpan(0.6f), 0, end_setting, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    spanString_setting.setSpan(new RelativeSizeSpan(0.5f), 0, end_setting, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
                     // toolbar and tab Top or Bottom?
                     bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
