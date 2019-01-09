@@ -85,6 +85,7 @@ public class splash extends AppCompatActivity {
         final String serial = Build.SERIAL;
         final String sdk_version = String.valueOf(Build.VERSION.SDK_INT);
         final String time = String.valueOf(Build.TIME);
+
         final String tooken = shared.getString("myStringName", "no-tooken");
         final Boolean byss = shared.getBoolean("by", false);
 
@@ -98,11 +99,8 @@ public class splash extends AppCompatActivity {
          * Alert Dialog
          */
         String lan = Locale.getDefault().getLanguage();
-
-        Toast.makeText(this, "app is: "+ firstoppen , Toast.LENGTH_SHORT).show();
-
         if (connected){
-            if (!lan.equals("fa") && firstoppen == true) {
+            if (!lan.equals("fa") && firstoppen) {
                 // setup the alert builder
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 // add a list
@@ -115,16 +113,19 @@ public class splash extends AppCompatActivity {
                             case 0: // fa
                                 editor.putBoolean("firstoppen",false);
                                 editor.putBoolean("farsi",true);
+                                editor.apply();
                                 going();
                                 break;
                             case 1: // ar
                                 editor.putBoolean("firstoppen",false);
                                 editor.putBoolean("arabic",true);
+                                editor.apply();
                                 going();
                                 break;
                             case 2: // en
                                 editor.putBoolean("firstoppen",false);
                                 editor.putBoolean("english",true);
+                                editor.apply();
                                 going();
                                 break;
                         }
@@ -136,19 +137,13 @@ public class splash extends AppCompatActivity {
             } if (lan.equals("fa") && firstoppen){
                 editor.putBoolean("firstoppen",false);
                 editor.putBoolean("farsi",true);
+                editor.apply();
                 going();
             }
         }
-
-
         if (connected && !firstoppen){
             going();
         }
-
-
-
-
-
         //////////////post
         StringRequest post_id = new StringRequest(Request.Method.POST, "https://khadije.com/api/v5/user/add", new Response.Listener<String>(){
             @Override
@@ -176,14 +171,21 @@ public class splash extends AppCompatActivity {
         })
 
         {
+            @Override
+            public Map<String, String> getHeaders()  {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("x-app-request", "android");
+                headers.put("authorization", "$2y$07$J5lyhNSfVCEVxPZvEmrXhemZpzwekNKJRPHC1kwth3yPw6U6cUBPC");
+                return headers;
+            }
 
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> posting = new HashMap<>();
 
-                posting.put("Board", Board );
+                posting.put("board", Board );
                 posting.put("bot_loader", bot_loader );
-                posting.put("Brand", Brand );
+                posting.put("brand", Brand );
                 posting.put("host", host );
                 posting.put("device", device );
                 posting.put("product", product );
@@ -201,7 +203,7 @@ public class splash extends AppCompatActivity {
                 posting.put("time", time );
                 posting.put("modle", modle );
                 if (byss == true){
-                    posting.put("tooken", tooken );
+                    posting.put("app_tooken", tooken );
                 }
 
 
