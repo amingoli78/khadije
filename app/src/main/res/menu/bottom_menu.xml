@@ -28,7 +28,7 @@
         <item
             android:id="@+id/item_setting"
             android:title=""
-            android:icon="@drawable/ic_tasharof">
+            android:icon="@drawable/ic_seting">
         </item>
     </group>
 
