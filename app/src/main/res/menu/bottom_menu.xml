@@ -21,12 +21,12 @@
             android:icon="@drawable/ic_tasharof">
         </item>
         <item
-            android:id="@+id/item_trip2"
+            android:id="@+id/item_delneveshte"
             android:title=""
-            android:icon="@drawable/ic_tasharof">
+            android:icon="@drawable/ic_delneveshte">
         </item>
         <item
-            android:id="@+id/item_trip3"
+            android:id="@+id/item_setting"
             android:title=""
             android:icon="@drawable/ic_tasharof">
         </item>

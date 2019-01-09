@@ -81,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject pay = navigation_btn.getJSONObject(0);
                     JSONObject home = navigation_btn.getJSONObject(1);
                     JSONObject trip = navigation_btn.getJSONObject(2);
+                    JSONObject delneveshte = navigation_btn.getJSONObject(3);
+                    JSONObject setting = navigation_btn.getJSONObject(4);
 
                     String pay_title = pay.getString("title");
                     final String pay_url = pay.getString("url");
@@ -90,6 +92,12 @@ public class MainActivity extends AppCompatActivity {
 
                     String trip_title = trip.getString("title");
                     final String trip_url = trip.getString("url");
+
+                    String delneveshte_title = delneveshte.getString("title");
+                    final String delneveshte_url = delneveshte.getString("url");
+
+                    String setting_title = setting.getString("title");
+                    final String setting_url = setting.getString("url");
 
                     //static
                     final BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
@@ -159,9 +167,9 @@ public class MainActivity extends AppCompatActivity {
                     MenuItem pay_menu = menu.findItem(R.id.item_pay);
                     pay_menu.setTitle(pay_title);
                     // set size title for pay item
-                    SpannableString spanString_pay = new SpannableString(menu.findItem(R.id.item_trip).getTitle().toString());
-                    int end_tasharof = spanString_pay.length();
-                    spanString_pay.setSpan(new RelativeSizeSpan(0.8f), 0, end_tasharof, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    SpannableString spanString_pay = new SpannableString(menu.findItem(R.id.item_pay).getTitle().toString());
+                    int end_pay = spanString_pay.length();
+                    spanString_pay.setSpan(new RelativeSizeSpan(0.8f), 0, end_pay, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
                     MenuItem home_menu = menu.findItem(R.id.item_home);
                     home_menu.setTitle(home_title);
@@ -173,9 +181,23 @@ public class MainActivity extends AppCompatActivity {
                     MenuItem trip_menu = menu.findItem(R.id.item_trip);
                     trip_menu.setTitle(trip_title);
                     // set size title for pay item
-                    SpannableString spanString_trip = new SpannableString(menu.findItem(R.id.item_pay).getTitle().toString());
-                    int end_pay = spanString_trip.length();
-                    spanString_trip.setSpan(new RelativeSizeSpan(0.6f), 0, end_pay, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    SpannableString spanString_trip = new SpannableString(menu.findItem(R.id.item_trip).getTitle().toString());
+                    int end_trip = spanString_trip.length();
+                    spanString_trip.setSpan(new RelativeSizeSpan(0.6f), 0, end_trip, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                    MenuItem delneveshte_menu = menu.findItem(R.id.item_delneveshte);
+                    delneveshte_menu.setTitle(delneveshte_title);
+                    // set size title for pay item
+                    SpannableString spanString_delneveshte = new SpannableString(menu.findItem(R.id.item_delneveshte).getTitle().toString());
+                    int end_delneveshte = spanString_delneveshte.length();
+                    spanString_delneveshte.setSpan(new RelativeSizeSpan(0.6f), 0, end_delneveshte, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                    MenuItem setting_menu = menu.findItem(R.id.item_setting);
+                    setting_menu.setTitle(setting_title);
+                    // set size title for pay item
+                    SpannableString spanString_setting = new SpannableString(menu.findItem(R.id.item_setting).getTitle().toString());
+                    int end_setting = spanString_setting.length();
+                    spanString_setting.setSpan(new RelativeSizeSpan(0.6f), 0, end_setting, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
                     // toolbar and tab Top or Bottom?
                     bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -215,6 +237,27 @@ public class MainActivity extends AppCompatActivity {
                                             swipe.setRefreshing(false);
                                         }});
                                     break;
+
+                                case R.id.item_delneveshte:
+                                    webView.loadUrl(delneveshte_url);
+                                    swipe.setRefreshing(true);
+                                    webView.setWebViewClient(new WebViewClient() {
+                                        @Override
+                                        public void onPageFinished(WebView view, String url) {
+                                            swipe.setRefreshing(false);
+                                        }});
+                                    break;
+
+                                case R.id.item_setting:
+                                    webView.loadUrl(setting_url);
+                                    swipe.setRefreshing(true);
+                                    webView.setWebViewClient(new WebViewClient() {
+                                        @Override
+                                        public void onPageFinished(WebView view, String url) {
+                                            swipe.setRefreshing(false);
+                                        }});
+                                    break;
+
 
                             }
                             return true;
