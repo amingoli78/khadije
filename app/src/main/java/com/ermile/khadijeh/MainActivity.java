@@ -126,8 +126,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
-
-
                     // Chek net every 5 seconds
                     mHandler = new Handler();
                     continue_or_stop = true;
@@ -310,7 +308,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
             }
-        });AppContoroler.getInstance().addToRequestQueue(req);
+
+
+        })
+        {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("x-app-request", "android");
+                headers.put("authorization", "$2y$07$J5lyhNSfVCEVxPZvEmrXhemZpzwekNKJRPHC1kwth3yPw6U6cUBPC");
+                Toast.makeText(MainActivity.this, "Header is:", Toast.LENGTH_SHORT).show();
+                return headers;
+            }
+        };AppContoroler.getInstance().addToRequestQueue(req);
         // END JSON
 
 
