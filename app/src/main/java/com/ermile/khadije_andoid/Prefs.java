@@ -14,8 +14,8 @@ public class Prefs extends PreferenceActivity {
 
         Boolean first = prefs.getBoolean("firstoppen",true);
 
-        String myString = prefs.getString("myStringName", "");
-        Boolean byy = prefs.getBoolean("by", false);
+        String myTokeng = prefs.getString("myTokengName", "");
+        Boolean token_sending = prefs.getBoolean("token_sending", false);
 
         Boolean pf_farsi = prefs.getBoolean("farsi", false);
         Boolean pf_arabic = prefs.getBoolean("arabic", false);

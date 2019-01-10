@@ -48,16 +48,14 @@ public class splash extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
-
-
+        // MY value
         logo_splash = findViewById(R.id.logo_splash);
         lang = findViewById(R.id.lang);
         far = findViewById(R.id.farsi);
         ara = findViewById(R.id.arabic);
         eng = findViewById(R.id.english);
         progress_splash = findViewById(R.id.progress_splash);
-
-
+        // Chake net
         new splash.NetCheck().execute();
         boolean connected = true;
         ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -65,16 +63,18 @@ public class splash extends AppCompatActivity {
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
             //we are connected to a network
             connected = true;
-        } else{ connected = false; }
-
+        }
+        else
+        {
+            connected = false;
+        }
         if (!connected)
         {
             new splash.NetCheck().execute();
         }
-
+        // save  BY Shared Preferences
         final SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
         final SharedPreferences.Editor editor = shared.edit();
-
         // Device info
         final String Board = Build.BOARD;
         final String bot_loader = Build.BOOTLOADER;
@@ -95,23 +95,18 @@ public class splash extends AppCompatActivity {
         final String serial = Build.SERIAL;
         final String sdk_version = String.valueOf(Build.VERSION.SDK_INT);
         final String time = String.valueOf(Build.TIME);
-
-        final String tooken = shared.getString("myStringName", "no-tooken");
-        final Boolean byss = shared.getBoolean("by", false);
-
+        // Shared Preferences for Tooken & Language
+        // Tooken cod and tooken Chakeed?
+        final String myTokengName = shared.getString("myTokengName", "no-tooken");
+        final Boolean token_sending = shared.getBoolean("token_sending", false);
+        // first oppen and set lang
         final Boolean firstoppen = shared.getBoolean("firstoppen", true);
         final Boolean farsi = shared.getBoolean("farsi", false);
         final Boolean arabic = shared.getBoolean("arabic", false);
         final Boolean english = shared.getBoolean("english", false);
-
-
-        /**
-         * Alert Dialog
-         */
-
-
-
+        // get Language Devices
         String lan = Locale.getDefault().getLanguage();
+        // Chang Language by user if Device not farsi
         if (connected){
             if (!lan.equals("fa") && firstoppen) {
                 logo_splash.animate().translationY(0).setDuration(1000);
@@ -146,33 +141,35 @@ public class splash extends AppCompatActivity {
                 });
             }
         }
+        //Chang Language fa if Device is farsi
         if (lan.equals("fa") && firstoppen)
         {
+            progress_splash.animate().alpha(1).setDuration(200);
             editor.putBoolean("firstoppen",false);
             editor.putBoolean("farsi",true);
             editor.apply();
             going();
         }
+        // start other oppen
         if (connected && !firstoppen)
         {
             progress_splash.animate().alpha(1).setDuration(200);
             going();
         }
-        //////////////post
+        // Post Method
         StringRequest post_id = new StringRequest(Request.Method.POST, "https://khadije.com/api/v5/user/add", new Response.Listener<String>(){
             @Override
             public void onResponse(String response) {
                 try {
                     JSONObject mainObject = new JSONObject(response);
 
-                    String sending = mainObject.getString("ok");
+                    // get user Token
                     JSONObject result = mainObject.getJSONObject("result");
                     String token = result.getString("usertoken");
                     // save TOKEN
                     editor.putString("myStringName", token);
                     editor.putBoolean("by",true);
                     editor.apply();
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -183,7 +180,7 @@ public class splash extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Error net", Toast.LENGTH_SHORT).show();
             }
         })
-
+        // Send Headers
         {
             @Override
             public Map<String, String> getHeaders()  {
@@ -192,7 +189,7 @@ public class splash extends AppCompatActivity {
                 headers.put("authorization", "$2y$07$J5lyhNSfVCEVxPZvEmrXhemZpzwekNKJRPHC1kwth3yPw6U6cUBPC");
                 return headers;
             }
-
+            // Send Device info
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> posting = new HashMap<>();
@@ -216,19 +213,17 @@ public class splash extends AppCompatActivity {
                 posting.put("sdk_version", sdk_version );
                 posting.put("time", time );
                 posting.put("modle", modle );
-                if (byss == true){
-                    posting.put("app_tooken", tooken );
+                if (token_sending)
+                {
+                    posting.put("app_tooken", myTokengName );
                 }
-
-
-
                 return posting;
             }
         };AppContoroler.getInstance().addToRequestQueue(post_id);
 
     }
 
-
+    // go to Intro
     public void going(){
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -240,6 +235,7 @@ public class splash extends AppCompatActivity {
             }
         }, 2000);
     }
+    // lang Visible and animate
     public void chang_lang(){
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -247,23 +243,17 @@ public class splash extends AppCompatActivity {
                 lang.animate().alpha(1).setDuration(500);
                 lang.setVisibility(View.VISIBLE);
             }
-        }, 700);
+        }, 400);
     }
+    // Chang lang by user
     public void changing(){
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                lang.animate().alpha(0).setDuration(500);
-                lang.setVisibility(View.INVISIBLE);
-                logo_splash.animate().translationY(100).setDuration(700);
-                progress_splash.animate().alpha(1).setDuration(400);
-                going();
-            }
-        }, 300);
+        lang.animate().alpha(0).setDuration(500);
+        lang.setVisibility(View.INVISIBLE);
+        logo_splash.animate().translationY(100).setDuration(700);
+        progress_splash.animate().alpha(1).setDuration(400);
+        going();
     }
-
-
-
+    
     /**
      * Check Network
      */
