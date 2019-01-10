@@ -1,4 +1,4 @@
-package com.ermile.khadijeh;
+package com.ermile.khadije_andoid;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.ermile.khadijeh", appContext.getPackageName());
+        assertEquals("com.ermile.khadije_andoid", appContext.getPackageName());
     }
 }

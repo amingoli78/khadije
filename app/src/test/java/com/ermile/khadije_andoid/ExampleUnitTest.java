@@ -1,4 +1,4 @@
-package com.ermile.khadijeh;
+package com.ermile.khadije_andoid;
 
 import org.junit.Test;
 

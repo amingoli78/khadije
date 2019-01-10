@@ -1,4 +1,5 @@
-package com.ermile.khadijeh;
+package com.ermile.khadije_andoid;
+
 
 import android.content.Context;
 import android.content.Intent;
@@ -30,9 +31,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
-import com.ermile.khadijeh.network.AppContoroler;
+import com.ermile.khadije_andoid.network.AppContoroler;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -400,4 +400,3 @@ public class Intro extends AppCompatActivity {
     }
 
 }
-

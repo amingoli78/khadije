@@ -1,6 +1,6 @@
-package com.ermile.khadijeh;
+package com.ermile.khadije_andoid;
 
-import android.app.Dialog;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,7 +23,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.ermile.khadijeh.network.AppContoroler;
+import com.ermile.khadije_andoid.network.AppContoroler;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
@@ -40,7 +40,7 @@ public class splash extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        setContentView(R.layout.splash);
 
         new splash.NetCheck().execute();
         boolean connected = true;

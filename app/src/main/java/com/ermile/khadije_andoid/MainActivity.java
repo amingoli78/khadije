@@ -1,4 +1,5 @@
-package com.ermile.khadijeh;
+package com.ermile.khadije_andoid;
+
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -22,21 +23,16 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
-
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.bumptech.glide.BuildConfig;
-import com.ermile.khadijeh.network.AppContoroler;
-
+import com.ermile.khadije_andoid.network.AppContoroler;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
