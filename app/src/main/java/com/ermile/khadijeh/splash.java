@@ -51,19 +51,13 @@ public class splash extends AppCompatActivity {
             connected = true;
         } else{ connected = false; }
 
-        if (!connected){
+        if (!connected)
+        {
             new splash.NetCheck().execute();
         }
 
-
         final SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
         final SharedPreferences.Editor editor = shared.edit();
-
-
-
-
-
-
 
         // Device info
         final String Board = Build.BOARD;
@@ -213,8 +207,6 @@ public class splash extends AppCompatActivity {
         };AppContoroler.getInstance().addToRequestQueue(post_id);
 
     }
-
-
 
 
     public void going(){

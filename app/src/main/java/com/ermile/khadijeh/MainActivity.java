@@ -23,6 +23,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -34,7 +35,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -68,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
             url = "https://khadije.com/en/api/v5/android";
         }
 
+
         // JSON
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -77,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
                     final boolean continue_or_stop;
                     final int versionCode = BuildConfig.VERSION_CODE;
                     String versionName = BuildConfig.VERSION_NAME;
+                    final Map<String, String> sernd_headers = new HashMap<String, String>();
+                    sernd_headers.put("x-app-request", "android");
 
                     JSONArray navigation_btn = response.getJSONArray("navigation");
                     JSONObject pay = navigation_btn.getJSONObject(0);
@@ -116,12 +122,11 @@ public class MainActivity extends AppCompatActivity {
                             swipe.setRefreshing(false);
                         }});
                     // download json
-                    final String url = home_url;
-                    webView.loadUrl(url);
+                    webView.loadUrl(home_url,sernd_headers);
                     swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                         @Override
                         public void onRefresh() {
-                            webView.loadUrl(webView.getUrl());
+                            webView.loadUrl(webView.getUrl(),sernd_headers);
                             Toast.makeText(MainActivity.this, "link is:"+webView.getUrl(), Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -202,10 +207,12 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+
+
                             switch (item.getItemId()) {
 
                                 case R.id.item_pay:
-                                    webView.loadUrl(pay_url);
+                                    webView.loadUrl(pay_url, sernd_headers);
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
                                         @Override
@@ -217,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
                                     break;
 
                                 case R.id.item_home:
-                                    webView.loadUrl(home_url);
+                                    webView.loadUrl(home_url, sernd_headers);
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
                                         @Override
@@ -227,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
                                     break;
 
                                 case R.id.item_trip:
-                                    webView.loadUrl(trip_url);
+                                    webView.loadUrl(trip_url, sernd_headers);
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
                                         @Override
@@ -237,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
                                     break;
 
                                 case R.id.item_delneveshte:
-                                    webView.loadUrl(delneveshte_url);
+                                    webView.loadUrl(delneveshte_url, sernd_headers);
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
                                         @Override
@@ -247,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
                                     break;
 
                                 case R.id.item_setting:
-                                    webView.loadUrl(setting_url);
+                                    webView.loadUrl(setting_url, sernd_headers);
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
                                         @Override
@@ -255,12 +262,11 @@ public class MainActivity extends AppCompatActivity {
                                             swipe.setRefreshing(false);
                                         }});
                                     break;
-
-
                             }
                             return true;
                         }
                     });
+
 
                     // new version for app
                     JSONObject new_version = response.getJSONObject("app_version");
@@ -310,18 +316,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
-        })
-        {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("x-app-request", "android");
-                headers.put("authorization", "$2y$07$J5lyhNSfVCEVxPZvEmrXhemZpzwekNKJRPHC1kwth3yPw6U6cUBPC");
-                Toast.makeText(MainActivity.this, "Header is:", Toast.LENGTH_SHORT).show();
-                return headers;
-            }
-        };AppContoroler.getInstance().addToRequestQueue(req);
+        });
+        AppContoroler.getInstance().addToRequestQueue(req);
         // END JSON
 
 
