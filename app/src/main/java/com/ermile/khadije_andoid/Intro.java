@@ -291,21 +291,27 @@ public class Intro extends AppCompatActivity {
                         int countAll = intro_slide.length();
                         int array        = countAll - 1;
                         String[] intro_title      = new String[countAll];
+                        String[] title_color      = new String[countAll];
                         String[] intro_desc       = new String[countAll];
+                        String[] desc_color       = new String[countAll];
                         String[] intro_background = new String[countAll];
                         String[] intro_image      = new String[countAll];
                         for(int i = 0; i <= array; i++)
                         {
                             JSONObject temp_intro = intro_slide.getJSONObject(i);
                             intro_title[i]        =  temp_intro.getString("title");
+                            title_color[i]        =  temp_intro.getString("title_color");
                             intro_desc[i]         =  temp_intro.getString("desc");
+                            desc_color[i]         =  temp_intro.getString("desc_color");
                             intro_background[i]   =  temp_intro.getString("background");
                             intro_image[i]        =  temp_intro.getString("image");
                         }
                         // Title
                         title.setText(intro_title[position]);
+                        title.setTextColor(Color.parseColor(title_color[position]));
                         // Description
                         des.setText(intro_desc[position]);
+                        des.setTextColor(Color.parseColor(desc_color[position]));
                         // Color Background
                         color_bg.setBackgroundColor(Color.parseColor(intro_background[position]));
                         // Image

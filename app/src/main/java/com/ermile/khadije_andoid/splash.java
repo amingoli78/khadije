@@ -253,13 +253,12 @@ public class splash extends AppCompatActivity {
         progress_splash.animate().alpha(1).setDuration(400);
         going();
     }
-    
+
     /**
      * Check Network
      */
     public class NetCheck extends AsyncTask<String,String,Boolean>
     {
-
         @Override
         protected void onPreExecute(){
         }

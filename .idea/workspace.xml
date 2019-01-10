@@ -13,9 +13,8 @@
   <component name="ChangeListManager">
     <list default="true" id="9dfe038b-f1f0-4052-8e83-74d84dd4a4f6" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije_andoid/Prefs.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije_andoid/Prefs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije_andoid/Intro.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije_andoid/Intro.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije_andoid/splash.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije_andoid/splash.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/splash.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/splash.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -38,32 +37,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="splash.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/splash.xml">
+      <file leaf-file-name="Intro.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije_andoid/Intro.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1241">
-              <caret line="73" selection-start-line="73" selection-end-line="73" />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer2">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="splash.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije_andoid/splash.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="367">
-              <caret line="255" column="4" selection-start-line="255" selection-start-column="4" selection-end-line="255" selection-end-column="4" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Prefs.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije_andoid/Prefs.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="16" column="23" selection-start-line="16" selection-start-column="23" selection-end-line="16" selection-end-column="23" />
+            <state relative-caret-position="545">
+              <caret line="310" column="59" selection-start-line="310" selection-start-column="59" selection-end-line="310" selection-end-column="59" />
             </state>
           </provider>
         </entry>
@@ -2335,6 +2313,7 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/splash.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije_andoid/Prefs.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije_andoid/splash.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije_andoid/Intro.java" />
       </list>
     </option>
   </component>
@@ -2559,6 +2538,20 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije_andoid/Prefs.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="16" column="23" selection-start-line="16" selection-start-column="23" selection-end-line="16" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije_andoid/splash.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-7">
+          <caret line="218" column="13" selection-start-line="218" selection-start-column="13" selection-end-line="218" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/splash.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1241">
@@ -2569,17 +2562,10 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije_andoid/Prefs.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije_andoid/Intro.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="16" column="23" selection-start-line="16" selection-start-column="23" selection-end-line="16" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije_andoid/splash.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="367">
-          <caret line="255" column="4" selection-start-line="255" selection-start-column="4" selection-end-line="255" selection-end-column="4" />
+        <state relative-caret-position="545">
+          <caret line="310" column="59" selection-start-line="310" selection-start-column="59" selection-end-line="310" selection-end-column="59" />
         </state>
       </provider>
     </entry>
