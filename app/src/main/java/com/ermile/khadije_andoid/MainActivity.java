@@ -1,6 +1,7 @@
 package com.ermile.khadije_andoid;
 
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -11,6 +12,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.internal.BottomNavigationItemView;
+import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,6 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,9 +39,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.bumptech.glide.BuildConfig;
 import com.ermile.khadije_andoid.network.AppContoroler;
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -91,31 +99,35 @@ public class MainActivity extends AppCompatActivity {
                     sernd_headers.put("x-app-request", "android");
 
                     JSONArray navigation_btn = response.getJSONArray("navigation");
-                    JSONObject pay = navigation_btn.getJSONObject(0);
+                    final JSONObject pay = navigation_btn.getJSONObject(0);
                     JSONObject home = navigation_btn.getJSONObject(1);
                     JSONObject trip = navigation_btn.getJSONObject(2);
                     JSONObject delneveshte = navigation_btn.getJSONObject(3);
                     JSONObject setting = navigation_btn.getJSONObject(4);
 
-                    String pay_title = pay.getString("title");
+                    final String pay_title = pay.getString("title");
                     final String pay_url = pay.getString("url");
 
-                    String home_title = home.getString("title");
+                    final String home_title = home.getString("title");
                     final String home_url = home.getString("url");
 
-                    String trip_title = trip.getString("title");
+                    final String trip_title = trip.getString("title");
                     final String trip_url = trip.getString("url");
 
-                    String delneveshte_title = delneveshte.getString("title");
+                    final String delneveshte_title = delneveshte.getString("title");
                     final String delneveshte_url = delneveshte.getString("url");
 
-                    String setting_title = setting.getString("title");
+                    final String setting_title = setting.getString("title");
                     final String setting_url = setting.getString("url");
 
                     //static
-                    final BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-                    fragmentManager = getSupportFragmentManager();
+                    final BottomNavigationViewEx bottomNav = findViewById(R.id.bottom_navigation);
                     bottomNav.setSelectedItemId(R.id.item_home);
+                    bottomNav.enableAnimation(false);
+                    bottomNav.enableShiftingMode(false);
+                    bottomNav.enableItemShiftingMode(false);
+                    bottomNav.setTextSize(10f);
+                    bottomNav.setIconSize(28,28);
 
                     final WebView webView = findViewById(R.id.webview);
                     WebSettings webSettings = webView.getSettings();
@@ -137,6 +149,14 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this, "link is:"+webView.getUrl(), Toast.LENGTH_SHORT).show();
                         }
                     });
+                    Menu menu = bottomNav.getMenu();
+                    final MenuItem pay_menu = menu.findItem(R.id.item_pay);
+                    final MenuItem home_menu = menu.findItem(R.id.item_home);
+                    final MenuItem trip_menu = menu.findItem(R.id.item_trip);
+                    final MenuItem delneveshte_menu = menu.findItem(R.id.item_delneveshte);
+                    final MenuItem setting_menu = menu.findItem(R.id.item_setting);
+
+
 
                     // Chek net every 5 seconds
                     mHandler = new Handler();
@@ -160,6 +180,19 @@ public class MainActivity extends AppCompatActivity {
                                                 if (webView.getUrl().equals("https://khadije.com/donate")){}
                                                 if (webView.getUrl().equals("https://khadije.com/")){bottomNav.setSelectedItemId(R.id.item_home);}
                                             }
+
+
+                                            if (pay_menu.getTitle().toString().equals(""))
+                                            {
+                                                pay_menu.setTitle(pay_title);
+                                                home_menu.setTitle(home_title);
+                                                trip_menu.setTitle(trip_title);
+                                                delneveshte_menu.setTitle(delneveshte_title);
+                                                setting_menu.setTitle(setting_title);
+                                            }
+
+
+
                                         }
                                     });
                                 } catch (Exception e) {
@@ -168,48 +201,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }).start();
 
-
-
-
-
-                    Menu menu = bottomNav.getMenu();
-
-                    MenuItem pay_menu = menu.findItem(R.id.item_pay);
-                    pay_menu.setTitle(pay_title);
-                    // set size title for pay item
-                    SpannableString spanString_pay = new SpannableString(menu.findItem(R.id.item_pay).getTitle().toString());
-                    int end_pay = spanString_pay.length();
-                    spanString_pay.setSpan(new RelativeSizeSpan(0.5f), 0, end_pay, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-                    MenuItem home_menu = menu.findItem(R.id.item_home);
-                    home_menu.setTitle(home_title);
-                    // set size title for pay item
-                    SpannableString spanString_home = new SpannableString(menu.findItem(R.id.item_home).getTitle().toString());
-                    int end_home = spanString_home.length();
-                    spanString_home.setSpan(new RelativeSizeSpan(0.5f), 0, end_home, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-                    MenuItem trip_menu = menu.findItem(R.id.item_trip);
-                    trip_menu.setTitle(trip_title);
-                    // set size title for pay item
-                    SpannableString spanString_trip = new SpannableString(menu.findItem(R.id.item_trip).getTitle().toString());
-                    int end_trip = spanString_trip.length();
-                    spanString_trip.setSpan(new RelativeSizeSpan(0.5f), 0, end_trip, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-                    MenuItem delneveshte_menu = menu.findItem(R.id.item_delneveshte);
-                    delneveshte_menu.setTitle(delneveshte_title);
-                    // set size title for pay item
-                    SpannableString spanString_delneveshte = new SpannableString(menu.findItem(R.id.item_delneveshte).getTitle().toString());
-                    int end_delneveshte = spanString_delneveshte.length();
-                    spanString_delneveshte.setSpan(new RelativeSizeSpan(0.5f), 0, end_delneveshte, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-                    MenuItem setting_menu = menu.findItem(R.id.item_setting);
-                    setting_menu.setTitle(setting_title);
-                    // set size title for pay item
-                    SpannableString spanString_setting = new SpannableString(menu.findItem(R.id.item_setting).getTitle().toString());
-                    int end_setting = spanString_setting.length();
-                    spanString_setting.setSpan(new RelativeSizeSpan(0.5f), 0, end_setting, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-                    // toolbar and tab Top or Bottom?
                     bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
                         @Override
                         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -336,6 +327,28 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    }
+
+    // Method for disabling ShiftMode of BottomNavigationView
+    @SuppressLint("RestrictedApi")
+    private void disableShiftMode(BottomNavigationView view) {
+        BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
+        try {
+            Field shiftingMode = menuView.getClass().getDeclaredField("mShiftingMode");
+            shiftingMode.setAccessible(true);
+            shiftingMode.setBoolean(menuView, false);
+            shiftingMode.setAccessible(false);
+            for (int i = 0; i < menuView.getChildCount(); i++) {
+                BottomNavigationItemView item = (BottomNavigationItemView) menuView.getChildAt(i);
+                item.setShiftingMode(false);
+                // set once again checked value, so view will be updated
+                item.setChecked(item.getItemData().isChecked());
+            }
+        } catch (NoSuchFieldException e) {
+            Log.e("BNVHelper", "Unable to get shift mode field", e);
+        } catch (IllegalAccessException e) {
+            Log.e("BNVHelper", "Unable to change value of shift mode", e);
+        }
     }
 
 
