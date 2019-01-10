@@ -50,20 +50,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    private Fragment fragment;
-    private FragmentManager fragmentManager;
-    RelativeLayout web;
-    RelativeLayout frameLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        web = findViewById(R.id.webviews);
-        frameLayout = findViewById(R.id.frameLayout);
-
-
 
         final SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
         final SharedPreferences.Editor editor = shared.edit();
@@ -210,8 +202,6 @@ public class MainActivity extends AppCompatActivity {
                             switch (item.getItemId()) {
 
                                 case R.id.item_pay:
-                                    frameLayout.setVisibility(View.GONE);
-                                    web.setVisibility(View.VISIBLE);
                                     webView.loadUrl(pay_url, sernd_headers);
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
@@ -224,8 +214,6 @@ public class MainActivity extends AppCompatActivity {
                                     break;
 
                                 case R.id.item_home:
-                                    frameLayout.setVisibility(View.GONE);
-                                    web.setVisibility(View.VISIBLE);
                                     webView.loadUrl(home_url, sernd_headers);
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
@@ -236,8 +224,6 @@ public class MainActivity extends AppCompatActivity {
                                     break;
 
                                 case R.id.item_trip:
-                                    frameLayout.setVisibility(View.GONE);
-                                    web.setVisibility(View.VISIBLE);
                                     webView.loadUrl(trip_url, sernd_headers);
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
@@ -248,8 +234,6 @@ public class MainActivity extends AppCompatActivity {
                                     break;
 
                                 case R.id.item_delneveshte:
-                                    frameLayout.setVisibility(View.GONE);
-                                    web.setVisibility(View.VISIBLE);
                                     webView.loadUrl(delneveshte_url, sernd_headers);
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
@@ -260,13 +244,9 @@ public class MainActivity extends AppCompatActivity {
                                     break;
 
                                 case R.id.item_setting:
-                                    web.setVisibility(View.GONE);
-                                    frameLayout.setVisibility(View.VISIBLE);
-                                    fragment = new Setting();
+                                    Toast.makeText(MainActivity.this, "Setting", Toast.LENGTH_SHORT).show();
                                     break;
                             }
-                            final FragmentTransaction transaction = fragmentManager.beginTransaction();
-                            transaction.replace(R.id.main_container, fragment).commit();
                             return true;
                         }
                     });
@@ -328,32 +308,5 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
-    // Method for disabling ShiftMode of BottomNavigationView
-    @SuppressLint("RestrictedApi")
-    private void disableShiftMode(BottomNavigationView view) {
-        BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
-        try {
-            Field shiftingMode = menuView.getClass().getDeclaredField("mShiftingMode");
-            shiftingMode.setAccessible(true);
-            shiftingMode.setBoolean(menuView, false);
-            shiftingMode.setAccessible(false);
-            for (int i = 0; i < menuView.getChildCount(); i++) {
-                BottomNavigationItemView item = (BottomNavigationItemView) menuView.getChildAt(i);
-                item.setShiftingMode(false);
-                // set once again checked value, so view will be updated
-                item.setChecked(item.getItemData().isChecked());
-            }
-        } catch (NoSuchFieldException e) {
-            Log.e("BNVHelper", "Unable to get shift mode field", e);
-        } catch (IllegalAccessException e) {
-            Log.e("BNVHelper", "Unable to change value of shift mode", e);
-        }
-    }
-
-
-
-
-
 
 }

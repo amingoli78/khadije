@@ -11,14 +11,14 @@
             android:icon="@drawable/ic_pay">
         </item>
         <item
-            android:id="@+id/item_home"
-            android:title=""
-            android:icon="@drawable/ic_home">
-        </item>
-        <item
             android:id="@+id/item_trip"
             android:title=""
             android:icon="@drawable/ic_tasharof">
+        </item>
+        <item
+            android:id="@+id/item_home"
+            android:title=""
+            android:icon="@drawable/ic_home">
         </item>
         <item
             android:id="@+id/item_delneveshte"
