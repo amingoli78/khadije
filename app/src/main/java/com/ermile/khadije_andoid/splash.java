@@ -16,6 +16,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.AuthFailureError;
@@ -36,11 +39,24 @@ import java.util.Map;
 
 public class splash extends AppCompatActivity {
 
+    ImageView logo_splash;
+    LinearLayout lang;
+    TextView far , ara , eng;
+    ProgressBar progress_splash;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
+
+
+        logo_splash = findViewById(R.id.logo_splash);
+        lang = findViewById(R.id.lang);
+        far = findViewById(R.id.farsi);
+        ara = findViewById(R.id.arabic);
+        eng = findViewById(R.id.english);
+        progress_splash = findViewById(R.id.progress_splash);
+
 
         new splash.NetCheck().execute();
         boolean connected = true;
@@ -92,50 +108,54 @@ public class splash extends AppCompatActivity {
         /**
          * Alert Dialog
          */
+
+
+
         String lan = Locale.getDefault().getLanguage();
         if (connected){
             if (!lan.equals("fa") && firstoppen) {
-                // setup the alert builder
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                // add a list
-                builder.setCancelable(false);
-                String[] lang = {"فارسی", "العربية", "English"};
-                builder.setItems(lang, new DialogInterface.OnClickListener() {
+                logo_splash.animate().translationY(0).setDuration(1000);
+                chang_lang();
+
+                far.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 0: // fa
-                                editor.putBoolean("firstoppen",false);
-                                editor.putBoolean("farsi",true);
-                                editor.apply();
-                                going();
-                                break;
-                            case 1: // ar
-                                editor.putBoolean("firstoppen",false);
-                                editor.putBoolean("arabic",true);
-                                editor.apply();
-                                going();
-                                break;
-                            case 2: // en
-                                editor.putBoolean("firstoppen",false);
-                                editor.putBoolean("english",true);
-                                editor.apply();
-                                going();
-                                break;
-                        }
+                    public void onClick(View view) {
+                        editor.putBoolean("firstoppen",false);
+                        editor.putBoolean("farsi",true);
+                        editor.apply();
+                        changing();
                     }
                 });
-                // create and show the alert dialog
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            } if (lan.equals("fa") && firstoppen){
-                editor.putBoolean("firstoppen",false);
-                editor.putBoolean("farsi",true);
-                editor.apply();
-                going();
+                ara.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        editor.putBoolean("firstoppen",false);
+                        editor.putBoolean("arabic",true);
+                        editor.apply();
+                        changing();
+                    }
+                });
+                eng.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        editor.putBoolean("firstoppen",false);
+                        editor.putBoolean("english",true);
+                        editor.apply();
+                        changing();
+                    }
+                });
             }
         }
-        if (connected && !firstoppen){
+        if (lan.equals("fa") && firstoppen)
+        {
+            editor.putBoolean("firstoppen",false);
+            editor.putBoolean("farsi",true);
+            editor.apply();
+            going();
+        }
+        if (connected && !firstoppen)
+        {
+            progress_splash.animate().alpha(1).setDuration(200);
             going();
         }
         //////////////post
@@ -213,12 +233,35 @@ public class splash extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                progress_splash.animate().alpha(1).setDuration(500);
                 Intent i = new Intent(splash.this, Intro.class);
                 startActivity(i);
                 finish();
             }
         }, 2000);
     }
+    public void chang_lang(){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                lang.animate().alpha(1).setDuration(500);
+                lang.setVisibility(View.VISIBLE);
+            }
+        }, 700);
+    }
+    public void changing(){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                lang.animate().alpha(0).setDuration(500);
+                lang.setVisibility(View.INVISIBLE);
+                logo_splash.animate().translationY(100).setDuration(700);
+                progress_splash.animate().alpha(1).setDuration(400);
+                going();
+            }
+        }, 300);
+    }
+
 
 
     /**
