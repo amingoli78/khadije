@@ -12,6 +12,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
@@ -19,9 +22,12 @@ import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -36,14 +42,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-
-
-
+    private Fragment fragment;
+    private FragmentManager fragmentManager;
+    RelativeLayout web;
+    RelativeLayout frameLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        web = findViewById(R.id.webviews);
+        frameLayout = findViewById(R.id.frameLayout);
 
 
 
@@ -104,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
                     //static
                     final BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+                    fragmentManager = getSupportFragmentManager();
                     bottomNav.setSelectedItemId(R.id.item_home);
 
                     final WebView webView = findViewById(R.id.webview);
@@ -208,6 +219,8 @@ public class MainActivity extends AppCompatActivity {
                             switch (item.getItemId()) {
 
                                 case R.id.item_pay:
+                                    frameLayout.setVisibility(View.GONE);
+                                    web.setVisibility(View.VISIBLE);
                                     webView.loadUrl(pay_url, sernd_headers);
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
@@ -220,6 +233,8 @@ public class MainActivity extends AppCompatActivity {
                                     break;
 
                                 case R.id.item_home:
+                                    frameLayout.setVisibility(View.GONE);
+                                    web.setVisibility(View.VISIBLE);
                                     webView.loadUrl(home_url, sernd_headers);
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
@@ -230,6 +245,8 @@ public class MainActivity extends AppCompatActivity {
                                     break;
 
                                 case R.id.item_trip:
+                                    frameLayout.setVisibility(View.GONE);
+                                    web.setVisibility(View.VISIBLE);
                                     webView.loadUrl(trip_url, sernd_headers);
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
@@ -240,6 +257,8 @@ public class MainActivity extends AppCompatActivity {
                                     break;
 
                                 case R.id.item_delneveshte:
+                                    frameLayout.setVisibility(View.GONE);
+                                    web.setVisibility(View.VISIBLE);
                                     webView.loadUrl(delneveshte_url, sernd_headers);
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
@@ -250,15 +269,13 @@ public class MainActivity extends AppCompatActivity {
                                     break;
 
                                 case R.id.item_setting:
-                                    webView.loadUrl(setting_url, sernd_headers);
-                                    swipe.setRefreshing(true);
-                                    webView.setWebViewClient(new WebViewClient() {
-                                        @Override
-                                        public void onPageFinished(WebView view, String url) {
-                                            swipe.setRefreshing(false);
-                                        }});
+                                    web.setVisibility(View.GONE);
+                                    frameLayout.setVisibility(View.VISIBLE);
+                                    fragment = new Setting();
                                     break;
                             }
+                            final FragmentTransaction transaction = fragmentManager.beginTransaction();
+                            transaction.replace(R.id.main_container, fragment).commit();
                             return true;
                         }
                     });
