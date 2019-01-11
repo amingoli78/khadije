@@ -7,6 +7,8 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,6 +25,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,10 +50,10 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
         final Boolean english = shared.getBoolean("english", false);
 
 
-
         String url = "";
         if (farsi){
             url = "https://khadije.com/api/v5/android";
@@ -76,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         if (english){
             url = "https://khadije.com/en/api/v5/android";
         }
+
 
 
         // JSON
@@ -138,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onRefresh() {
                             webView.loadUrl(webView.getUrl(),sernd_headers);
-                            Toast.makeText(MainActivity.this, "link is:"+webView.getUrl(), Toast.LENGTH_SHORT).show();
                         }
                     });
                     Menu menu = bottomNav.getMenu();
@@ -182,6 +184,8 @@ public class MainActivity extends AppCompatActivity {
                                                 delneveshte_menu.setTitle(delneveshte_title);
                                                 setting_menu.setTitle(setting_title);
                                             }
+
+                                            String geturl = webView.getUrl().toString();
 
 
 
@@ -244,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
                                     break;
 
                                 case R.id.item_setting:
-                                    Toast.makeText(MainActivity.this, "Setting", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(MainActivity.this, Setting.class));
                                     break;
                             }
                             return true;
@@ -303,10 +307,13 @@ public class MainActivity extends AppCompatActivity {
         });
         AppContoroler.getInstance().addToRequestQueue(req);
         // END JSON
-
-
-
-
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (getIntent().getBooleanExtra("EXIT", false)) {
+            finish();
+        }
+    }
 }
