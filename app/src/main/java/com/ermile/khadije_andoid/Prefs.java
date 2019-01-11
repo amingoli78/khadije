@@ -21,7 +21,7 @@ public class Prefs extends PreferenceActivity {
         Boolean pf_arabic = prefs.getBoolean("arabic", false);
         Boolean pf_english = prefs.getBoolean("english", false);
 
-        String url = prefs.getString("url", "https://khadije.com/");
+        String url = prefs.getString("url", "https://khadije.com");
 
     }
 }

@@ -33,13 +33,11 @@
         <activity
             android:name=".Setting"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"
-            android:theme="@style/DarkActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".about_us"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"
-            android:theme="@style/DarkActionBar" />
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

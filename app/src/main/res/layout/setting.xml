@@ -1,60 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center"
-   android:layout_margin="10dp"
     android:background="@drawable/bg_repet"
     tools:context=".Setting">
 
 
-    <TextView
-        android:id="@+id/change_setting"
-        android:textSize="20dp"
-        android:textColor="#000"
-        android:textStyle="bold"
+    <LinearLayout
         android:gravity="center"
-        android:text="زبان خود را انتخاب کنید"
+        android:layout_above="@+id/bottom_navigation_setting"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/farsi_setting"
-        android:fontFamily="@font/iransans_bold"
-        android:background="@drawable/btn_style"
-        android:text="فارسی"
+        <TextView
+            android:id="@+id/change_setting"
+            android:textSize="20dp"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="زبان خود را انتخاب کنید"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:textColor="#fff"
+            android:id="@+id/farsi_setting"
+            android:fontFamily="@font/iransans_bold"
+            android:background="@drawable/btn_style"
+            android:text="فارسی"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"/>
+        <Button
+            android:textColor="#fff"
+            android:id="@+id/arabic_setting"
+            android:fontFamily="@font/iransans_bold"
+            android:background="@drawable/btn_style"
+            android:text="العربية"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"/>
+        <Button
+            android:textColor="#fff"
+            android:id="@+id/english_setting"
+            android:fontFamily="@font/iransans_bold"
+            android:background="@drawable/btn_style"
+            android:text="English"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"/>
+
+    </LinearLayout>
+
+
+    <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
+        android:id="@+id/bottom_navigation_setting"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"/>
-    <Button
-        android:id="@+id/arabic_setting"
-        android:fontFamily="@font/iransans_bold"
-        android:background="@drawable/btn_style"
-        android:text="العربية"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"/>
-    <Button
-        android:id="@+id/english_setting"
-        android:fontFamily="@font/iransans_bold"
-        android:background="@drawable/btn_style"
-        android:text="English"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"/>
-
-    <Button
-        android:id="@+id/about_setting"
-        android:fontFamily="@font/iransans_bold"
-        android:background="@drawable/btn_style"
-        android:text="درباره ما"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"/>
+        app:menu="@menu/bottom_menu"
+        android:background="#ffffff"
+        app:itemTextColor="@color/bottom_navigation"
+        app:itemIconTint="@color/bottom_navigation"/>
 
 
 
-</LinearLayout>
+</RelativeLayout>

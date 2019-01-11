@@ -1,40 +1,24 @@
 package com.ermile.khadije_andoid;
 
 
-import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.design.internal.BottomNavigationItemView;
-import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.RelativeSizeSpan;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -43,17 +27,16 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.bumptech.glide.BuildConfig;
 import com.ermile.khadije_andoid.network.AppContoroler;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.lang.reflect.Field;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+
+    final int versionCode = 1;
+    String versionName = "1.1.1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
         final Boolean farsi = shared.getBoolean("farsi", false);
         final Boolean arabic = shared.getBoolean("arabic", false);
         final Boolean english = shared.getBoolean("english", false);
+
+        final String perf_url = shared.getString("url", "https://khadije.com");
+
 
 
         String url = "";
@@ -88,8 +74,8 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     final Handler mHandler;
                     final boolean continue_or_stop;
-                    final int versionCode = BuildConfig.VERSION_CODE;
-                    String versionName = BuildConfig.VERSION_NAME;
+
+
                     final Map<String, String> sernd_headers = new HashMap<String, String>();
                     sernd_headers.put("x-app-request", "android");
 
@@ -165,10 +151,12 @@ public class MainActivity extends AppCompatActivity {
                                         @Override
                                         public void run() {
 
-                                            if(bottomNav.getSelectedItemId() == R.id.item_home){
-                                                if (webView.getUrl().equals("https://khadije.com/")) { }
+                                            if(bottomNav.getSelectedItemId() == R.id.item_home)
+                                            {
                                                 if (webView.getUrl().equals("https://khadije.com/donate"))
-                                                { bottomNav.setSelectedItemId(R.id.item_pay); }
+                                                {
+                                                    bottomNav.setSelectedItemId(R.id.item_pay);
+                                                }
                                             }
                                             if(bottomNav.getSelectedItemId() == R.id.item_pay){
                                                 if (webView.getUrl().equals("https://khadije.com/donate")){}
@@ -186,6 +174,17 @@ public class MainActivity extends AppCompatActivity {
                                             }
 
                                             String geturl = webView.getUrl().toString();
+//                                            if (geturl == perf_url){
+//                                                editor.putString("url", geturl);
+//                                                editor.apply();
+//                                                webView.loadUrl(geturl, sernd_headers);
+//                                                swipe.setRefreshing(true);
+//                                                webView.setWebViewClient(new WebViewClient() {
+//                                                    @Override
+//                                                    public void onPageFinished(WebView view, String url) {
+//                                                        swipe.setRefreshing(false);
+//                                                    }});
+//                                            }
 
 
 
@@ -229,6 +228,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 case R.id.item_trip:
                                     webView.loadUrl(trip_url, sernd_headers);
+
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
                                         @Override
@@ -239,6 +239,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 case R.id.item_delneveshte:
                                     webView.loadUrl(delneveshte_url, sernd_headers);
+
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
                                         @Override
@@ -254,15 +255,12 @@ public class MainActivity extends AppCompatActivity {
                             return true;
                         }
                     });
-
-
                     // new version for app
                     JSONObject new_version = response.getJSONObject("app_version");
                     int nv_code = new_version.getInt("code");
                     String nv_title = new_version.getString("title");
                     String nv_des = new_version.getString("content_text");
                     Boolean nv_caselable = new_version.getBoolean("auto_hide");
-
                     if (versionCode < nv_code) {
                         Notification.Builder nb = new Notification.Builder(MainActivity.this);
                         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -271,29 +269,10 @@ public class MainActivity extends AppCompatActivity {
                                 .setSmallIcon(android.R.drawable.stat_sys_download)
                                 .setAutoCancel( nv_caselable )
                                 .setSound(alarmSound);
-                        Notification notif = nb.build();
+                        Notification notifs = nb.build();
                         NotificationManager notifManager = (NotificationManager) MainActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
-                        notifManager.notify(0, notif);
+                        notifManager.notify(9, notifs);
                     }
-                    // notif
-                    boolean notif_bol = response.getBoolean("notif");
-                    String notif_title = response.getString("title_notif");
-                    String notif_des = response.getString("des_notif");
-                    if (notif_bol == true) {
-                        Notification.Builder nb = new Notification.Builder(MainActivity.this);
-                        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                        nb.setContentTitle(notif_title)
-                                .setContentText(notif_des)
-                                .setTicker("برو دانلود کن دیگه")
-                                .setSmallIcon(android.R.drawable.stat_sys_download)
-                                .setAutoCancel(false)
-                                .setSound(alarmSound);
-                        Notification notif = nb.build();
-                        NotificationManager notifManager = (NotificationManager) MainActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
-                        notifManager.notify(1, notif);
-                    }
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -302,8 +281,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
             }
-
-
         });
         AppContoroler.getInstance().addToRequestQueue(req);
         // END JSON
@@ -315,5 +292,37 @@ public class MainActivity extends AppCompatActivity {
         if (getIntent().getBooleanExtra("EXIT", false)) {
             finish();
         }
+    }
+
+
+    boolean doubleBackToExitPressedOnce = false;
+
+    @Override
+    public void onBackPressed() {
+
+        final SharedPreferences shareds = getSharedPreferences("Prefs", MODE_PRIVATE);
+        final Boolean farsi = shareds.getBoolean("farsi", false);
+        final Boolean arabic = shareds.getBoolean("arabic", false);
+        final Boolean english = shareds.getBoolean("english", false);
+
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        if (farsi || arabic){
+            Toast.makeText(this, "برای خروج مجددا کلید برگشت را لمس کنید", Toast.LENGTH_SHORT).show();
+        }
+        if (english){
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+        }
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 }
