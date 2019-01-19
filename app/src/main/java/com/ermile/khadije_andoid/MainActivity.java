@@ -182,11 +182,7 @@ public class MainActivity extends AppCompatActivity {
                     bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
                         @Override
                         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-
-
                             switch (item.getItemId()) {
-
                                 case R.id.item_pay:
                                     webView.loadUrl(pay_url, sernd_headers);
                                     swipe.setRefreshing(true);
@@ -203,8 +199,6 @@ public class MainActivity extends AppCompatActivity {
                                         public void onPageFinished(WebView view, String url) {
                                             swipe.setRefreshing(false);
                                         }});
-
-
                                     break;
 
                                 case R.id.item_home:
@@ -245,7 +239,6 @@ public class MainActivity extends AppCompatActivity {
 
                                 case R.id.item_delneveshte:
                                     webView.loadUrl(delneveshte_url, sernd_headers);
-
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
                                         @Override
@@ -269,6 +262,83 @@ public class MainActivity extends AppCompatActivity {
                             return true;
                         }
                     });
+                    // set in setting
+                    if (getIntent().getBooleanExtra("pay", false)) {
+                        bottomNav.setSelectedItemId(R.id.item_pay);
+                        webView.loadUrl(pay_url, sernd_headers);
+                        swipe.setRefreshing(true);
+                        webView.setWebViewClient(new WebViewClient() {
+                            @Override
+                            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                HashMap<String, String> headerMap = new HashMap<>();
+                                //put all headers in this header map
+                                headerMap.put("x-app-request", "android");
+                                view.loadUrl(url, headerMap);
+                                return true;
+                            }
+                            @Override
+                            public void onPageFinished(WebView view, String url) {
+                                swipe.setRefreshing(false);
+                            }});
+                    }
+                    if (getIntent().getBooleanExtra("home", false)) {
+                        bottomNav.setSelectedItemId(R.id.item_home);
+                        webView.loadUrl(home_url, sernd_headers);
+                        swipe.setRefreshing(true);
+                        webView.setWebViewClient(new WebViewClient() {
+                            @Override
+                            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                HashMap<String, String> headerMap = new HashMap<>();
+                                //put all headers in this header map
+                                headerMap.put("x-app-request", "android");
+                                view.loadUrl(url, headerMap);
+                                return true;
+                            }
+                            @Override
+                            public void onPageFinished(WebView view, String url) {
+                                swipe.setRefreshing(false);
+                            }});
+                    }
+                    if (getIntent().getBooleanExtra("trip", false)) {
+                        bottomNav.setSelectedItemId(R.id.item_trip);
+                        webView.loadUrl(trip_url, sernd_headers);
+                        swipe.setRefreshing(true);
+                        webView.setWebViewClient(new WebViewClient() {
+                            @Override
+                            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                HashMap<String, String> headerMap = new HashMap<>();
+                                //put all headers in this header map
+                                headerMap.put("x-app-request", "android");
+                                view.loadUrl(url, headerMap);
+                                return true;
+                            }
+                            @Override
+                            public void onPageFinished(WebView view, String url) {
+                                swipe.setRefreshing(false);
+                            }});
+                    }
+                    if (getIntent().getBooleanExtra("hert", false)) {
+                        bottomNav.setSelectedItemId(R.id.item_delneveshte);
+                        webView.loadUrl(delneveshte_url, sernd_headers);
+                        swipe.setRefreshing(true);
+                        webView.setWebViewClient(new WebViewClient() {
+                            @Override
+                            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                HashMap<String, String> headerMap = new HashMap<>();
+                                //put all headers in this header map
+                                headerMap.put("x-app-request", "android");
+                                view.loadUrl(url, headerMap);
+                                return true;
+                            }
+                            @Override
+                            public void onPageFinished(WebView view, String url) {
+                                swipe.setRefreshing(false);
+                            }});
+                    }
+
+
+
+
                     // new version for app
                     JSONObject new_version = response.getJSONObject("app_version");
                     int nv_code = new_version.getInt("code");

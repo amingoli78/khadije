@@ -207,19 +207,19 @@ public class Setting extends AppCompatActivity {
                             switch (item.getItemId()) {
 
                                 case R.id.item_pay:
-                                    startActivity(new Intent(Setting.this, MainActivity.class));
+                                    pay();
                                     break;
 
                                 case R.id.item_home:
-                                    startActivity(new Intent(Setting.this, MainActivity.class));
+                                    home();
                                     break;
 
                                 case R.id.item_trip:
-                                    startActivity(new Intent(Setting.this, MainActivity.class));
+                                    trip();
                                     break;
 
                                 case R.id.item_delneveshte:
-                                    startActivity(new Intent(Setting.this, MainActivity.class));
+                                    hert();
                                     break;
 
                                 case R.id.item_setting:
@@ -241,26 +241,36 @@ public class Setting extends AppCompatActivity {
         AppContoroler.getInstance().addToRequestQueue(req);
         // END JSON
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
+    public void pay(){
+        Intent pay = new Intent(getApplicationContext(), MainActivity.class);
+        pay.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        pay.putExtra("pay", true);
+        startActivity(pay);
+    }
+    public void home(){
+        Intent home = new Intent(getApplicationContext(), MainActivity.class);
+        home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        home.putExtra("home", true);
+        startActivity(home);
+    }
+    public void trip(){
+        Intent trip = new Intent(getApplicationContext(), MainActivity.class);
+        trip.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        trip.putExtra("trip", true);
+        startActivity(trip);
+    }
+    public void hert(){
+        Intent hert = new Intent(getApplicationContext(), MainActivity.class);
+        hert.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        hert.putExtra("hert", true);
+        startActivity(hert);
+    }
     public void EXIT(){
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("EXIT", true);
-        startActivity(intent);
+        Intent EXIT = new Intent(getApplicationContext(), MainActivity.class);
+        EXIT.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        EXIT.putExtra("EXIT", true);
+        startActivity(EXIT);
     }
 }
