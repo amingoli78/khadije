@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
@@ -24,7 +25,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.bumptech.glide.BuildConfig;
 import com.ermile.khadije_andoid.network.AppContoroler;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import org.json.JSONArray;
@@ -118,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
                         public void onPageFinished(WebView view, String url) {
                             swipe.setRefreshing(false);
                         }});
+
                     // download json
                     webView.loadUrl(home_url,sernd_headers);
                     swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -191,6 +192,14 @@ public class MainActivity extends AppCompatActivity {
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
                                         @Override
+                                        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                            HashMap<String, String> headerMap = new HashMap<>();
+                                            //put all headers in this header map
+                                            headerMap.put("x-app-request", "android");
+                                            view.loadUrl(url, headerMap);
+                                            return true;
+                                        }
+                                        @Override
                                         public void onPageFinished(WebView view, String url) {
                                             swipe.setRefreshing(false);
                                         }});
@@ -203,6 +212,14 @@ public class MainActivity extends AppCompatActivity {
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
                                         @Override
+                                        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                            HashMap<String, String> headerMap = new HashMap<>();
+                                            //put all headers in this header map
+                                            headerMap.put("x-app-request", "android");
+                                            view.loadUrl(url, headerMap);
+                                            return true;
+                                        }
+                                        @Override
                                         public void onPageFinished(WebView view, String url) {
                                             swipe.setRefreshing(false);
                                         }});
@@ -210,9 +227,16 @@ public class MainActivity extends AppCompatActivity {
 
                                 case R.id.item_trip:
                                     webView.loadUrl(trip_url, sernd_headers);
-
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
+                                        @Override
+                                        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                            HashMap<String, String> headerMap = new HashMap<>();
+                                            //put all headers in this header map
+                                            headerMap.put("x-app-request", "android");
+                                            view.loadUrl(url, headerMap);
+                                            return true;
+                                        }
                                         @Override
                                         public void onPageFinished(WebView view, String url) {
                                             swipe.setRefreshing(false);
@@ -224,6 +248,14 @@ public class MainActivity extends AppCompatActivity {
 
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
+                                        @Override
+                                        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                            HashMap<String, String> headerMap = new HashMap<>();
+                                            //put all headers in this header map
+                                            headerMap.put("x-app-request", "android");
+                                            view.loadUrl(url, headerMap);
+                                            return true;
+                                        }
                                         @Override
                                         public void onPageFinished(WebView view, String url) {
                                             swipe.setRefreshing(false);
