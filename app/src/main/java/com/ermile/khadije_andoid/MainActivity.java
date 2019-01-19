@@ -43,17 +43,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // for false animate in bottom navigation
+        final BottomNavigationViewEx bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setSelectedItemId(R.id.item_home);
+        bottomNav.enableAnimation(false);
+        bottomNav.enableShiftingMode(false);
+        bottomNav.enableItemShiftingMode(false);
+        bottomNav.setTextSize(10f);
+        bottomNav.setIconSize(28,28);
+
+        // import SharedPreferences
         final SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
         final SharedPreferences.Editor editor = shared.edit();
-
+        // import manual
         final Boolean farsi = shared.getBoolean("farsi", false);
         final Boolean arabic = shared.getBoolean("arabic", false);
         final Boolean english = shared.getBoolean("english", false);
-
-        final String perf_url = shared.getString("url", "https://khadije.com");
-
-
-
+        // set lang
         String url = "";
         if (farsi){
             url = "https://khadije.com/api/v5/android";
@@ -64,8 +70,6 @@ public class MainActivity extends AppCompatActivity {
         if (english){
             url = "https://khadije.com/en/api/v5/android";
         }
-
-
 
         // JSON
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -101,18 +105,11 @@ public class MainActivity extends AppCompatActivity {
                     final String setting_title = setting.getString("title");
                     final String setting_url = setting.getString("url");
 
-                    //static
-                    final BottomNavigationViewEx bottomNav = findViewById(R.id.bottom_navigation);
-                    bottomNav.setSelectedItemId(R.id.item_home);
-                    bottomNav.enableAnimation(false);
-                    bottomNav.enableShiftingMode(false);
-                    bottomNav.enableItemShiftingMode(false);
-                    bottomNav.setTextSize(10f);
-                    bottomNav.setIconSize(28,28);
-
                     final WebView webView = findViewById(R.id.webview);
                     WebSettings webSettings = webView.getSettings();
                     webSettings.setJavaScriptEnabled(true);
+
+
                     final SwipeRefreshLayout swipe = findViewById(R.id.swipref);
                     //------------------------------------------------------------
                     swipe.setRefreshing(true);
@@ -172,21 +169,6 @@ public class MainActivity extends AppCompatActivity {
                                                 delneveshte_menu.setTitle(delneveshte_title);
                                                 setting_menu.setTitle(setting_title);
                                             }
-
-                                            String geturl = webView.getUrl().toString();
-//                                            if (geturl == perf_url){
-//                                                editor.putString("url", geturl);
-//                                                editor.apply();
-//                                                webView.loadUrl(geturl, sernd_headers);
-//                                                swipe.setRefreshing(true);
-//                                                webView.setWebViewClient(new WebViewClient() {
-//                                                    @Override
-//                                                    public void onPageFinished(WebView view, String url) {
-//                                                        swipe.setRefreshing(false);
-//                                                    }});
-//                                            }
-
-
 
                                         }
                                     });

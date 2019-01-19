@@ -51,6 +51,16 @@ public class Setting extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting);
+
+        // for false animate in bottom navigation
+        final BottomNavigationViewEx bottomNav = findViewById(R.id.bottom_navigation_setting);
+        bottomNav.setSelectedItemId(R.id.item_setting);
+        bottomNav.enableAnimation(false);
+        bottomNav.enableShiftingMode(false);
+        bottomNav.enableItemShiftingMode(false);
+        bottomNav.setTextSize(10f);
+        bottomNav.setIconSize(28,28);
+
         // save  BY Shared Preferences
         final SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
         final SharedPreferences.Editor editor = shared.edit();
@@ -161,15 +171,6 @@ public class Setting extends AppCompatActivity {
 
                     final String setting_title = setting.getString("title");
                     final String setting_url = setting.getString("url");
-
-                    //static
-                    final BottomNavigationViewEx bottomNav = findViewById(R.id.bottom_navigation_setting);
-                    bottomNav.enableAnimation(false);
-                    bottomNav.enableShiftingMode(false);
-                    bottomNav.enableItemShiftingMode(false);
-                    bottomNav.setTextSize(10f);
-                    bottomNav.setIconSize(28,28);
-                    bottomNav.setSelectedItemId(R.id.item_setting);
 
                     //------------------------------------------------------------
                     Menu menu = bottomNav.getMenu();
