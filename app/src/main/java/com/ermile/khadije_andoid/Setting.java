@@ -205,7 +205,6 @@ public class Setting extends AppCompatActivity {
 
 
                             switch (item.getItemId()) {
-
                                 case R.id.item_pay:
                                     pay();
                                     break;
@@ -220,10 +219,6 @@ public class Setting extends AppCompatActivity {
 
                                 case R.id.item_delneveshte:
                                     hert();
-                                    break;
-
-                                case R.id.item_setting:
-                                    startActivity(new Intent(Setting.this, MainActivity.class));
                                     break;
                             }
                             return true;

@@ -335,10 +335,6 @@ public class MainActivity extends AppCompatActivity {
                                 swipe.setRefreshing(false);
                             }});
                     }
-
-
-
-
                     // new version for app
                     JSONObject new_version = response.getJSONObject("app_version");
                     int nv_code = new_version.getInt("code");
