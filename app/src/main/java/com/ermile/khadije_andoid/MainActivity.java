@@ -374,7 +374,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     boolean doubleBackToExitPressedOnce = false;
 
     @Override

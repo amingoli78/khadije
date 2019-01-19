@@ -140,8 +140,6 @@ public class Intro extends AppCompatActivity {
         }); // for dots next page
         // adding bottom dots
         addBottomDots(0);
-        // making notification bar transparent
-        changeStatusBarColor();
         // set On Click Listener
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
