@@ -36,12 +36,21 @@ public class Setting extends AppCompatActivity {
     TextView change_lang;
     Button fa,ar,en;
 
+     Handler mHandler;
+     boolean continue_or_stop;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting);
+
+        final String titlepay = getIntent().getStringExtra("payTitle");
+        final String titlehome = getIntent().getStringExtra("homeTitle");
+        final String titletrip = getIntent().getStringExtra("tripTitle");
+        final String titledelneveshte = getIntent().getStringExtra("delneveshteTitle");
+        final String titlesetting = getIntent().getStringExtra("settingTitle");
 
         // for false animate in bottom navigation
         final BottomNavigationViewEx bottomNav = findViewById(R.id.bottom_navigation_setting);
@@ -51,6 +60,21 @@ public class Setting extends AppCompatActivity {
         bottomNav.enableItemShiftingMode(false);
         bottomNav.setTextSize(10f);
         bottomNav.setIconSize(28,28);
+
+        // menu
+        Menu menu = bottomNav.getMenu();
+        final MenuItem pay_menu = menu.findItem(R.id.item_pay);
+        final MenuItem home_menu = menu.findItem(R.id.item_home);
+        final MenuItem trip_menu = menu.findItem(R.id.item_trip);
+        final MenuItem delneveshte_menu = menu.findItem(R.id.item_delneveshte);
+        final MenuItem setting_menu = menu.findItem(R.id.item_setting);
+
+
+        pay_menu.setTitle(titlepay);
+        home_menu.setTitle(titlehome);
+        trip_menu.setTitle(titletrip);
+        delneveshte_menu.setTitle(titledelneveshte);
+        setting_menu.setTitle(titlesetting);
 
 
         // save  BY Shared Preferences
@@ -130,156 +154,95 @@ public class Setting extends AppCompatActivity {
 
 
 
-        // JSON
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+        // Chek net every 5 seconds
+        mHandler = new Handler();
+        continue_or_stop = true;
+        new Thread(new Runnable() {
             @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    final Handler mHandler;
-                    final boolean continue_or_stop;
+            public void run() {
+                while (continue_or_stop) {
+                    try {
+                        Thread.sleep(2000);
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Net_Chakes();
 
-
-                    final Map<String, String> sernd_headers = new HashMap<String, String>();
-                    sernd_headers.put("x-app-request", "android");
-
-                    JSONArray navigation_btn = response.getJSONArray("navigation");
-                    final JSONObject pay = navigation_btn.getJSONObject(0);
-                    JSONObject home = navigation_btn.getJSONObject(1);
-                    JSONObject trip = navigation_btn.getJSONObject(2);
-                    JSONObject delneveshte = navigation_btn.getJSONObject(3);
-                    JSONObject setting = navigation_btn.getJSONObject(4);
-
-                    final String pay_title = pay.getString("title");
-                    final String pay_url = pay.getString("url");
-
-                    final String home_title = home.getString("title");
-                    final String home_url = home.getString("url");
-
-                    final String trip_title = trip.getString("title");
-                    final String trip_url = trip.getString("url");
-
-                    final String delneveshte_title = delneveshte.getString("title");
-                    final String delneveshte_url = delneveshte.getString("url");
-
-                    final String setting_title = setting.getString("title");
-                    final String setting_url = setting.getString("url");
-
-                    //------------------------------------------------------------
-                    Menu menu = bottomNav.getMenu();
-                    final MenuItem pay_menu = menu.findItem(R.id.item_pay);
-                    final MenuItem home_menu = menu.findItem(R.id.item_home);
-                    final MenuItem trip_menu = menu.findItem(R.id.item_trip);
-                    final MenuItem delneveshte_menu = menu.findItem(R.id.item_delneveshte);
-                    final MenuItem setting_menu = menu.findItem(R.id.item_setting);
-
-
-                    // Chek net every 5 seconds
-                    mHandler = new Handler();
-                    continue_or_stop = true;
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            while (continue_or_stop) {
-                                try {
-                                    Thread.sleep(300);
-                                    mHandler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-
-                                            // Chake_net
-                                            Net_Chake();
-
-                                            if (pay_menu.getTitle().toString().equals(""))
-                                            {
-                                                pay_menu.setTitle(pay_title);
-                                                home_menu.setTitle(home_title);
-                                                trip_menu.setTitle(trip_title);
-                                                delneveshte_menu.setTitle(delneveshte_title);
-                                                setting_menu.setTitle(setting_title);
-                                            }
-                                        }
-                                    });
-                                } catch (Exception e) {
-                                }
                             }
-                        }
-                    }).start();
-
-
-
-                    bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-                        @Override
-                        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-
-                            switch (item.getItemId()) {
-                                case R.id.item_pay:
-                                    pay();
-                                    break;
-
-                                case R.id.item_home:
-                                    home();
-                                    break;
-
-                                case R.id.item_trip:
-                                    trip();
-                                    break;
-
-                                case R.id.item_delneveshte:
-                                    hert();
-                                    break;
-                            }
-                            return true;
-                        }
-                    });
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                        });
+                    } catch (Exception e) {
+                    }
                 }
             }
-        }, new Response.ErrorListener() {
+        }).start();
+
+
+
+        bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_pay:
+                Intent goTo_setting_pay = new Intent(Setting.this, MainActivity.class);
+                goTo_setting_pay.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                goTo_setting_pay.putExtra("pay", true);
+                goTo_setting_pay.putExtra("payTitle" , titlepay);
+                goTo_setting_pay.putExtra("homeTitle" , titlehome);
+                goTo_setting_pay.putExtra("tripTitle" , titletrip);
+                goTo_setting_pay.putExtra("delneveshteTitle" , titledelneveshte);
+                goTo_setting_pay.putExtra("settingTitle" , titlesetting);
+                startActivity(goTo_setting_pay);
+                break;
+
+            case R.id.item_home:
+                Intent goTo_setting_home = new Intent(Setting.this, MainActivity.class);
+                goTo_setting_home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                goTo_setting_home.putExtra("home", true);
+                goTo_setting_home.putExtra("payTitle" , titlepay);
+                goTo_setting_home.putExtra("homeTitle" , titlehome);
+                goTo_setting_home.putExtra("tripTitle" , titletrip);
+                goTo_setting_home.putExtra("delneveshteTitle" , titledelneveshte);
+                goTo_setting_home.putExtra("settingTitle" , titlesetting);
+                startActivity(goTo_setting_home);
+                break;
+
+            case R.id.item_trip:
+                Intent goTo_setting_trip = new Intent(Setting.this, MainActivity.class);
+                goTo_setting_trip.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                goTo_setting_trip.putExtra("trip", true);
+                goTo_setting_trip.putExtra("payTitle" , titlepay);
+                goTo_setting_trip.putExtra("homeTitle" , titlehome);
+                goTo_setting_trip.putExtra("tripTitle" , titletrip);
+                goTo_setting_trip.putExtra("delneveshteTitle" , titledelneveshte);
+                goTo_setting_trip.putExtra("settingTitle" , titlesetting);
+                startActivity(goTo_setting_trip);
+                break;
+
+            case R.id.item_delneveshte:
+                Intent goTo_setting_hert = new Intent(Setting.this, MainActivity.class);
+                goTo_setting_hert.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                goTo_setting_hert.putExtra("hert", true);
+                goTo_setting_hert.putExtra("payTitle" , titlepay);
+                goTo_setting_hert.putExtra("homeTitle" , titlehome);
+                goTo_setting_hert.putExtra("tripTitle" , titletrip);
+                goTo_setting_hert.putExtra("delneveshteTitle" , titledelneveshte);
+                goTo_setting_hert.putExtra("settingTitle" , titlesetting);
+                startActivity(goTo_setting_hert);
+                break;
+        }
+        return true;
             }
         });
-        AppContoroler.getInstance().addToRequestQueue(req);
-        // END JSON
 
     }
 
-    public void pay(){
-        Intent pay = new Intent(getApplicationContext(), MainActivity.class);
-        pay.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        pay.putExtra("pay", true);
-        startActivity(pay);
-    }
-    public void home(){
-        Intent home = new Intent(getApplicationContext(), MainActivity.class);
-        home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        home.putExtra("home", true);
-        startActivity(home);
-    }
-    public void trip(){
-        Intent trip = new Intent(getApplicationContext(), MainActivity.class);
-        trip.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        trip.putExtra("trip", true);
-        startActivity(trip);
-    }
-    public void hert(){
-        Intent hert = new Intent(getApplicationContext(), MainActivity.class);
-        hert.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        hert.putExtra("hert", true);
-        startActivity(hert);
-    }
     public void EXIT(){
         startActivity(new Intent(Setting.this,changing_lang.class));
         finish();
-//        Intent EXIT = new Intent(getApplicationContext(), MainActivity.class);
-//        EXIT.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        EXIT.putExtra("EXIT", true);
-//        startActivity(EXIT);
     }
 
-    public void Net_Chake(){
+    public void Net_Chakes(){
         boolean connected = true;
         ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||

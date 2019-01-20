@@ -45,7 +45,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
+        // get title in setting
+        final String titlepay = getIntent().getStringExtra("payTitle");
+        final String titlehome = getIntent().getStringExtra("homeTitle");
+        final String titletrip = getIntent().getStringExtra("tripTitle");
+        final String titledelneveshte = getIntent().getStringExtra("delneveshteTitle");
+        final String titlesetting = getIntent().getStringExtra("settingTitle");
+
+
+
         // for false animate in bottom navigation
+        final SwipeRefreshLayout swipe = findViewById(R.id.swipref);
+
         final BottomNavigationViewEx bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setSelectedItemId(R.id.item_home);
         bottomNav.enableAnimation(false);
@@ -53,6 +66,51 @@ public class MainActivity extends AppCompatActivity {
         bottomNav.enableItemShiftingMode(false);
         bottomNav.setTextSize(10f);
         bottomNav.setIconSize(28,28);
+
+        // menu
+        Menu menu = bottomNav.getMenu();
+        final MenuItem pay_menu = menu.findItem(R.id.item_pay);
+        final MenuItem home_menu = menu.findItem(R.id.item_home);
+        final MenuItem trip_menu = menu.findItem(R.id.item_trip);
+        final MenuItem delneveshte_menu = menu.findItem(R.id.item_delneveshte);
+        final MenuItem setting_menu = menu.findItem(R.id.item_setting);
+
+
+
+        if (getIntent().getBooleanExtra("pay", false)) {
+            bottomNav.setSelectedItemId(R.id.item_pay);
+            pay_menu.setTitle(titlepay);
+            home_menu.setTitle(titlehome);
+            trip_menu.setTitle(titletrip);
+            delneveshte_menu.setTitle(titledelneveshte);
+            setting_menu.setTitle(titlesetting);
+        }
+        if (getIntent().getBooleanExtra("home", false)) {
+            bottomNav.setSelectedItemId(R.id.item_home);
+            pay_menu.setTitle(titlepay);
+            home_menu.setTitle(titlehome);
+            trip_menu.setTitle(titletrip);
+            delneveshte_menu.setTitle(titledelneveshte);
+            setting_menu.setTitle(titlesetting);
+        }
+        if (getIntent().getBooleanExtra("trip", false)) {
+            bottomNav.setSelectedItemId(R.id.item_trip);
+            pay_menu.setTitle(titlepay);
+            home_menu.setTitle(titlehome);
+            trip_menu.setTitle(titletrip);
+            delneveshte_menu.setTitle(titledelneveshte);
+            setting_menu.setTitle(titlesetting);
+        }
+        if (getIntent().getBooleanExtra("hert", false)) {
+            bottomNav.setSelectedItemId(R.id.item_delneveshte);
+            pay_menu.setTitle(titlepay);
+            home_menu.setTitle(titlehome);
+            trip_menu.setTitle(titletrip);
+            delneveshte_menu.setTitle(titledelneveshte);
+            setting_menu.setTitle(titlesetting);
+        }
+
+
 
 
         // import SharedPreferences
@@ -112,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                     WebSettings webSettings = webView.getSettings();
                     webSettings.setJavaScriptEnabled(true);
 
-                    final SwipeRefreshLayout swipe = findViewById(R.id.swipref);
+
                     //------------------------------------------------------------
                     swipe.setRefreshing(true);
                     webView.setWebViewClient(new WebViewClient() {
@@ -129,12 +187,10 @@ public class MainActivity extends AppCompatActivity {
                             webView.loadUrl(webView.getUrl(),sernd_headers);
                         }
                     });
-                    Menu menu = bottomNav.getMenu();
-                    final MenuItem pay_menu = menu.findItem(R.id.item_pay);
-                    final MenuItem home_menu = menu.findItem(R.id.item_home);
-                    final MenuItem trip_menu = menu.findItem(R.id.item_trip);
-                    final MenuItem delneveshte_menu = menu.findItem(R.id.item_delneveshte);
-                    final MenuItem setting_menu = menu.findItem(R.id.item_setting);
+
+
+
+
 
 
 
@@ -153,19 +209,6 @@ public class MainActivity extends AppCompatActivity {
 
                                             // Chake Net
                                             Net_Chake();
-
-
-                                            if(bottomNav.getSelectedItemId() == R.id.item_home)
-                                            {
-                                                if (webView.getUrl().equals("https://khadije.com/donate"))
-                                                {
-                                                    bottomNav.setSelectedItemId(R.id.item_pay);
-                                                }
-                                            }
-                                            if(bottomNav.getSelectedItemId() == R.id.item_pay){
-                                                if (webView.getUrl().equals("https://khadije.com/donate")){}
-                                                if (webView.getUrl().equals("https://khadije.com/")){bottomNav.setSelectedItemId(R.id.item_home);}
-                                            }
 
 
                                             if (pay_menu.getTitle().toString().equals(""))
@@ -263,7 +306,13 @@ public class MainActivity extends AppCompatActivity {
                                     break;
 
                                 case R.id.item_setting:
-                                    startActivity(new Intent(MainActivity.this, Setting.class));
+                                    Intent goTo_setting = new Intent(MainActivity.this, Setting.class);
+                                    goTo_setting.putExtra("payTitle" , pay_title);
+                                    goTo_setting.putExtra("homeTitle" , home_title);
+                                    goTo_setting.putExtra("tripTitle" , trip_title);
+                                    goTo_setting.putExtra("delneveshteTitle" , delneveshte_title);
+                                    goTo_setting.putExtra("settingTitle" , setting_title);
+                                    startActivity(goTo_setting);
                                     break;
                             }
                             return true;
@@ -271,7 +320,6 @@ public class MainActivity extends AppCompatActivity {
                     });
                     // set in setting
                     if (getIntent().getBooleanExtra("pay", false)) {
-                        bottomNav.setSelectedItemId(R.id.item_pay);
                         webView.loadUrl(pay_url, sernd_headers);
                         swipe.setRefreshing(true);
                         webView.setWebViewClient(new WebViewClient() {
@@ -289,7 +337,6 @@ public class MainActivity extends AppCompatActivity {
                             }});
                     }
                     if (getIntent().getBooleanExtra("home", false)) {
-                        bottomNav.setSelectedItemId(R.id.item_home);
                         webView.loadUrl(home_url, sernd_headers);
                         swipe.setRefreshing(true);
                         webView.setWebViewClient(new WebViewClient() {
@@ -307,8 +354,8 @@ public class MainActivity extends AppCompatActivity {
                             }});
                     }
                     if (getIntent().getBooleanExtra("trip", false)) {
-                        bottomNav.setSelectedItemId(R.id.item_trip);
                         webView.loadUrl(trip_url, sernd_headers);
+                        Toast.makeText(MainActivity.this, trip_url, Toast.LENGTH_SHORT).show();
                         swipe.setRefreshing(true);
                         webView.setWebViewClient(new WebViewClient() {
                             @Override
@@ -325,7 +372,6 @@ public class MainActivity extends AppCompatActivity {
                             }});
                     }
                     if (getIntent().getBooleanExtra("hert", false)) {
-                        bottomNav.setSelectedItemId(R.id.item_delneveshte);
                         webView.loadUrl(delneveshte_url, sernd_headers);
                         swipe.setRefreshing(true);
                         webView.setWebViewClient(new WebViewClient() {
