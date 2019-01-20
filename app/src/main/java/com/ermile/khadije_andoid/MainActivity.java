@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.RingtoneManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -148,6 +150,10 @@ public class MainActivity extends AppCompatActivity {
                                     mHandler.post(new Runnable() {
                                         @Override
                                         public void run() {
+
+                                            // Chake Net
+                                            Net_Chake();
+
 
                                             if(bottomNav.getSelectedItemId() == R.id.item_home)
                                             {
@@ -404,4 +410,25 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 2000);
     }
+
+
+    public void Net_Chake(){
+        boolean connected = true;
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            //we are connected to a network
+            connected = true;
+        }
+        else
+        {
+            connected = false;
+        }
+
+        if (!connected){
+            startActivity(new Intent(MainActivity.this,errornet.class));
+        }
+    }
+
+
 }

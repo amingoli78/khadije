@@ -38,6 +38,8 @@
             android:name=".about_us"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
+        <activity android:name=".errornet" />
+        <activity android:name=".changing_lang"></activity>
     </application>
 
 </manifest>

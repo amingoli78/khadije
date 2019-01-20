@@ -1,7 +1,10 @@
 package com.ermile.khadije_andoid;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -181,6 +184,9 @@ public class Setting extends AppCompatActivity {
                                         @Override
                                         public void run() {
 
+                                            // Chake_net
+                                            Net_Chake();
+
                                             if (pay_menu.getTitle().toString().equals(""))
                                             {
                                                 pay_menu.setTitle(pay_title);
@@ -267,5 +273,23 @@ public class Setting extends AppCompatActivity {
         EXIT.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         EXIT.putExtra("EXIT", true);
         startActivity(EXIT);
+    }
+
+    public void Net_Chake(){
+        boolean connected = true;
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            //we are connected to a network
+            connected = true;
+        }
+        else
+        {
+            connected = false;
+        }
+
+        if (!connected){
+            startActivity(new Intent(Setting.this,errornet.class));
+        }
     }
 }

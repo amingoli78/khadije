@@ -18,6 +18,7 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:layout_marginBottom="15dp"
             android:id="@+id/change_setting"
             android:textSize="20dp"
             android:textColor="#000"
@@ -28,31 +29,37 @@
             android:layout_height="wrap_content" />
 
         <Button
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:textColor="#fff"
             android:id="@+id/farsi_setting"
             android:fontFamily="@font/iransans_bold"
             android:background="@drawable/btn_style"
             android:text="فارسی"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"/>
+            android:layout_width="match_parent"
+            android:layout_height="0.2in"
+            android:layout_marginBottom="8dp"/>
         <Button
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:textColor="#fff"
             android:id="@+id/arabic_setting"
             android:fontFamily="@font/iransans_bold"
             android:background="@drawable/btn_style"
             android:text="العربية"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"/>
+            android:layout_width="match_parent"
+            android:layout_height="0.2in"
+            android:layout_marginBottom="8dp"/>
         <Button
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:textColor="#fff"
             android:id="@+id/english_setting"
             android:fontFamily="@font/iransans_bold"
             android:background="@drawable/btn_style"
             android:text="English"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="0.2in"
             android:layout_marginBottom="20dp"/>
 
     </LinearLayout>
