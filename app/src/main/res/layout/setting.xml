@@ -29,8 +29,8 @@
             android:layout_height="wrap_content" />
 
         <Button
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
             android:textColor="#fff"
             android:id="@+id/farsi_setting"
             android:fontFamily="@font/iransans_bold"
@@ -40,8 +40,8 @@
             android:layout_height="0.2in"
             android:layout_marginBottom="8dp"/>
         <Button
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
             android:textColor="#fff"
             android:id="@+id/arabic_setting"
             android:fontFamily="@font/iransans_bold"
@@ -51,8 +51,8 @@
             android:layout_height="0.2in"
             android:layout_marginBottom="8dp"/>
         <Button
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
             android:textColor="#fff"
             android:id="@+id/english_setting"
             android:fontFamily="@font/iransans_bold"

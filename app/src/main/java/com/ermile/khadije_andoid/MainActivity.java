@@ -37,8 +37,8 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    final int versionCode = 1;
-    String versionName = "1.1.1";
+    final int versionCode = 10;
+    String versionName = "10";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNav.enableItemShiftingMode(false);
         bottomNav.setTextSize(10f);
         bottomNav.setIconSize(28,28);
+
 
         // import SharedPreferences
         final SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
@@ -110,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
                     final WebView webView = findViewById(R.id.webview);
                     WebSettings webSettings = webView.getSettings();
                     webSettings.setJavaScriptEnabled(true);
-
 
                     final SwipeRefreshLayout swipe = findViewById(R.id.swipref);
                     //------------------------------------------------------------
@@ -228,6 +228,7 @@ public class MainActivity extends AppCompatActivity {
                                 case R.id.item_trip:
                                     webView.loadUrl(trip_url, sernd_headers);
                                     swipe.setRefreshing(true);
+                                    Toast.makeText(MainActivity.this, trip_url, Toast.LENGTH_SHORT).show();
                                     webView.setWebViewClient(new WebViewClient() {
                                         @Override
                                         public boolean shouldOverrideUrlLoading(WebView view, String url) {

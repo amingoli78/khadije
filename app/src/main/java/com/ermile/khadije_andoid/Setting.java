@@ -31,6 +31,8 @@ import java.util.Map;
 
 public class Setting extends AppCompatActivity {
 
+
+
     TextView change_lang;
     Button fa,ar,en;
 
@@ -49,6 +51,7 @@ public class Setting extends AppCompatActivity {
         bottomNav.enableItemShiftingMode(false);
         bottomNav.setTextSize(10f);
         bottomNav.setIconSize(28,28);
+
 
         // save  BY Shared Preferences
         final SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
@@ -170,7 +173,6 @@ public class Setting extends AppCompatActivity {
                     final MenuItem setting_menu = menu.findItem(R.id.item_setting);
 
 
-
                     // Chek net every 5 seconds
                     mHandler = new Handler();
                     continue_or_stop = true;
@@ -269,10 +271,12 @@ public class Setting extends AppCompatActivity {
         startActivity(hert);
     }
     public void EXIT(){
-        Intent EXIT = new Intent(getApplicationContext(), MainActivity.class);
-        EXIT.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        EXIT.putExtra("EXIT", true);
-        startActivity(EXIT);
+        startActivity(new Intent(Setting.this,changing_lang.class));
+        finish();
+//        Intent EXIT = new Intent(getApplicationContext(), MainActivity.class);
+//        EXIT.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        EXIT.putExtra("EXIT", true);
+//        startActivity(EXIT);
     }
 
     public void Net_Chake(){
