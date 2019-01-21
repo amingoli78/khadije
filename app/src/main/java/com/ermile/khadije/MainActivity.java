@@ -2,9 +2,11 @@ package com.ermile.khadije;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -14,6 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -29,6 +32,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.Glide;
 import com.ermile.khadije.network.AppContoroler;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import org.json.JSONArray;
@@ -466,7 +470,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Post Smile
      */
-    
+
     public void post_smile(){
         // import SharedPreferences
         final SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
@@ -566,16 +570,31 @@ public class MainActivity extends AppCompatActivity {
             url_post = "https://khadije.com/en/api/v5/notif";
         }
 
+
         // Post Method
         StringRequest post_id = new StringRequest(Request.Method.POST, url_post, new Response.Listener<String>(){
             @Override
             public void onResponse(String response) {
                 try {
-                    JSONArray mainObject = new JSONArray(response);
 
-                    // get user Token
-                    Toast.makeText(MainActivity.this, myTokengName, Toast.LENGTH_SHORT).show();
-                    Toast.makeText(MainActivity.this, myTokengName_code, Toast.LENGTH_SHORT).show();
+                    JSONArray getRespone = new JSONArray(response);
+
+                    for (int respone = 0 ; respone <= 2 ; respone++){
+                        JSONObject one = getRespone.getJSONObject(respone);
+                        String notif_title = one.getString("title");
+                        String notif_des = one.getString("cat");
+                        // Notif
+                        Notification.Builder nb = new Notification.Builder(MainActivity.this);
+                        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALL);
+                        nb.setContentTitle( notif_title )
+                                .setContentText( notif_des )
+                                .setSmallIcon(android.R.drawable.ic_dialog_email)
+                                .setAutoCancel( true )
+                                .setSound(alarmSound);
+                        Notification notifs = nb.build();
+                        NotificationManager notifManager = (NotificationManager) MainActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
+                        notifManager.notify(respone, notifs);
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
