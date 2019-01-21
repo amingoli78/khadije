@@ -22,10 +22,13 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.ermile.khadije.network.AppContoroler;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import org.json.JSONArray;
@@ -442,8 +445,192 @@ public class MainActivity extends AppCompatActivity {
         });
         AppContoroler.getInstance().addToRequestQueue(req);
         // END JSON
+
     }
 
+
+
+
+
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        post_smile();
+
+    }
+
+
+    /**
+     * Post Smile
+     */
+    
+    public void post_smile(){
+        // import SharedPreferences
+        final SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
+        final SharedPreferences.Editor editor = shared.edit();
+        // import manual
+        final String myTokengName = shared.getString("myTokengName", "no-tooken");
+        final String myTokengName_code = shared.getString("myTokengName_code", "no-tooken");
+
+        final Boolean farsi = shared.getBoolean("farsi", false);
+        final Boolean arabic = shared.getBoolean("arabic", false);
+        final Boolean english = shared.getBoolean("english", false);
+
+        // set lang
+        String url_post = "";
+        if (farsi){
+            url_post = "https://khadije.com/api/v5/smile";
+        }
+        if (arabic){
+            url_post = "https://khadije.com/ar/api/v5/smile";
+        }
+        if (english){
+            url_post = "https://khadije.com/en/api/v5/smile";
+        }
+
+        // Post Method
+        StringRequest post_id = new StringRequest(Request.Method.POST, url_post, new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject getRespone = new JSONObject(response);
+
+                    Boolean newNotif = getRespone.getBoolean("notif_new");
+
+                    if (newNotif){
+                        Toast.makeText(MainActivity.this, "شما پیام جدیدی دارید", Toast.LENGTH_SHORT).show();
+                        post_notif();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "Error net", Toast.LENGTH_SHORT).show();
+            }
+        })
+                // Send Headers
+        {
+            @Override
+            public Map<String, String> getHeaders()  {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("x-app-request", "android");
+                headers.put("authorization", "$2y$07$J5lyhNSfVCEVxPZvEmrXhemZpzwekNKJRPHC1kwth3yPw6U6cUBPC");
+                return headers;
+            }
+            // Send Device info
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> posting = new HashMap<>();
+                posting.put("user_token", "hfhggsdda" );
+                posting.put("user_code", "52" );
+
+                return posting;
+            }
+        };AppContoroler.getInstance().addToRequestQueue(post_id);
+    }
+
+
+    /**
+     * Post Notif
+     */
+
+
+    public void post_notif(){
+        // import SharedPreferences
+        final SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
+        final SharedPreferences.Editor editor = shared.edit();
+        // import manual
+        final String myTokengName = shared.getString("myTokengName", "no-tooken");
+        final String myTokengName_code = shared.getString("myTokengName_code", "no-tooken");
+
+        final Boolean farsi = shared.getBoolean("farsi", false);
+        final Boolean arabic = shared.getBoolean("arabic", false);
+        final Boolean english = shared.getBoolean("english", false);
+
+        // set lang
+        String url_post = "";
+        if (farsi){
+            url_post = "https://khadije.com/api/v5/notif";
+        }
+        if (arabic){
+            url_post = "https://khadije.com/ar/api/v5/notif";
+        }
+        if (english){
+            url_post = "https://khadije.com/en/api/v5/notif";
+        }
+
+        // Post Method
+        StringRequest post_id = new StringRequest(Request.Method.POST, url_post, new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray mainObject = new JSONArray(response);
+
+                    // get user Token
+                    Toast.makeText(MainActivity.this, myTokengName, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, myTokengName_code, Toast.LENGTH_SHORT).show();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "Error net", Toast.LENGTH_SHORT).show();
+            }
+        })
+                // Send Headers
+        {
+            @Override
+            public Map<String, String> getHeaders()  {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("x-app-request", "android");
+                headers.put("authorization", "$2y$07$J5lyhNSfVCEVxPZvEmrXhemZpzwekNKJRPHC1kwth3yPw6U6cUBPC");
+                return headers;
+            }
+            // Send Device info
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> posting = new HashMap<>();
+                posting.put("user_token", myTokengName );
+                posting.put("user_code", myTokengName_code );
+
+                return posting;
+            }
+        };AppContoroler.getInstance().addToRequestQueue(post_id);
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Double Back For Exit
+     */
 
     boolean doubleBackToExitPressedOnce = false;
 
@@ -475,6 +662,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 2000);
     }
+
+
+    /**
+     * Net Checking
+     */
 
     public class NetCheck extends AsyncTask<String,String,Boolean>
     {

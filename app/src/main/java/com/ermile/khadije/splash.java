@@ -95,6 +95,7 @@ public class splash extends AppCompatActivity {
         // Shared Preferences for Tooken & Language
         // Tooken cod and tooken Chakeed?
         final String myTokengName = shared.getString("myTokengName", "no-tooken");
+        final String myTokengName_code = shared.getString("myTokengName_code", "no-tooken");
         final Boolean token_sending = shared.getBoolean("token_sending", false);
         // first oppen and set lang
         final Boolean firstoppen = shared.getBoolean("firstoppen", true);
@@ -162,10 +163,12 @@ public class splash extends AppCompatActivity {
 
                     // get user Token
                     JSONObject result = mainObject.getJSONObject("result");
-                    String token = result.getString("usertoken");
+                    String token = result.getString("user_token");
+                    String token_code = result.getString("user_code");
                     // save TOKEN
-                    editor.putString("myStringName", token);
-                    editor.putBoolean("by",true);
+                    editor.putString("myTokengName", token);
+                    editor.putString("myTokengName_code", token_code);
+                    editor.putBoolean("token_sending",true);
                     editor.apply();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -212,7 +215,8 @@ public class splash extends AppCompatActivity {
                 posting.put("modle", modle );
                 if (token_sending)
                 {
-                    posting.put("app_tooken", myTokengName );
+                    posting.put("user_token", myTokengName );
+                    posting.put("user_code", myTokengName_code );
                 }
                 return posting;
             }
