@@ -12,7 +12,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5f208f7a-8f25-40a7-8e76-8b62e87e3d68" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -39,8 +38,8 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="590" column="80" selection-start-line="590" selection-start-column="80" selection-end-line="590" selection-end-column="80" />
+            <state relative-caret-position="347">
+              <caret line="591" selection-start-line="591" selection-end-line="591" />
               <folding>
                 <element signature="e#6026#21552#0" expanded="true" />
                 <element signature="e#21551#21552#0" expanded="true" />
@@ -2821,8 +2820,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="590" column="80" selection-start-line="590" selection-start-column="80" selection-end-line="590" selection-end-column="80" />
+        <state relative-caret-position="347">
+          <caret line="591" selection-start-line="591" selection-end-line="591" />
           <folding>
             <element signature="e#6026#21552#0" expanded="true" />
             <element signature="e#21551#21552#0" expanded="true" />

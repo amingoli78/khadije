@@ -589,11 +589,10 @@ public class MainActivity extends AppCompatActivity {
                         nb.setContentTitle( notif_title )
                                 .setContentText( notif_des )
                                 .setSmallIcon(android.R.drawable.ic_dialog_email)
-                                .setAutoCancel( true )
                                 .setSound(alarmSound);
                         Notification notifs = nb.build();
                         NotificationManager notifManager = (NotificationManager) MainActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
-                        notifManager.notify(respone, notifs);
+                        notifManager.notify(10 + respone + 9, notifs);
                     }
 
                 } catch (JSONException e) {
