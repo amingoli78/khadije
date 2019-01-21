@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
 
     Handler mHandler_one;
     boolean continue_or_stop_one;
+    Handler mHandler_two;
+    boolean continue_or_stop_two;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,27 @@ public class MainActivity extends AppCompatActivity {
                             public void run() {
                                 continue_or_stop_one = false;
                                 new MainActivity.NetCheck().execute();
+                            }
+                        });
+                    } catch (Exception e) {
+                    }
+                }
+            }
+        }).start();
+        // chake Notif
+        post_smile();
+        mHandler_two = new Handler();
+        continue_or_stop_two = true;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (continue_or_stop_two) {
+                    try {
+                        Thread.sleep(30000);
+                        mHandler_two.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                post_smile();
                             }
                         });
                     } catch (Exception e) {
@@ -242,7 +265,6 @@ public class MainActivity extends AppCompatActivity {
                                     mHandler.post(new Runnable() {
                                         @Override
                                         public void run() {
-
                                             if (pay_menu.getTitle().toString().equals(""))
                                             {
                                                 pay_menu.setTitle(pay_title);
@@ -251,7 +273,6 @@ public class MainActivity extends AppCompatActivity {
                                                 delneveshte_menu.setTitle(delneveshte_title);
                                                 setting_menu.setTitle(setting_title);
                                             }
-
                                         }
                                     });
                                 } catch (Exception e) {
@@ -453,24 +474,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        post_smile();
-
-    }
-
-
     /**
      * Post Smile
      */
-
     public void post_smile(){
         // import SharedPreferences
         final SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
@@ -544,8 +550,6 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Post Notif
      */
-
-
     public void post_notif(){
         // import SharedPreferences
         final SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);

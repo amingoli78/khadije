@@ -38,11 +38,15 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="347">
-              <caret line="591" selection-start-line="591" selection-end-line="591" />
+            <state relative-caret-position="272">
+              <caret line="93" column="39" selection-start-line="93" selection-start-column="39" selection-end-line="93" selection-end-column="39" />
               <folding>
-                <element signature="e#6026#21552#0" expanded="true" />
-                <element signature="e#21551#21552#0" expanded="true" />
+                <element signature="e#3113#3317#0" expanded="true" />
+                <element signature="e#3316#3317#0" expanded="true" />
+                <element signature="e#7095#22680#0" expanded="true" />
+                <element signature="e#22679#22680#0" expanded="true" />
+                <element signature="method#post_smile#0;class#MainActivity#0" />
+                <element signature="method#post_notif#0;class#MainActivity#0" />
               </folding>
             </state>
           </provider>
@@ -2586,8 +2590,12 @@
         <state relative-caret-position="867">
           <caret line="51" column="47" lean-forward="true" selection-start-line="51" selection-start-column="47" selection-end-line="51" selection-end-column="47" />
           <folding>
-            <element signature="e#6026#21552#0" expanded="true" />
-            <element signature="e#21551#21552#0" expanded="true" />
+            <element signature="e#3113#3317#0" expanded="true" />
+            <element signature="e#3316#3317#0" expanded="true" />
+            <element signature="e#7095#22680#0" expanded="true" />
+            <element signature="e#22679#22680#0" expanded="true" />
+            <element signature="method#post_smile#0;class#MainActivity#0" />
+            <element signature="method#post_notif#0;class#MainActivity#0" />
           </folding>
         </state>
       </provider>
@@ -2820,11 +2828,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="347">
-          <caret line="591" selection-start-line="591" selection-end-line="591" />
+        <state relative-caret-position="272">
+          <caret line="93" column="39" selection-start-line="93" selection-start-column="39" selection-end-line="93" selection-end-column="39" />
           <folding>
-            <element signature="e#6026#21552#0" expanded="true" />
-            <element signature="e#21551#21552#0" expanded="true" />
+            <element signature="e#3113#3317#0" expanded="true" />
+            <element signature="e#3316#3317#0" expanded="true" />
+            <element signature="e#7095#22680#0" expanded="true" />
+            <element signature="e#22679#22680#0" expanded="true" />
+            <element signature="method#post_smile#0;class#MainActivity#0" />
+            <element signature="method#post_notif#0;class#MainActivity#0" />
           </folding>
         </state>
       </provider>
