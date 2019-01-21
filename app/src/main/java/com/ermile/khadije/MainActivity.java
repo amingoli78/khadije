@@ -1,5 +1,4 @@
-package com.ermile.khadije_andoid;
-
+package com.ermile.khadije;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -10,13 +9,13 @@ import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
@@ -27,23 +26,53 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.ermile.khadije_andoid.network.AppContoroler;
+import com.ermile.khadije.network.AppContoroler;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    final int versionCode = 10;
-    String versionName = "10";
+    final int versionCode = 15 ;
+    String versionName = "15";
+
+    Handler mHandler_one;
+    boolean continue_or_stop_one;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        // chake net
+        mHandler_one = new Handler();
+        continue_or_stop_one = true;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (continue_or_stop_one) {
+                    try {
+                        Thread.sleep(2000);
+                        mHandler_one.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                continue_or_stop_one = false;
+                                new MainActivity.NetCheck().execute();
+                            }
+                        });
+                    } catch (Exception e) {
+                    }
+                }
+            }
+        }).start();
 
 
 
@@ -206,10 +235,6 @@ public class MainActivity extends AppCompatActivity {
                                     mHandler.post(new Runnable() {
                                         @Override
                                         public void run() {
-
-                                            // Chake Net
-                                            Net_Chake();
-
 
                                             if (pay_menu.getTitle().toString().equals(""))
                                             {
@@ -419,13 +444,6 @@ public class MainActivity extends AppCompatActivity {
         // END JSON
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (getIntent().getBooleanExtra("EXIT", false)) {
-            finish();
-        }
-    }
 
     boolean doubleBackToExitPressedOnce = false;
 
@@ -458,22 +476,46 @@ public class MainActivity extends AppCompatActivity {
         }, 2000);
     }
 
-
-    public void Net_Chake(){
-        boolean connected = true;
-        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
-                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
-            //we are connected to a network
-            connected = true;
+    public class NetCheck extends AsyncTask<String,String,Boolean>
+    {
+        @Override
+        protected void onPreExecute(){
         }
-        else
-        {
-            connected = false;
+        /**
+         * Gets current device state and checks for working internet connection by trying Google.
+         **/
+        @Override
+        protected Boolean doInBackground(String... args){
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = cm.getActiveNetworkInfo();
+            if (netInfo != null && netInfo.isConnected()) {
+                try {
+                    URL url = new URL("http://www.google.com");
+                    HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
+                    urlc.setConnectTimeout(3000);
+                    urlc.connect();
+                    if (urlc.getResponseCode() == 200) {
+                        return true;
+                    }
+                } catch (MalformedURLException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+            return false;
         }
+        @Override
+        protected void onPostExecute(Boolean th){
+            if(th == false){
+                finish();
+                startActivity(new Intent(MainActivity.this,errornet.class));
+            }
+            else{
 
-        if (!connected){
-            startActivity(new Intent(MainActivity.this,errornet.class));
+            }
         }
     }
 

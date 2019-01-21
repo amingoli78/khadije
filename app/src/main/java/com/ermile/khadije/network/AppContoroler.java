@@ -1,4 +1,4 @@
-package com.ermile.khadije_andoid.network;
+package com.ermile.khadije.network;
 
 import android.app.Application;
 import android.text.TextUtils;

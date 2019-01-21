@@ -1,14 +1,17 @@
-package com.ermile.khadije_andoid;
+package com.ermile.khadije;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -21,11 +24,16 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.ermile.khadije_andoid.network.AppContoroler;
+import com.ermile.khadije.network.AppContoroler;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -167,8 +175,15 @@ public class Setting extends AppCompatActivity {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                Net_Chakes();
-
+                                ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                                NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+                                boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+                                if (!isConnected){
+                                    continue_or_stop = false;
+                                    finishActivity(1);
+                                    finishActivity(0);
+                                    startActivity(new Intent(Setting.this,errornet.class));
+                                }
                             }
                         });
                     } catch (Exception e) {
@@ -242,21 +257,5 @@ public class Setting extends AppCompatActivity {
         finish();
     }
 
-    public void Net_Chakes(){
-        boolean connected = true;
-        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
-                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
-            //we are connected to a network
-            connected = true;
-        }
-        else
-        {
-            connected = false;
-        }
 
-        if (!connected){
-            startActivity(new Intent(Setting.this,errornet.class));
-        }
-    }
 }

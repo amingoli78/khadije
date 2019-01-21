@@ -1,4 +1,4 @@
-package com.ermile.khadije_andoid;
+package com.ermile.khadije;
 
 
 import android.content.Context;
@@ -32,7 +32,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.bumptech.glide.Glide;
-import com.ermile.khadije_andoid.network.AppContoroler;
+import com.ermile.khadije.network.AppContoroler;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

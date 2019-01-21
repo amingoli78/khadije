@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:background="@drawable/bg_repet"
-    tools:context=".Setting">
+    tools:context="com.ermile.khadije.Setting">
 
 
     <LinearLayout

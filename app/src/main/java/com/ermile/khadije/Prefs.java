@@ -1,4 +1,4 @@
-package com.ermile.khadije_andoid;
+package com.ermile.khadije;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
