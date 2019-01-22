@@ -149,7 +149,6 @@ public class NotificationService extends Service {
                     Boolean newNotif = getRespone.getBoolean("notif_new");
 
                     if (newNotif){
-                        Toast.makeText(getApplicationContext(), "حالت اجرا در پس زمینه", Toast.LENGTH_SHORT).show();
                         post_notif();
                     }
 
@@ -176,8 +175,8 @@ public class NotificationService extends Service {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> posting = new HashMap<>();
-                posting.put("user_token", "hfhggsdda" );
-                posting.put("user_code", "52" );
+                posting.put("user_token", myTokengName );
+                posting.put("user_code", myTokengName_code );
 
                 return posting;
             }
@@ -220,8 +219,25 @@ public class NotificationService extends Service {
                 try {
 
                     JSONArray getRespone = new JSONArray(response);
+                    int Len_notif = 1;
+                    if (getRespone.length() <4){
+                        switch (getRespone.length()){
+                            case 1:
+                                Len_notif = 1;
+                                break;
+                            case 2:
+                                Len_notif = 2;
+                                break;
+                            case 3:
+                                Len_notif = 3;
+                                break;
+                        }
+                    }
+                    if (getRespone.length() >4){
+                        Len_notif = 3;
+                    }
 
-                    for (int respone = 0 ; respone <= 2 ; respone++){
+                    for (int respone = 0 ; respone < Len_notif ; respone++){
                         JSONObject one = getRespone.getJSONObject(respone);
                         String notif_title = one.getString("title");
                         String notif_des = one.getString("cat");
