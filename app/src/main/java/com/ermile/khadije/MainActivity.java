@@ -473,6 +473,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        startService(new Intent(MainActivity.this, NotificationService.class));
+    }
 
     /**
      * Post Smile
