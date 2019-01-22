@@ -6,6 +6,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
@@ -47,8 +49,9 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    final int versionCode = 15 ;
-    String versionName = "15";
+
+    int versionCode = 0 ;
+    String versionName = "";
 
     Handler mHandler_one;
     boolean continue_or_stop_one;
@@ -60,7 +63,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        try {
+            PackageInfo pInfo = getApplicationContext().getPackageManager().getPackageInfo(getPackageName(), 0);
+            versionCode = pInfo.versionCode;
+            versionName = pInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
         // chake net
         mHandler_one = new Handler();
         continue_or_stop_one = true;
