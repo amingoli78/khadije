@@ -16,9 +16,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5f208f7a-8f25-40a7-8e76-8b62e87e3d68" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/splash.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/splash.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -65,11 +63,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="true">
+      <file leaf-file-name="splash.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/splash.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1649">
+              <caret line="242" column="21" selection-start-line="242" selection-start-column="16" selection-end-line="242" selection-end-column="21" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="class#NetCheck#0;class#splash#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="153">
-              <caret line="9" column="23" selection-start-line="9" selection-start-column="23" selection-end-line="9" selection-end-column="23" />
+              <caret line="9" column="24" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -2370,9 +2381,9 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/RunInBG.java" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/NotificationService.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/splash.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/splash.java" />
       </list>
     </option>
   </component>
@@ -2664,8 +2675,6 @@
           <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#11339#13738#0" expanded="true" />
-            <element signature="e#13737#13738#0" expanded="true" />
             <element signature="class#NetCheck#0;class#splash#0" />
           </folding>
         </state>
@@ -2859,16 +2868,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/splash.java">
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1023">
-          <caret line="252" column="27" selection-start-line="252" selection-start-column="27" selection-end-line="252" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#11339#13738#0" expanded="true" />
-            <element signature="e#13737#13738#0" expanded="true" />
-            <element signature="class#NetCheck#0;class#splash#0" />
-          </folding>
+        <state relative-caret-position="153">
+          <caret line="9" column="24" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
         </state>
       </provider>
     </entry>
@@ -2884,10 +2887,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/splash.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="23" selection-start-line="9" selection-start-column="23" selection-end-line="9" selection-end-column="23" />
+        <state relative-caret-position="1649">
+          <caret line="242" column="21" selection-start-line="242" selection-start-column="16" selection-end-line="242" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="class#NetCheck#0;class#splash#0" />
+          </folding>
         </state>
       </provider>
     </entry>

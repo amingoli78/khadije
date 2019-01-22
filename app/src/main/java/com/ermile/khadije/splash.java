@@ -154,7 +154,8 @@ public class splash extends AppCompatActivity {
         if (connected && !firstoppen)
         {
             progress_splash.animate().alpha(1).setDuration(200);
-            going();
+            going_byTitle();
+
         }
         // Post Method
         StringRequest post_id = new StringRequest(Request.Method.POST, "https://khadije.com/api/v5/user/add", new Response.Listener<String>(){
@@ -226,6 +227,18 @@ public class splash extends AppCompatActivity {
 
     }
 
+    private void going_byTitle() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent i = new Intent(splash.this, MainActivity.class);
+                startActivity(i);
+                send_title();
+                finish();
+            }
+        }, 2000);
+    }
+
     // go to Intro
     public void going(){
         new Handler().postDelayed(new Runnable() {
@@ -233,7 +246,6 @@ public class splash extends AppCompatActivity {
             public void run() {
                 progress_splash.animate().alpha(1).setDuration(500);
                 Intent i = new Intent(splash.this, Intro.class);
-                send_title();
                 startActivity(i);
                 finish();
             }
