@@ -134,7 +134,13 @@ public class MainActivity extends AppCompatActivity {
         final MenuItem delneveshte_menu = menu.findItem(R.id.item_delneveshte);
         final MenuItem setting_menu = menu.findItem(R.id.item_setting);
 
-
+        if (getIntent().getBooleanExtra("welcome_title", false)) {
+            pay_menu.setTitle(titlepay);
+            home_menu.setTitle(titlehome);
+            trip_menu.setTitle(titletrip);
+            delneveshte_menu.setTitle(titledelneveshte);
+            setting_menu.setTitle(titlesetting);
+        }
 
         if (getIntent().getBooleanExtra("pay", false)) {
             bottomNav.setSelectedItemId(R.id.item_pay);
@@ -655,44 +661,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * Double Back For Exit
      */
-
     boolean doubleBackToExitPressedOnce = false;
-
     @Override
     public void onBackPressed() {
-
         final SharedPreferences shareds = getSharedPreferences("Prefs", MODE_PRIVATE);
         final Boolean farsi = shareds.getBoolean("farsi", false);
         final Boolean arabic = shareds.getBoolean("arabic", false);
         final Boolean english = shareds.getBoolean("english", false);
-
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
             return;
         }
-
         this.doubleBackToExitPressedOnce = true;
         if (farsi || arabic){
             Toast.makeText(this, "برای خروج مجددا کلید برگشت را لمس کنید", Toast.LENGTH_SHORT).show();
@@ -709,11 +691,9 @@ public class MainActivity extends AppCompatActivity {
         }, 2000);
     }
 
-
     /**
      * Net Checking
      */
-
     public class NetCheck extends AsyncTask<String,String,Boolean>
     {
         @Override
