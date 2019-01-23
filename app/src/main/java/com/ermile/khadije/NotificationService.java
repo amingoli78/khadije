@@ -159,7 +159,6 @@ public class NotificationService extends Service {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "Error net", Toast.LENGTH_SHORT).show();
             }
         })
                 // Send Headers
@@ -260,7 +259,6 @@ public class NotificationService extends Service {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "Error net", Toast.LENGTH_SHORT).show();
             }
         })
                 // Send Headers

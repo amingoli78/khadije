@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f6f8fc"
     tools:context="com.ermile.khadije.errornet">
 
 
@@ -15,12 +16,12 @@
         android:layout_height="match_parent">
 
 
-        <ImageView
+        <pl.droidsonroids.gif.GifImageView
             android:id="@+id/wifi"
-            android:src="@drawable/ic_no_wifi"
+            android:src="@drawable/errornet"
             android:layout_margin="16dp"
-            android:layout_width="100dp"
-            android:layout_height="100dp" />
+            android:layout_width="220dp"
+            android:layout_height="220dp" />
 
         <TextView
             android:id="@+id/no_net_title"
@@ -62,7 +63,7 @@
             android:gravity="center"
             android:textStyle="bold"
             android:textSize="16dp"
-            android:textColor="#fff"
+            android:textColor="#1ca1f6"
             android:text="تلاش مجدد"
             android:background="@drawable/btn_style"
             android:layout_marginLeft="30dp"

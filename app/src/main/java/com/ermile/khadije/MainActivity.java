@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
@@ -41,6 +42,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -48,7 +50,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-
 
     int versionCode = 0 ;
     String versionName = "";
@@ -63,6 +64,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Uri data = getIntent().getData();
+
+        Uri uri = Uri.parse(String.valueOf(data));
+
+        String status = uri.getQueryParameter("status");
+        String amount = uri.getQueryParameter("amount");
+
+
+        Toast.makeText(this, "O: "+status + " Pric: "+ amount, Toast.LENGTH_SHORT).show();
+
+
         try {
             PackageInfo pInfo = getApplicationContext().getPackageManager().getPackageInfo(getPackageName(), 0);
             versionCode = pInfo.versionCode;
@@ -70,27 +82,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        // chake net
-        mHandler_one = new Handler();
-        continue_or_stop_one = true;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (continue_or_stop_one) {
-                    try {
-                        Thread.sleep(2000);
-                        mHandler_one.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                continue_or_stop_one = false;
-                                new MainActivity.NetCheck().execute();
-                            }
-                        });
-                    } catch (Exception e) {
-                    }
-                }
-            }
-        }).start();
+
         // chake Notif
         post_smile();
         mHandler_two = new Handler();
@@ -276,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
                         public void run() {
                             while (continue_or_stop) {
                                 try {
-                                    Thread.sleep(300);
+                                    Thread.sleep(5000);
                                     mHandler.post(new Runnable() {
                                         @Override
                                         public void run() {
@@ -470,6 +462,7 @@ public class MainActivity extends AppCompatActivity {
                                 .setSmallIcon(android.R.drawable.stat_sys_download)
                                 .setAutoCancel( nv_caselable )
                                 .setSound(alarmSound);
+
                         Notification notifs = nb.build();
                         NotificationManager notifManager = (NotificationManager) MainActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
                         notifManager.notify(9, notifs);
@@ -541,7 +534,9 @@ public class MainActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "Error net", Toast.LENGTH_SHORT).show();
+                continue_or_stop_two = false ;
+                finish();
+                startActivity(new Intent(MainActivity.this,errornet.class));
             }
         })
                 // Send Headers
@@ -645,7 +640,6 @@ public class MainActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "Error net", Toast.LENGTH_SHORT).show();
             }
         })
                 // Send Headers

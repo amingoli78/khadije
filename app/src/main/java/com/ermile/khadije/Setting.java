@@ -120,7 +120,7 @@ public class Setting extends AppCompatActivity {
                 editor.putBoolean("arabic",false);
                 editor.putBoolean("english",false);
                 editor.apply();
-                Toast.makeText(Setting.this, " برنامه را مجددا اجرا کنید.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Setting.this, "زبان فارسی انتخاب شد!", Toast.LENGTH_SHORT).show();
                 EXIT();
             }
         });
@@ -131,7 +131,7 @@ public class Setting extends AppCompatActivity {
                 editor.putBoolean("farsi",false);
                 editor.putBoolean("english",false);
                 editor.apply();
-                Toast.makeText(Setting.this, "تشغيل البرنامج مرة أخرى.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Setting.this, "تم اختيار اللغة العربية!", Toast.LENGTH_SHORT).show();
                 EXIT();
 
             }
@@ -143,26 +143,11 @@ public class Setting extends AppCompatActivity {
                 editor.putBoolean("farsi",false);
                 editor.putBoolean("arabic",false);
                 editor.apply();
-                Toast.makeText(Setting.this, "run app again.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Setting.this, "English language was chosen!", Toast.LENGTH_SHORT).show();
                 EXIT();
             }
         });
         ///////////////////////////////////////////////////////////////
-
-        String url = "";
-        if (farsi){
-            url = "https://khadije.com/api/v5/android";
-        }
-        if (arabic){
-            url = "https://khadije.com/ar/api/v5/android";
-        }
-        if (english){
-            url = "https://khadije.com/en/api/v5/android";
-        }
-
-
-
-
         // Chek net every 5 seconds
         mHandler = new Handler();
         continue_or_stop = true;

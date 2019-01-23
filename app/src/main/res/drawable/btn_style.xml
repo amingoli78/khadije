@@ -3,7 +3,20 @@
     <item android:state_pressed="true" >
         <shape>
             <solid
-                android:color="#4753f9" />
+                android:color="#cacbcd" />
+            <corners
+                android:radius="5dp" />
+            <padding
+                android:left="1dp"
+                android:top="1dp"
+                android:right="1dp"
+                android:bottom="1dp" />
+        </shape>
+    </item>
+    <item android:state_focused="true" >
+        <shape>
+            <solid
+                android:color="#babbbc" />
             <corners
                 android:radius="5dp" />
             <padding
@@ -16,7 +29,7 @@
     <item>
         <shape>
             <solid
-                android:color="#0a15b6"/>
+                android:color="#e0e1e2"/>
             <corners
                 android:radius="5dp" />
             <padding
