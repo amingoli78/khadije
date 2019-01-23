@@ -1,4 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <group android:checkableBehavior="single">
+
+        <item
+            android:title="تماس با ما"
+            android:icon="@drawable/ic_call_us"
+            android:id="@+id/MU_login" />
+
+        <item
+            android:title="درباره ما"
+            android:icon="@drawable/ic_abut_us"
+            android:id="@+id/MU_singup" />
+
+        <item
+            android:title="چشم انداز"
+            android:icon="@drawable/ic_future_view"
+            android:id="@+id/MU_deviceinfo" />
+        <item
+            android:title="ماموریت"
+            android:icon="@drawable/ic_mission"
+            android:id="@+id/MU_deviceinfo" />
+        <item
+            android:title="وب سایت"
+            android:icon="@drawable/ic_website"
+            android:id="@+id/MU_deviceinfo" />
+    </group>
+
 </menu>
