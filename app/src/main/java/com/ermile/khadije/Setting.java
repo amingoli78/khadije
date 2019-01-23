@@ -54,9 +54,7 @@ public class Setting extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting);
 
-        final String titlepay = getIntent().getStringExtra("payTitle");
         final String titlehome = getIntent().getStringExtra("homeTitle");
-        final String titletrip = getIntent().getStringExtra("tripTitle");
         final String titledelneveshte = getIntent().getStringExtra("delneveshteTitle");
         final String titlesetting = getIntent().getStringExtra("settingTitle");
 
@@ -71,16 +69,12 @@ public class Setting extends AppCompatActivity {
 
         // menu
         Menu menu = bottomNav.getMenu();
-        final MenuItem pay_menu = menu.findItem(R.id.item_pay);
         final MenuItem home_menu = menu.findItem(R.id.item_home);
-        final MenuItem trip_menu = menu.findItem(R.id.item_trip);
         final MenuItem delneveshte_menu = menu.findItem(R.id.item_delneveshte);
         final MenuItem setting_menu = menu.findItem(R.id.item_setting);
 
 
-        pay_menu.setTitle(titlepay);
         home_menu.setTitle(titlehome);
-        trip_menu.setTitle(titletrip);
         delneveshte_menu.setTitle(titledelneveshte);
         setting_menu.setTitle(titlesetting);
 
@@ -183,49 +177,20 @@ public class Setting extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.item_pay:
-                Intent goTo_setting_pay = new Intent(Setting.this, MainActivity.class);
-                goTo_setting_pay.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                goTo_setting_pay.putExtra("pay", true);
-                goTo_setting_pay.putExtra("payTitle" , titlepay);
-                goTo_setting_pay.putExtra("homeTitle" , titlehome);
-                goTo_setting_pay.putExtra("tripTitle" , titletrip);
-                goTo_setting_pay.putExtra("delneveshteTitle" , titledelneveshte);
-                goTo_setting_pay.putExtra("settingTitle" , titlesetting);
-                startActivity(goTo_setting_pay);
-                break;
-
             case R.id.item_home:
                 Intent goTo_setting_home = new Intent(Setting.this, MainActivity.class);
                 goTo_setting_home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 goTo_setting_home.putExtra("home", true);
-                goTo_setting_home.putExtra("payTitle" , titlepay);
                 goTo_setting_home.putExtra("homeTitle" , titlehome);
-                goTo_setting_home.putExtra("tripTitle" , titletrip);
                 goTo_setting_home.putExtra("delneveshteTitle" , titledelneveshte);
                 goTo_setting_home.putExtra("settingTitle" , titlesetting);
                 startActivity(goTo_setting_home);
                 break;
-
-            case R.id.item_trip:
-                Intent goTo_setting_trip = new Intent(Setting.this, MainActivity.class);
-                goTo_setting_trip.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                goTo_setting_trip.putExtra("trip", true);
-                goTo_setting_trip.putExtra("payTitle" , titlepay);
-                goTo_setting_trip.putExtra("homeTitle" , titlehome);
-                goTo_setting_trip.putExtra("tripTitle" , titletrip);
-                goTo_setting_trip.putExtra("delneveshteTitle" , titledelneveshte);
-                goTo_setting_trip.putExtra("settingTitle" , titlesetting);
-                startActivity(goTo_setting_trip);
-                break;
-
             case R.id.item_delneveshte:
                 Intent goTo_setting_hert = new Intent(Setting.this, MainActivity.class);
                 goTo_setting_hert.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 goTo_setting_hert.putExtra("hert", true);
-                goTo_setting_hert.putExtra("payTitle" , titlepay);
                 goTo_setting_hert.putExtra("homeTitle" , titlehome);
-                goTo_setting_hert.putExtra("tripTitle" , titletrip);
                 goTo_setting_hert.putExtra("delneveshteTitle" , titledelneveshte);
                 goTo_setting_hert.putExtra("settingTitle" , titlesetting);
                 startActivity(goTo_setting_hert);

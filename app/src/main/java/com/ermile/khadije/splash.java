@@ -303,20 +303,12 @@ public class splash extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 try {
                     JSONArray navigation_btn = response.getJSONArray("navigation");
-                    final JSONObject pay = navigation_btn.getJSONObject(0);
-                    JSONObject home = navigation_btn.getJSONObject(1);
-                    JSONObject trip = navigation_btn.getJSONObject(2);
-                    JSONObject delneveshte = navigation_btn.getJSONObject(3);
-                    JSONObject setting = navigation_btn.getJSONObject(4);
-
-                    final String pay_title = pay.getString("title");
-                    final String pay_url = pay.getString("url");
+                    JSONObject home = navigation_btn.getJSONObject(0);
+                    JSONObject delneveshte = navigation_btn.getJSONObject(1);
+                    JSONObject setting = navigation_btn.getJSONObject(2);
 
                     final String home_title = home.getString("title");
                     final String home_url = home.getString("url");
-
-                    final String trip_title = trip.getString("title");
-                    final String trip_url = trip.getString("url");
 
                     final String delneveshte_title = delneveshte.getString("title");
                     final String delneveshte_url = delneveshte.getString("url");
@@ -331,9 +323,7 @@ public class splash extends AppCompatActivity {
                         Intent goTo_setting_welcome_title = new Intent(splash.this, MainActivity.class);
                         goTo_setting_welcome_title.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         goTo_setting_welcome_title.putExtra("welcome_title", true);
-                        goTo_setting_welcome_title.putExtra("payTitle" , pay_title);
                         goTo_setting_welcome_title.putExtra("homeTitle" , home_title);
-                        goTo_setting_welcome_title.putExtra("tripTitle" , trip_title);
                         goTo_setting_welcome_title.putExtra("delneveshteTitle" , delneveshte_title);
                         goTo_setting_welcome_title.putExtra("settingTitle" , setting_title);
                         startActivity(goTo_setting_welcome_title);

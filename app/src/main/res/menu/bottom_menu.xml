@@ -6,24 +6,14 @@
 
     <group>
         <item
-            android:id="@+id/item_pay"
+            android:id="@+id/item_delneveshte"
             android:title=""
-            android:icon="@drawable/ic_pay">
-        </item>
-        <item
-            android:id="@+id/item_trip"
-            android:title=""
-            android:icon="@drawable/ic_website">
+            android:icon="@drawable/ic_delneveshte">
         </item>
         <item
             android:id="@+id/item_home"
             android:title=""
             android:icon="@drawable/ic_home">
-        </item>
-        <item
-            android:id="@+id/item_delneveshte"
-            android:title=""
-            android:icon="@drawable/ic_delneveshte">
         </item>
         <item
             android:id="@+id/item_setting"

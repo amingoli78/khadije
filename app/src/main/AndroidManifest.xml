@@ -69,7 +69,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".paying"></activity>
+        <activity android:name=".paying" />
+        <activity android:name=".header_setting"></activity>
     </application>
 
 </manifest>
