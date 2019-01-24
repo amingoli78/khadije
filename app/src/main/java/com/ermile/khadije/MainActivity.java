@@ -43,7 +43,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
     // get Version for > new version apk
     int versionCode = 0 ;
@@ -119,7 +119,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Sync id > Setting Menu
         drawerLayout = findViewById(R.id.drawer_layout);
         navigation_menu = findViewById(R.id.navigation_view);
-        navigation_menu.setNavigationItemSelectedListener(this);
         // get Header
         View header_navmenu=navigation_menu.getHeaderView(0);
         Button btn_en = header_navmenu.findViewById(R.id.header_english);
@@ -169,8 +168,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
         // Get Menu from Setting Menu
         Menu menu_navmenu = navigation_menu.getMenu();
-        final MenuItem call_us = menu_navmenu.findItem(R.id.call_us);
         final MenuItem about_us = menu_navmenu.findItem(R.id.about_us);
+        final MenuItem call_us = menu_navmenu.findItem(R.id.call_us);
         final MenuItem future_view = menu_navmenu.findItem(R.id.future_view);
         final MenuItem mission = menu_navmenu.findItem(R.id.mission);
         final MenuItem website = menu_navmenu.findItem(R.id.website);
@@ -221,7 +220,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             setting_menu.setTitle(titlesetting);
         }
 
-
         if (farsi){
             url = "https://khadije.com/api/v5/android";
             ViewCompat.setLayoutDirection(drawerLayout,ViewCompat.LAYOUT_DIRECTION_RTL);
@@ -266,17 +264,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     // get Param for <menu nav>
                     JSONArray android_menu = response.getJSONArray("android_menu");
-                    JSONObject json_call_us = android_menu.getJSONObject(0);
-                    JSONObject json_about_us = android_menu.getJSONObject(1);
+                    JSONObject json_about_us = android_menu.getJSONObject(0);
+                    JSONObject json_call_us = android_menu.getJSONObject(1);
                     JSONObject json_future_view = android_menu.getJSONObject(2);
                     JSONObject json_mission = android_menu.getJSONObject(3);
                     JSONObject json_website = android_menu.getJSONObject(4);
-                    // Get Url item <call_us>
-                    final String callus_title = json_call_us.getString("title");
-                    final String callus_url = json_call_us.getString("url");
                     // Get Url item <about_us>
                     final String aboutus_title = json_about_us.getString("title");
                     final String aboutus_url = json_about_us.getString("url");
+                    // Get Url item <call_us>
+                    final String callus_title = json_call_us.getString("title");
+                    final String callus_url = json_call_us.getString("url");
                     // Get Url item <future_view>
                     final String futureview_title = json_future_view.getString("title");
                     final String futureview_url = json_future_view.getString("url");
@@ -307,11 +305,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                                 delneveshte_menu.setTitle(hert_title);
                                                 setting_menu.setTitle(setting_title);
                                                 // set menu nav title
-                                                call_us.setTitle(callus_title);
                                                 about_us.setTitle(aboutus_title);
+                                                call_us.setTitle(callus_title);
                                                 future_view.setTitle(futureview_title);
                                                 mission.setTitle(mission_title);
                                                 website.setTitle(website_title);
+                                            }
+                                            // set out nav menu
+                                            if (!drawerLayout.isDrawerOpen(GravityCompat.START ) && bottomNav.getSelectedItemId() == R.id.item_setting)
+                                            {
+                                                bottomNav.setSelectedItemId(R.id.item_home);
                                             }
                                         }
                                     });
@@ -398,6 +401,55 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
                     });
 
+                    navigation_menu.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+                        @Override
+                        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                            int menuId = item.getItemId();
+                            switch (menuId) {
+                                case R.id.about_us:
+                                    // put url to <about_us.java>
+                                    Intent sendURL_about = new Intent(MainActivity.this, about_us.class);
+                                    sendURL_about.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    sendURL_about.putExtra("about_bol", true);
+                                    sendURL_about.putExtra("about_url" , aboutus_url);
+                                    startActivity(sendURL_about);
+                                    break;
+                                case R.id.call_us:
+                                    // put url to <about_us.java>
+                                    Intent sendURL_call = new Intent(MainActivity.this, about_us.class);
+                                    sendURL_call.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    sendURL_call.putExtra("call_bol", true);
+                                    sendURL_call.putExtra("call_url" , callus_url);
+                                    startActivity(sendURL_call);
+                                    break;
+                                case R.id.future_view:
+                                    // put url to <about_us.java>
+                                    Intent sendURL_future = new Intent(MainActivity.this, about_us.class);
+                                    sendURL_future.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    sendURL_future.putExtra("future_bol", true);
+                                    sendURL_future.putExtra("future_url" , futureview_url);
+                                    startActivity(sendURL_future);
+                                    break;
+                                case R.id.mission:
+                                    // put url to <about_us.java>
+                                    Intent sendURL_mission = new Intent(MainActivity.this, about_us.class);
+                                    sendURL_mission.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    sendURL_mission.putExtra("mission_bol", true);
+                                    sendURL_mission.putExtra("mission_url" , mission_url);
+                                    startActivity(sendURL_mission);
+                                    break;
+                                case R.id.website:
+                                    // Go to Browser
+                                    Intent browser_khadije = new Intent ( Intent.ACTION_VIEW );
+                                    browser_khadije.setData ( Uri.parse ( website_url ) );
+                                    startActivity ( browser_khadije );
+                                    break;
+                            }
+                            drawerLayout.closeDrawer(GravityCompat.START);
+                            return true;
+                        }
+                    });
+
                     // get Title from <Setting.java>
                     if (getIntent().getBooleanExtra("home", false)) {
                         webView.loadUrl(home_url, sernd_headers);
@@ -457,7 +509,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // in Error Net
+                continueORstop_checkNotif = false ;
+                finish();
+                startActivity(new Intent(MainActivity.this,errornet.class));
             }
         });
         AppContoroler.getInstance().addToRequestQueue(Json_MainActivityGET);
@@ -632,39 +686,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ;AppContoroler.getInstance().addToRequestQueue(Notif_is_Request);
 
     }
-
-
-    //Setting Menu
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int menuId = item.getItemId();
-        switch (menuId) {
-
-            case R.id.call_us:
-
-                break;
-            case R.id.about_us:
-
-                break;
-            case R.id.future_view:
-
-                break;
-            case R.id.mission:
-
-                break;
-            case R.id.website:
-
-                break;
-
-
-        }
-
-        drawerLayout.closeDrawer(GravityCompat.START);
-
-        return true;
-    }
-
-
 
     // Double back for Exit
     boolean doubleBackToExitPressedOnce = false;

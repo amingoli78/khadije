@@ -1,5 +1,6 @@
 package com.ermile.khadije;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -33,16 +34,22 @@ public class about_us extends AppCompatActivity {
         final Boolean english = shared.getBoolean("english", false);
 
 
-
         String url = "";
-        if (farsi){
-            url = "https://khadije.com/api/v5/about";
+
+        if (getIntent().getBooleanExtra("about_bol", false)) {
+            url = getIntent().getStringExtra("about_url");
         }
-        if (arabic){
-            url = "https://khadije.com/ar/api/v5/about";
+        if (getIntent().getBooleanExtra("call_bol", false)) {
+            url = getIntent().getStringExtra("call_url");
         }
-        if (english){
-            url = "https://khadije.com/en/api/v5/about";
+        if (getIntent().getBooleanExtra("future_bol", false)) {
+            url = getIntent().getStringExtra("future_url");
+        }
+        if (getIntent().getBooleanExtra("mission_bol", false)) {
+            url = getIntent().getStringExtra("mission_url");
+        }
+        if (getIntent().getBooleanExtra("website_bol", false)) {
+            url = getIntent().getStringExtra("website_url");
         }
 
 
@@ -68,6 +75,8 @@ public class about_us extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                finish();
+                startActivity(new Intent(about_us.this,errornet.class));
             }
 
 
