@@ -16,8 +16,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b6b99515-7de5-4acf-94a4-1965ac414f3c" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/status.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/status.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/status.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/status.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/lang_changed.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/lang_changed.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/header_setting.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/header_setting.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -40,11 +42,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-736">
-              <caret line="215" selection-start-line="215" selection-end-line="227" selection-end-column="9" />
+            <state relative-caret-position="358">
+              <caret line="234" column="67" selection-start-line="234" selection-start-column="67" selection-end-line="234" selection-end-column="67" />
               <folding>
                 <element signature="method#post_smile#0;class#MainActivity#0" />
                 <element signature="method#Notif_is#0;class#MainActivity#0" />
@@ -53,30 +55,42 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="status.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/status.java">
+      <file leaf-file-name="Intro.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/Intro.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1249">
-              <caret line="110" selection-start-line="110" selection-end-line="110" />
-              <folding>
-                <element signature="e#2895#3117#0" expanded="true" />
-                <element signature="e#3116#3117#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="102">
+              <caret line="313" column="68" selection-start-line="313" selection-start-column="52" selection-end-line="313" selection-end-column="68" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="status.xml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/status.xml">
+      <file leaf-file-name="status.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/status.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1000">
+              <caret line="110" selection-start-line="110" selection-end-line="110" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="about_us.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/about_us.xml">
+          <provider selected="true" editor-type-id="android-designer2">
+            <state />
+          </provider>
+          <provider editor-type-id="text-editor">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="header_setting.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/header_setting.xml">
           <provider editor-type-id="android-designer2">
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="50" column="32" selection-start-line="50" selection-start-column="32" selection-end-line="50" selection-end-column="32" />
-              <folding>
-                <element signature="e#2867#3105#0" />
-              </folding>
+            <state relative-caret-position="208">
+              <caret line="33" column="26" selection-start-line="33" selection-start-column="26" selection-end-line="33" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -2364,14 +2378,15 @@
         <option value="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/header_setting.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/Intro.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/header_setting.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/bottom_menu.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/about_us.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/setting_menu.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/status.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/status.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/header_setting.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/drawable/lang_changed.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java" />
       </list>
     </option>
   </component>
@@ -2583,7 +2598,7 @@
       <window_info id="Build Variants" order="2" side_tool="true" />
       <window_info anchor="right" id="Capture Analysis" order="4" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info active="true" anchor="right" id="Preview" order="7" visible="true" weight="0.3290008" />
+      <window_info anchor="right" id="Preview" order="7" weight="0.3290008" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="7" />
@@ -2591,7 +2606,7 @@
       <window_info id="Captures" order="2" weight="0.25" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20714866" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20714866" />
       <window_info anchor="bottom" id="Build" order="7" weight="0.3292683" />
       <window_info anchor="right" id="Gradle" order="5" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -2637,6 +2652,8 @@
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <folding>
+            <element signature="e#402#1559#0" />
+            <element signature="e#1591#2810#0" />
             <element signature="e#2867#3105#0" />
           </folding>
         </state>
@@ -2644,12 +2661,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/status.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#2895#3117#0" expanded="true" />
-            <element signature="e#3116#3117#0" expanded="true" />
-          </folding>
-        </state>
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/about_us.java">
@@ -2816,23 +2828,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/header_setting.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/Intro.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="197" column="58" selection-start-line="197" selection-start-column="58" selection-end-line="197" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/header_setting.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1139">
-          <caret line="67" column="15" selection-start-line="67" selection-start-column="15" selection-end-line="67" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
       <provider editor-type-id="android-designer2">
         <state />
@@ -2908,37 +2903,70 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/status.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-736">
-          <caret line="215" selection-start-line="215" selection-end-line="227" selection-end-column="9" />
+        <state relative-caret-position="187">
+          <caret line="47" lean-forward="true" selection-start-line="47" selection-end-line="47" />
           <folding>
-            <element signature="method#post_smile#0;class#MainActivity#0" />
-            <element signature="method#Notif_is#0;class#MainActivity#0" />
+            <element signature="e#402#1559#0" />
+            <element signature="e#1591#2810#0" />
+            <element signature="e#2867#3105#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/status.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1249">
+        <state relative-caret-position="1000">
           <caret line="110" selection-start-line="110" selection-end-line="110" />
-          <folding>
-            <element signature="e#2895#3117#0" expanded="true" />
-            <element signature="e#3116#3117#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/status.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/about_us.xml">
+      <provider selected="true" editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/header_setting.xml">
       <provider editor-type-id="android-designer2">
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="50" column="32" selection-start-line="50" selection-start-column="32" selection-end-line="50" selection-end-column="32" />
+        <state relative-caret-position="208">
+          <caret line="33" column="26" selection-start-line="33" selection-start-column="26" selection-end-line="33" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/lang_changed.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="38" selection-start-line="5" selection-start-column="32" selection-end-line="5" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/Intro.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="313" column="68" selection-start-line="313" selection-start-column="52" selection-end-line="313" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="358">
+          <caret line="234" column="67" selection-start-line="234" selection-start-column="67" selection-end-line="234" selection-end-column="67" />
           <folding>
-            <element signature="e#2867#3105#0" />
+            <element signature="method#post_smile#0;class#MainActivity#0" />
+            <element signature="method#Notif_is#0;class#MainActivity#0" />
           </folding>
         </state>
       </provider>

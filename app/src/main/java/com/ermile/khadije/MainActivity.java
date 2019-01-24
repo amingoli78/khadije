@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -113,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
         navigation_menu = findViewById(R.id.navigation_view);
         // get Header
         View header_navmenu=navigation_menu.getHeaderView(0);
+        TextView title_header = header_navmenu.findViewById(R.id.username);
         Button btn_en = header_navmenu.findViewById(R.id.header_english);
         Button btn_ar = header_navmenu.findViewById(R.id.header_arabic);
         Button btn_fa = header_navmenu.findViewById(R.id.header_farsi);
@@ -215,15 +218,21 @@ public class MainActivity extends AppCompatActivity {
 
         if (farsi){
             url = "https://khadije.com/api/v5/android";
+            title_header.setText("موسسه حضرت خدیجه");
+            btn_fa.setBackgroundColor(Color.parseColor("#babbbc"));
             ViewCompat.setLayoutDirection(drawerLayout,ViewCompat.LAYOUT_DIRECTION_RTL);
 
         }
         if (arabic){
             url = "https://khadije.com/ar/api/v5/android";
+            title_header.setText("مؤسسة خيرية خديجة");
+            btn_ar.setBackgroundColor(Color.parseColor("#babbbc"));
             ViewCompat.setLayoutDirection(drawerLayout,ViewCompat.LAYOUT_DIRECTION_RTL);
         }
         if (english){
             url = "https://khadije.com/en/api/v5/android";
+            title_header.setText("Khadije Charity");
+            btn_en.setBackgroundColor(Color.parseColor("#babbbc"));
             ViewCompat.setLayoutDirection(drawerLayout,ViewCompat.LAYOUT_DIRECTION_LTR);
         }
 
@@ -461,11 +470,10 @@ public class MainActivity extends AppCompatActivity {
                                     startActivity(sendURL_mission);
                                     break;
                                 case R.id.website:
-                                    startActivity(new Intent(MainActivity.this , status.class ));
                                     // Go to Browser
-//                                    Intent browser_khadije = new Intent ( Intent.ACTION_VIEW );
-//                                    browser_khadije.setData ( Uri.parse ( website_url ) );
-//                                    startActivity ( browser_khadije );
+                                    Intent browser_khadije = new Intent ( Intent.ACTION_VIEW );
+                                    browser_khadije.setData ( Uri.parse ( website_url ) );
+                                    startActivity ( browser_khadije );
                                     break;
                             }
                             drawerLayout.closeDrawer(GravityCompat.START);
