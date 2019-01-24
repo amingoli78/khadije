@@ -75,14 +75,6 @@ public class MainActivity extends AppCompatActivity {
         final Boolean farsi = shared.getBoolean("farsi", false);
         final Boolean arabic = shared.getBoolean("arabic", false);
         final Boolean english = shared.getBoolean("english", false);
-        // set lang for load URL JSON
-
-        // get uri form > Browser
-        Uri data = getIntent().getData();
-        Uri uri = Uri.parse(String.valueOf(data));
-        String status = uri.getQueryParameter("status");
-        String amount = uri.getQueryParameter("amount");
-        Toast.makeText(this, "O: "+status + " Pric: "+ amount, Toast.LENGTH_SHORT).show();
 
         // Change Version from > build.gradle(Module:app)
         try {
@@ -469,10 +461,11 @@ public class MainActivity extends AppCompatActivity {
                                     startActivity(sendURL_mission);
                                     break;
                                 case R.id.website:
+                                    startActivity(new Intent(MainActivity.this , status.class ));
                                     // Go to Browser
-                                    Intent browser_khadije = new Intent ( Intent.ACTION_VIEW );
-                                    browser_khadije.setData ( Uri.parse ( website_url ) );
-                                    startActivity ( browser_khadije );
+//                                    Intent browser_khadije = new Intent ( Intent.ACTION_VIEW );
+//                                    browser_khadije.setData ( Uri.parse ( website_url ) );
+//                                    startActivity ( browser_khadije );
                                     break;
                             }
                             drawerLayout.closeDrawer(GravityCompat.START);

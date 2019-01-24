@@ -28,16 +28,7 @@
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="khadije" />
-            </intent-filter>
-        </activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Intro"
             android:configChanges="orientation|keyboardHidden"
@@ -69,8 +60,20 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".paying" />
-        <activity android:name=".status"></activity>
+        <activity
+            android:name=".status"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="khadije" />
+            </intent-filter>
+
+        </activity>
     </application>
 
 </manifest>
