@@ -70,6 +70,7 @@
         </service>
 
         <activity android:name=".paying" />
+        <activity android:name=".status"></activity>
     </application>
 
 </manifest>

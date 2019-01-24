@@ -175,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
         final MenuItem website = menu_navmenu.findItem(R.id.website);
 
 
+
         // get title in setting
         final String titlehome = getIntent().getStringExtra("homeTitle");
         final String titledelneveshte = getIntent().getStringExtra("delneveshteTitle");
@@ -316,6 +317,7 @@ public class MainActivity extends AppCompatActivity {
                                             {
                                                 bottomNav.setSelectedItemId(R.id.item_home);
                                             }
+
                                         }
                                     });
                                 } catch (Exception e) {
@@ -340,7 +342,18 @@ public class MainActivity extends AppCompatActivity {
                             //put all headers in this header map
                             headerMap.put("x-app-request", "android");
                             view.loadUrl(url, headerMap);
-                            return true;
+
+                            if(url.startsWith("https://khadije.com/pay/") ||url.startsWith("https://khadije.com/ar/pay/") || url.startsWith("https://khadije.com/en/pay/")){
+                                // Handle the tel: link
+                                Intent browser = new Intent ( Intent.ACTION_VIEW );
+                                browser.setData ( Uri.parse ( url ) );
+                                startActivity ( browser );
+                                bottomNav.setSelectedItemId(R.id.item_home);
+
+                                // Return true means, leave the current web view and handle the url itself
+                                return true;
+                            }
+                            return false;
                         }
                         @Override
                         public void onPageFinished(WebView view, String url) {
@@ -362,7 +375,19 @@ public class MainActivity extends AppCompatActivity {
                                             HashMap<String, String> headerMap = new HashMap<>();
                                             headerMap.put("x-app-request", "android");
                                             view.loadUrl(url, headerMap);
-                                            return true;
+
+                                            if(url.startsWith("https://khadije.com/pay/") ||url.startsWith("https://khadije.com/ar/pay/") || url.startsWith("https://khadije.com/en/pay/")){
+                                                // Handle the tel: link
+                                                Intent browser = new Intent ( Intent.ACTION_VIEW );
+                                                browser.setData ( Uri.parse ( url ) );
+                                                startActivity ( browser );
+                                                bottomNav.setSelectedItemId(R.id.item_home);
+
+                                                // Return true means, leave the current web view and handle the url itself
+                                                return true;
+                                            }
+                                            return false;
+
                                         }
                                         @Override
                                         public void onPageFinished(WebView view, String url) {
@@ -379,7 +404,18 @@ public class MainActivity extends AppCompatActivity {
                                             HashMap<String, String> headerMap = new HashMap<>();
                                             headerMap.put("x-app-request", "android");
                                             view.loadUrl(url, headerMap);
-                                            return true;
+
+                                            if(url.startsWith("https://khadije.com/pay/") ||url.startsWith("https://khadije.com/ar/pay/") || url.startsWith("https://khadije.com/en/pay/")){
+                                                // Handle the tel: link
+                                                Intent browser = new Intent ( Intent.ACTION_VIEW );
+                                                browser.setData ( Uri.parse ( url ) );
+                                                startActivity ( browser );
+                                                bottomNav.setSelectedItemId(R.id.item_home);
+
+                                                // Return true means, leave the current web view and handle the url itself
+                                                return true;
+                                            }
+                                            return false;
                                         }
                                         @Override
                                         public void onPageFinished(WebView view, String url) {
@@ -389,12 +425,6 @@ public class MainActivity extends AppCompatActivity {
 
                                 case R.id.item_setting:
                                     drawerLayout.openDrawer(navigation_menu);
-                                    // put title to <Setting.java>
-//                                    Intent sendTitle_setting = new Intent(MainActivity.this, Setting.class);
-//                                    sendTitle_setting.putExtra("homeTitle" , home_title);
-//                                    sendTitle_setting.putExtra("delneveshteTitle" , hert_title);
-//                                    sendTitle_setting.putExtra("settingTitle" , setting_title);
-//                                    startActivity(sendTitle_setting);
                                     break;
                             }
                             return true;
@@ -728,6 +758,5 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(MainActivity.this,changing_lang.class));
         finish();
     }
-
 
 }
