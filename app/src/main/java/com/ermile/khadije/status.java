@@ -94,8 +94,21 @@ public class status extends AppCompatActivity {
                 e.printStackTrace();
             }
             git_true.setImageDrawable(gifDrawable);
-        }else if (status.equals("false")){
+        }
+        else if (status.equals("false")){
             linearLayout_false.setVisibility(View.VISIBLE);
+            gif_false.animate()
+                    .alpha(1)
+                    .setDuration(1000);
+            F_title.animate()
+                    .alpha(1)
+                    .translationY(0)
+                    .setDuration(800);
+            F_cunt.animate()
+                    .alpha(1)
+                    .translationY(10)
+                    .setDuration(600);
+
         }else {startActivity(new Intent(this , MainActivity.class));}
 
 
