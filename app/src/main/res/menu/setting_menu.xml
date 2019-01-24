@@ -4,27 +4,27 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:title="تماس با ما"
+            android:title=""
             android:icon="@drawable/ic_call_us"
-            android:id="@+id/MU_login" />
+            android:id="@+id/call_us" />
 
         <item
-            android:title="درباره ما"
+            android:title=""
             android:icon="@drawable/ic_abut_us"
-            android:id="@+id/MU_singup" />
+            android:id="@+id/about_us" />
 
         <item
-            android:title="چشم انداز"
+            android:title=""
             android:icon="@drawable/ic_future_view"
-            android:id="@+id/MU_deviceinfo" />
+            android:id="@+id/future_view" />
         <item
-            android:title="ماموریت"
+            android:title=""
             android:icon="@drawable/ic_mission"
-            android:id="@+id/MU_deviceinfo" />
+            android:id="@+id/mission" />
         <item
-            android:title="وب سایت"
+            android:title=""
             android:icon="@drawable/ic_website"
-            android:id="@+id/MU_deviceinfo" />
+            android:id="@+id/website" />
     </group>
 
 </menu>

@@ -5,8 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#006679"
-    tools:context=".header_setting">
+    android:background="#006679">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="25dp" />
 
     <LinearLayout
         android:gravity="center"
@@ -43,12 +46,18 @@
         android:layout_height="wrap_content">
 
         <Button
+            android:id="@+id/header_english"
+            android:text="English"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <Button
+            android:id="@+id/header_arabic"
+            android:text="العربية"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <Button
+            android:id="@+id/header_farsi"
+            android:text="فارسی"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

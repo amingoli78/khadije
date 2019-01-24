@@ -13,13 +13,19 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -37,7 +43,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     // get Version for > new version apk
     int versionCode = 0 ;
@@ -45,6 +51,12 @@ public class MainActivity extends AppCompatActivity {
     // Handle check > Notif for user
     Handler mHandler_checkNotif;
     boolean continueORstop_checkNotif;
+    //nav button
+    BottomNavigationViewEx bottomNav;
+    //nav Menu
+    DrawerLayout drawerLayout;
+    NavigationView navigation_menu;
+
 
     /**
      * On Create
@@ -53,6 +65,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // URL for <JSON MAIN>
+        String url = "";
+        // import SharedPreferences > <Prefs.java>
+        final SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
+        final SharedPreferences.Editor editor = shared.edit();
+        // import Method for lang > <Prefs.java>
+        final Boolean farsi = shared.getBoolean("farsi", false);
+        final Boolean arabic = shared.getBoolean("arabic", false);
+        final Boolean english = shared.getBoolean("english", false);
+        // set lang for load URL JSON
 
         // get uri form > Browser
         Uri data = getIntent().getData();
@@ -93,6 +116,66 @@ public class MainActivity extends AppCompatActivity {
             }
         }).start();
 
+        //Sync id > Setting Menu
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigation_menu = findViewById(R.id.navigation_view);
+        navigation_menu.setNavigationItemSelectedListener(this);
+        // get Header
+        View header_navmenu=navigation_menu.getHeaderView(0);
+        Button btn_en = header_navmenu.findViewById(R.id.header_english);
+        Button btn_ar = header_navmenu.findViewById(R.id.header_arabic);
+        Button btn_fa = header_navmenu.findViewById(R.id.header_farsi);
+        // set Header
+        btn_en.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!english){
+                    editor.putBoolean("english",true);
+                    editor.putBoolean("farsi",false);
+                    editor.putBoolean("arabic",false);
+                    editor.apply();
+                    Toast.makeText(MainActivity.this, "English language was chosen!", Toast.LENGTH_SHORT).show();
+                    Change_lang();
+                }else {Toast.makeText(MainActivity.this, "language is English !", Toast.LENGTH_SHORT).show();}
+            }
+        });
+
+        btn_ar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!arabic){
+                    editor.putBoolean("arabic",true);
+                    editor.putBoolean("farsi",false);
+                    editor.putBoolean("english",false);
+                    editor.apply();
+                    Toast.makeText(MainActivity.this, "تم اختيار اللغة العربية!", Toast.LENGTH_SHORT).show();
+                    Change_lang();
+                }else {Toast.makeText(MainActivity.this, "اللغة العربية!", Toast.LENGTH_SHORT).show();}
+            }
+        });
+
+        btn_fa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!farsi){
+                    editor.putBoolean("farsi",true);
+                    editor.putBoolean("arabic",false);
+                    editor.putBoolean("english",false);
+                    editor.apply();
+                    Toast.makeText(MainActivity.this, "زبان فارسی انتخاب شد!", Toast.LENGTH_SHORT).show();
+                    Change_lang();
+                }else {Toast.makeText(MainActivity.this, "زبان فارسی شده!", Toast.LENGTH_SHORT).show();}
+            }
+        });
+        // Get Menu from Setting Menu
+        Menu menu_navmenu = navigation_menu.getMenu();
+        final MenuItem call_us = menu_navmenu.findItem(R.id.call_us);
+        final MenuItem about_us = menu_navmenu.findItem(R.id.about_us);
+        final MenuItem future_view = menu_navmenu.findItem(R.id.future_view);
+        final MenuItem mission = menu_navmenu.findItem(R.id.mission);
+        final MenuItem website = menu_navmenu.findItem(R.id.website);
+
+
         // get title in setting
         final String titlehome = getIntent().getStringExtra("homeTitle");
         final String titledelneveshte = getIntent().getStringExtra("delneveshteTitle");
@@ -100,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Sync id in <xml> to <java>
         final SwipeRefreshLayout swipe = findViewById(R.id.swipref);
-        final BottomNavigationViewEx bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav = findViewById(R.id.bottom_navigation);
             bottomNav.setSelectedItemId(R.id.item_home);
             bottomNav.enableAnimation(false);
             bottomNav.enableShiftingMode(false);
@@ -116,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
         final MenuItem home_menu = menu.findItem(R.id.item_home);
         final MenuItem delneveshte_menu = menu.findItem(R.id.item_delneveshte);
         final MenuItem setting_menu = menu.findItem(R.id.item_setting);
+
 
         // Back load for Title > load from <splash.java>
         if (getIntent().getBooleanExtra("welcome_title", false)) {
@@ -138,24 +222,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        // import SharedPreferences > <Prefs.java>
-        final SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
-        final SharedPreferences.Editor editor = shared.edit();
-        // import Method for lang > <Prefs.java>
-        final Boolean farsi = shared.getBoolean("farsi", false);
-        final Boolean arabic = shared.getBoolean("arabic", false);
-        final Boolean english = shared.getBoolean("english", false);
-        // set lang for load URL JSON
-        String url = "";
         if (farsi){
             url = "https://khadije.com/api/v5/android";
+            ViewCompat.setLayoutDirection(drawerLayout,ViewCompat.LAYOUT_DIRECTION_RTL);
+
         }
         if (arabic){
             url = "https://khadije.com/ar/api/v5/android";
+            ViewCompat.setLayoutDirection(drawerLayout,ViewCompat.LAYOUT_DIRECTION_RTL);
         }
         if (english){
             url = "https://khadije.com/en/api/v5/android";
+            ViewCompat.setLayoutDirection(drawerLayout,ViewCompat.LAYOUT_DIRECTION_LTR);
         }
+
 
         // JSON Request
         JsonObjectRequest Json_MainActivityGET = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -169,7 +249,7 @@ public class MainActivity extends AppCompatActivity {
                     final Map<String, String> sernd_headers = new HashMap<String, String>();
                     sernd_headers.put("x-app-request", "android");
 
-                    // get Param for bottom
+                    // get Param for <bottom nav>
                     JSONArray navigation_btn = response.getJSONArray("navigation");
                     JSONObject home = navigation_btn.getJSONObject(0);
                     JSONObject hert = navigation_btn.getJSONObject(1);
@@ -184,6 +264,29 @@ public class MainActivity extends AppCompatActivity {
                     final String setting_title = setting.getString("title");
                     final String setting_url = setting.getString("url");
 
+                    // get Param for <menu nav>
+                    JSONArray android_menu = response.getJSONArray("android_menu");
+                    JSONObject json_call_us = android_menu.getJSONObject(0);
+                    JSONObject json_about_us = android_menu.getJSONObject(1);
+                    JSONObject json_future_view = android_menu.getJSONObject(2);
+                    JSONObject json_mission = android_menu.getJSONObject(3);
+                    JSONObject json_website = android_menu.getJSONObject(4);
+                    // Get Url item <call_us>
+                    final String callus_title = json_call_us.getString("title");
+                    final String callus_url = json_call_us.getString("url");
+                    // Get Url item <about_us>
+                    final String aboutus_title = json_about_us.getString("title");
+                    final String aboutus_url = json_about_us.getString("url");
+                    // Get Url item <future_view>
+                    final String futureview_title = json_future_view.getString("title");
+                    final String futureview_url = json_future_view.getString("url");
+                    // Get Url item <mission>
+                    final String mission_title = json_mission.getString("title");
+                    final String mission_url = json_mission.getString("url");
+                    // Get Url item <website>
+                    final String website_title = json_website.getString("title");
+                    final String website_url = json_website.getString("url");
+
                     // Check for Title not Empty in > 300 mil <
                     mHandler_jsonMain = new Handler();
                     continueORstop_jsonMain = true;
@@ -197,11 +300,18 @@ public class MainActivity extends AppCompatActivity {
                                         @Override
                                         public void run() {
                                             // if home is empty load title again
-                                            if (home_menu.getTitle().toString().equals(""))
+                                            if (home_menu.getTitle().toString().equals("") || call_us.getTitle().toString().equals(""))
                                             {
+                                                //set Bottom nav title
                                                 home_menu.setTitle(home_title);
                                                 delneveshte_menu.setTitle(hert_title);
                                                 setting_menu.setTitle(setting_title);
+                                                // set menu nav title
+                                                call_us.setTitle(callus_title);
+                                                about_us.setTitle(aboutus_title);
+                                                future_view.setTitle(futureview_title);
+                                                mission.setTitle(mission_title);
+                                                website.setTitle(website_title);
                                             }
                                         }
                                     });
@@ -275,12 +385,13 @@ public class MainActivity extends AppCompatActivity {
                                     break;
 
                                 case R.id.item_setting:
+                                    drawerLayout.openDrawer(navigation_menu);
                                     // put title to <Setting.java>
-                                    Intent sendTitle_setting = new Intent(MainActivity.this, Setting.class);
-                                    sendTitle_setting.putExtra("homeTitle" , home_title);
-                                    sendTitle_setting.putExtra("delneveshteTitle" , hert_title);
-                                    sendTitle_setting.putExtra("settingTitle" , setting_title);
-                                    startActivity(sendTitle_setting);
+//                                    Intent sendTitle_setting = new Intent(MainActivity.this, Setting.class);
+//                                    sendTitle_setting.putExtra("homeTitle" , home_title);
+//                                    sendTitle_setting.putExtra("delneveshteTitle" , hert_title);
+//                                    sendTitle_setting.putExtra("settingTitle" , setting_title);
+//                                    startActivity(sendTitle_setting);
                                     break;
                             }
                             return true;
@@ -522,6 +633,39 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    //Setting Menu
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int menuId = item.getItemId();
+        switch (menuId) {
+
+            case R.id.call_us:
+
+                break;
+            case R.id.about_us:
+
+                break;
+            case R.id.future_view:
+
+                break;
+            case R.id.mission:
+
+                break;
+            case R.id.website:
+
+                break;
+
+
+        }
+
+        drawerLayout.closeDrawer(GravityCompat.START);
+
+        return true;
+    }
+
+
+
     // Double back for Exit
     boolean doubleBackToExitPressedOnce = false;
     @Override
@@ -534,23 +678,35 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
             return;
         }
-        this.doubleBackToExitPressedOnce = true;
 
-        if (farsi){
-            Toast.makeText(this, "برای خروج مجددا کلید برگشت را لمس کنید", Toast.LENGTH_SHORT).show();
-        }
-        if (arabic){
-            Toast.makeText(this, "للخروج المس زر الرجوع مرة أخرى", Toast.LENGTH_SHORT).show();
-        }
-        if (english){
-            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-        }
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce=false;
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            bottomNav.setSelectedItemId(R.id.item_home);
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            this.doubleBackToExitPressedOnce = true;
+
+            if (farsi){
+                Toast.makeText(this, "برای خروج مجددا کلید برگشت را لمس کنید", Toast.LENGTH_SHORT).show();
             }
-        }, 2000);
+            if (arabic){
+                Toast.makeText(this, "للخروج المس زر الرجوع مرة أخرى", Toast.LENGTH_SHORT).show();
+            }
+            if (english){
+                Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+            }
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce=false;
+                }
+            }, 1500);
+        }
     }
+
+    public void Change_lang(){
+        startActivity(new Intent(MainActivity.this,changing_lang.class));
+        finish();
+    }
+
 
 }
