@@ -1,42 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:layout_height="wrap_content">
 
-    <TableLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:stretchColumns="1">
+        android:layout_height="0dp"
+        android:layout_weight="9"
+        android:fillViewport="true">
 
-        <!-- everything you already have -->
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:stretchColumns="1">
+
+            <!-- everything you already have -->
 
 
 
-
-    <TextView
-        android:fontFamily="@font/iransans_bold"
-        android:textSize="24dp"
-        android:layout_margin="10dp"
-        android:textColor="#000"
-        android:text=""
-        android:id="@+id/about_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <LinearLayout
-        android:layout_margin="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/about_desc"
-            android:text=""
-            android:textSize="14dp"
+            android:fontFamily="@font/iransans_bold"
+            android:textSize="24dp"
+            android:layout_margin="10dp"
             android:textColor="#000"
+            android:text=""
+            android:id="@+id/about_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/about_desc"
+                android:text=""
+                android:textSize="14dp"
+                android:textColor="#000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-    </TableLayout>
-</ScrollView>
+        </LinearLayout>
+
+        </TableLayout>
+
+    </ScrollView>
+    <Button
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/btn_style"
+        android:id="@+id/btn_back_about"
+        android:text=""
+        android:layout_margin="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+</LinearLayout>

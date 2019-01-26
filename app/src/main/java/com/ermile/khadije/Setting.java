@@ -94,14 +94,11 @@ public class Setting extends AppCompatActivity {
 
 
         if (farsi) {
-            fa.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.lang_changed));
         }
         if (arabic) {
-            ar.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.lang_changed));
             change_lang.setText("اختر لغتك");
         }
         if (english) {
-            en.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.lang_changed));
             change_lang.setText("Choose your language");
         }
 

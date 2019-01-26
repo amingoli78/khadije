@@ -91,6 +91,7 @@
 
 
     <Button
+        android:background="@drawable/btn_style"
         android:visibility="gone"
         android:id="@+id/btn_back_status"
         android:text=""

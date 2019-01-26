@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -27,6 +28,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -115,11 +117,34 @@ public class MainActivity extends AppCompatActivity {
         navigation_menu = findViewById(R.id.navigation_view);
         // get Header
         View header_navmenu=navigation_menu.getHeaderView(0);
-        TextView title_header = header_navmenu.findViewById(R.id.username);
+        final TextView title_header = header_navmenu.findViewById(R.id.username);
+        TextView ver_hed = header_navmenu.findViewById(R.id.virsioin_hed);
+        final TextView change_lang = header_navmenu.findViewById(R.id.btn_change_lang);
+        final TextView close_lang = header_navmenu.findViewById(R.id.btn_close_lang);
+        final LinearLayout language =header_navmenu.findViewById(R.id.set_language);
         Button btn_en = header_navmenu.findViewById(R.id.header_english);
         Button btn_ar = header_navmenu.findViewById(R.id.header_arabic);
         Button btn_fa = header_navmenu.findViewById(R.id.header_farsi);
         // set Header
+        change_lang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                change_lang.setVisibility(View.GONE);
+                close_lang.setVisibility(View.VISIBLE);
+                language.setVisibility(View.VISIBLE);
+                language.animate().setDuration(400).alpha(1);
+            }
+        });
+        close_lang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                language.animate().setDuration(400).alpha(0);
+                language.setVisibility(View.GONE);
+                language.setAlpha(0);
+                close_lang.setVisibility(View.GONE);
+                change_lang.setVisibility(View.VISIBLE);
+            }
+        });
         btn_en.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -217,22 +242,31 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (farsi){
+            change_lang.setText("تغییر زبان");
+            close_lang.setText("بستن");
+            ver_hed.setText("نسخه " + versionName);
+            btn_fa.setSelected(true);
+            btn_fa.setTextColor(Color.parseColor("#ffffff"));
             url = "https://khadije.com/api/v5/android";
-            title_header.setText("موسسه حضرت خدیجه");
-            btn_fa.setBackgroundColor(Color.parseColor("#babbbc"));
             ViewCompat.setLayoutDirection(drawerLayout,ViewCompat.LAYOUT_DIRECTION_RTL);
 
         }
         if (arabic){
+            change_lang.setText("تغيير اللغة");
+            close_lang.setText("غلق");
+            ver_hed.setText("الإصدار " + versionName);
+            btn_ar.setSelected(true);
+            btn_ar.setTextColor(Color.parseColor("#ffffff"));
             url = "https://khadije.com/ar/api/v5/android";
-            title_header.setText("مؤسسة خيرية خديجة");
-            btn_ar.setBackgroundColor(Color.parseColor("#babbbc"));
             ViewCompat.setLayoutDirection(drawerLayout,ViewCompat.LAYOUT_DIRECTION_RTL);
         }
         if (english){
+            change_lang.setText("Change Language");
+            close_lang.setText("Close");
+            ver_hed.setText("Version " + versionName);
+            btn_en.setSelected(true);
+            btn_en.setTextColor(Color.parseColor("#ffffff"));
             url = "https://khadije.com/en/api/v5/android";
-            title_header.setText("Khadije Charity");
-            btn_en.setBackgroundColor(Color.parseColor("#babbbc"));
             ViewCompat.setLayoutDirection(drawerLayout,ViewCompat.LAYOUT_DIRECTION_LTR);
         }
 
@@ -249,8 +283,13 @@ public class MainActivity extends AppCompatActivity {
                     final Map<String, String> sernd_headers = new HashMap<String, String>();
                     sernd_headers.put("x-app-request", "android");
 
+                    // set Title Header
+                    String json_title_header = response.getString("desc");
+                    title_header.setText(json_title_header);
+
+
                     // get Param for <bottom nav>
-                    JSONArray navigation_btn = response.getJSONArray("navigation");
+                    final JSONArray navigation_btn = response.getJSONArray("navigation");
                     JSONObject home = navigation_btn.getJSONObject(0);
                     JSONObject hert = navigation_btn.getJSONObject(1);
                     JSONObject setting = navigation_btn.getJSONObject(2);
@@ -317,6 +356,8 @@ public class MainActivity extends AppCompatActivity {
                                             if (!drawerLayout.isDrawerOpen(GravityCompat.START ) && bottomNav.getSelectedItemId() == R.id.item_setting)
                                             {
                                                 bottomNav.setSelectedItemId(R.id.item_home);
+                                                language.setVisibility(View.GONE);
+                                                language.setAlpha(0);
                                             }
 
                                         }

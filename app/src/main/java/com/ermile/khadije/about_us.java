@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -17,6 +19,7 @@ import org.jsoup.Jsoup;
 public class about_us extends AppCompatActivity {
 
     TextView titles, desc;
+    Button back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +28,13 @@ public class about_us extends AppCompatActivity {
 
         titles = findViewById(R.id.about_title);
         desc  = findViewById(R.id.about_desc);
+        back = findViewById(R.id.btn_back_about);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         final SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
         final SharedPreferences.Editor editor = shared.edit();
@@ -33,6 +43,16 @@ public class about_us extends AppCompatActivity {
         final Boolean arabic = shared.getBoolean("arabic", false);
         final Boolean english = shared.getBoolean("english", false);
 
+
+        if (farsi){
+            back.setText("بازگشت");
+        }
+        if (arabic){
+            back.setText("عودة");
+        }
+        if (english){
+            back.setText("back");
+        }
 
         String url = "";
 
