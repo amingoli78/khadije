@@ -39,6 +39,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".about_us"
+            android:theme="@style/AppThemeActionBar"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
