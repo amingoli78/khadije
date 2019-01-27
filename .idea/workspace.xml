@@ -18,9 +18,6 @@
     <list default="true" id="b6b99515-7de5-4acf-94a4-1965ac414f3c" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/header_setting.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/header_setting.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/menu/bottom_menu.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/menu/bottom_menu.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -46,42 +43,11 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="223">
-              <caret line="404" column="33" selection-start-line="404" selection-start-column="33" selection-end-line="404" selection-end-column="33" />
+            <state relative-caret-position="464">
+              <caret line="291" column="53" selection-start-line="291" selection-start-column="53" selection-end-line="291" selection-end-column="53" />
               <folding>
-                <element signature="e#3322#3879#0" expanded="true" />
-                <element signature="e#3565#3769#0" expanded="true" />
-                <element signature="e#3768#3769#0" expanded="true" />
-                <element signature="e#3878#3879#0" expanded="true" />
-                <element signature="e#4826#5171#0" expanded="true" />
-                <element signature="e#5170#5171#0" expanded="true" />
-                <element signature="e#5212#5592#0" expanded="true" />
-                <element signature="e#5591#5592#0" expanded="true" />
-                <element signature="e#5629#6239#0" expanded="true" />
-                <element signature="e#6238#6239#0" expanded="true" />
-                <element signature="e#6277#6875#0" expanded="true" />
-                <element signature="e#6874#6875#0" expanded="true" />
-                <element signature="e#6913#7508#0" expanded="true" />
-                <element signature="e#7507#7508#0" expanded="true" />
-                <element signature="e#11441#30434#0" expanded="true" />
-                <element signature="e#11868#11884#0" expanded="true" />
-                <element signature="e#14823#17178#0" expanded="true" />
-                <element signature="e#15132#17008#0" expanded="true" />
-                <element signature="e#17007#17008#0" expanded="true" />
-                <element signature="e#17177#17178#0" expanded="true" />
-                <element signature="e#17382#17635#0" expanded="true" />
-                <element signature="e#17634#17635#0" expanded="true" />
-                <element signature="e#19190#23760#0" expanded="true" />
-                <element signature="e#23759#23760#0" expanded="true" />
-                <element signature="e#23834#27098#0" expanded="true" />
-                <element signature="e#27097#27098#0" expanded="true" />
-                <element signature="e#30433#30434#0" expanded="true" />
-                <element signature="e#30436#30728#0" expanded="true" />
-                <element signature="e#30727#30728#0" expanded="true" />
                 <element signature="method#post_smile#0;class#MainActivity#0" />
                 <element signature="method#Notif_is#0;class#MainActivity#0" />
-                <element signature="e#39616#39781#0" expanded="true" />
-                <element signature="e#39780#39781#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -2539,7 +2505,6 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/paying.xml" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/errornet.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/splash.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/navigation_view_them.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/header_setting.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/Intro.java" />
@@ -2559,6 +2524,7 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/header_setting.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/bottom_menu.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/splash.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java" />
       </list>
     </option>
@@ -2639,7 +2605,7 @@
     <property name="ExportApk.SignV2" value="true" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://C:/amingoli/Projects/khadije/app/src/main/java/com/ermile/khadije/MainActivity.java" />
     <property name="android.sdk.path" value="C:/Android/sdk" />
-    <property name="device.picker.selection" value="LGK430SWSW6SYT" />
+    <property name="device.picker.selection" value="1d96696c" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/drawable" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../APK" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
@@ -2796,14 +2762,14 @@
       <window_info id="Captures" order="2" weight="0.25" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20694087" />
-      <window_info anchor="bottom" id="Build" order="7" visible="true" weight="0.3292683" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20694087" />
+      <window_info anchor="bottom" id="Build" order="7" weight="0.3292683" />
       <window_info anchor="right" id="Gradle" order="8" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Device File Explorer" order="13" side_tool="true" weight="0.32969153" />
       <window_info anchor="right" id="Theme Preview" order="10" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39972898" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -2848,14 +2814,12 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="74" />
+    </breakpoint-manager>
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/status.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="415">
-          <caret line="110" selection-start-line="110" selection-end-line="110" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
@@ -2868,39 +2832,8 @@
         <state relative-caret-position="8194">
           <caret line="482" column="29" selection-start-line="482" selection-start-column="29" selection-end-line="482" selection-end-column="29" />
           <folding>
-            <element signature="e#3322#3879#0" expanded="true" />
-            <element signature="e#3565#3769#0" expanded="true" />
-            <element signature="e#3768#3769#0" expanded="true" />
-            <element signature="e#3878#3879#0" expanded="true" />
-            <element signature="e#4826#5171#0" expanded="true" />
-            <element signature="e#5170#5171#0" expanded="true" />
-            <element signature="e#5212#5592#0" expanded="true" />
-            <element signature="e#5591#5592#0" expanded="true" />
-            <element signature="e#5629#6239#0" expanded="true" />
-            <element signature="e#6238#6239#0" expanded="true" />
-            <element signature="e#6277#6875#0" expanded="true" />
-            <element signature="e#6874#6875#0" expanded="true" />
-            <element signature="e#6913#7508#0" expanded="true" />
-            <element signature="e#7507#7508#0" expanded="true" />
-            <element signature="e#11441#30434#0" expanded="true" />
-            <element signature="e#11868#11884#0" expanded="true" />
-            <element signature="e#14823#17178#0" expanded="true" />
-            <element signature="e#15132#17008#0" expanded="true" />
-            <element signature="e#17007#17008#0" expanded="true" />
-            <element signature="e#17177#17178#0" expanded="true" />
-            <element signature="e#17382#17635#0" expanded="true" />
-            <element signature="e#17634#17635#0" expanded="true" />
-            <element signature="e#19190#23760#0" expanded="true" />
-            <element signature="e#23759#23760#0" expanded="true" />
-            <element signature="e#23834#27098#0" expanded="true" />
-            <element signature="e#27097#27098#0" expanded="true" />
-            <element signature="e#30433#30434#0" expanded="true" />
-            <element signature="e#30436#30728#0" expanded="true" />
-            <element signature="e#30727#30728#0" expanded="true" />
             <element signature="method#post_smile#0;class#MainActivity#0" />
             <element signature="method#Notif_is#0;class#MainActivity#0" />
-            <element signature="e#39616#39781#0" expanded="true" />
-            <element signature="e#39780#39781#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2977,39 +2910,8 @@
         <state relative-caret-position="816">
           <caret line="48" column="7" selection-start-line="48" selection-start-column="7" selection-end-line="48" selection-end-column="7" />
           <folding>
-            <element signature="e#3322#3879#0" expanded="true" />
-            <element signature="e#3565#3769#0" expanded="true" />
-            <element signature="e#3768#3769#0" expanded="true" />
-            <element signature="e#3878#3879#0" expanded="true" />
-            <element signature="e#4826#5171#0" expanded="true" />
-            <element signature="e#5170#5171#0" expanded="true" />
-            <element signature="e#5212#5592#0" expanded="true" />
-            <element signature="e#5591#5592#0" expanded="true" />
-            <element signature="e#5629#6239#0" expanded="true" />
-            <element signature="e#6238#6239#0" expanded="true" />
-            <element signature="e#6277#6875#0" expanded="true" />
-            <element signature="e#6874#6875#0" expanded="true" />
-            <element signature="e#6913#7508#0" expanded="true" />
-            <element signature="e#7507#7508#0" expanded="true" />
-            <element signature="e#11441#30434#0" expanded="true" />
-            <element signature="e#11868#11884#0" expanded="true" />
-            <element signature="e#14823#17178#0" expanded="true" />
-            <element signature="e#15132#17008#0" expanded="true" />
-            <element signature="e#17007#17008#0" expanded="true" />
-            <element signature="e#17177#17178#0" expanded="true" />
-            <element signature="e#17382#17635#0" expanded="true" />
-            <element signature="e#17634#17635#0" expanded="true" />
-            <element signature="e#19190#23760#0" expanded="true" />
-            <element signature="e#23759#23760#0" expanded="true" />
-            <element signature="e#23834#27098#0" expanded="true" />
-            <element signature="e#27097#27098#0" expanded="true" />
-            <element signature="e#30433#30434#0" expanded="true" />
-            <element signature="e#30436#30728#0" expanded="true" />
-            <element signature="e#30727#30728#0" expanded="true" />
             <element signature="method#post_smile#0;class#MainActivity#0" />
             <element signature="method#Notif_is#0;class#MainActivity#0" />
-            <element signature="e#39616#39781#0" expanded="true" />
-            <element signature="e#39780#39781#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -3049,39 +2951,8 @@
         <state relative-caret-position="4930">
           <caret line="290" column="45" selection-start-line="290" selection-start-column="45" selection-end-line="290" selection-end-column="45" />
           <folding>
-            <element signature="e#3322#3879#0" expanded="true" />
-            <element signature="e#3565#3769#0" expanded="true" />
-            <element signature="e#3768#3769#0" expanded="true" />
-            <element signature="e#3878#3879#0" expanded="true" />
-            <element signature="e#4826#5171#0" expanded="true" />
-            <element signature="e#5170#5171#0" expanded="true" />
-            <element signature="e#5212#5592#0" expanded="true" />
-            <element signature="e#5591#5592#0" expanded="true" />
-            <element signature="e#5629#6239#0" expanded="true" />
-            <element signature="e#6238#6239#0" expanded="true" />
-            <element signature="e#6277#6875#0" expanded="true" />
-            <element signature="e#6874#6875#0" expanded="true" />
-            <element signature="e#6913#7508#0" expanded="true" />
-            <element signature="e#7507#7508#0" expanded="true" />
-            <element signature="e#11441#30434#0" expanded="true" />
-            <element signature="e#11868#11884#0" expanded="true" />
-            <element signature="e#14823#17178#0" expanded="true" />
-            <element signature="e#15132#17008#0" expanded="true" />
-            <element signature="e#17007#17008#0" expanded="true" />
-            <element signature="e#17177#17178#0" expanded="true" />
-            <element signature="e#17382#17635#0" expanded="true" />
-            <element signature="e#17634#17635#0" expanded="true" />
-            <element signature="e#19190#23760#0" expanded="true" />
-            <element signature="e#23759#23760#0" expanded="true" />
-            <element signature="e#23834#27098#0" expanded="true" />
-            <element signature="e#27097#27098#0" expanded="true" />
-            <element signature="e#30433#30434#0" expanded="true" />
-            <element signature="e#30436#30728#0" expanded="true" />
-            <element signature="e#30727#30728#0" expanded="true" />
             <element signature="method#post_smile#0;class#MainActivity#0" />
             <element signature="method#Notif_is#0;class#MainActivity#0" />
-            <element signature="e#39616#39781#0" expanded="true" />
-            <element signature="e#39780#39781#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -3145,13 +3016,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/paying.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/lang_changed.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/splash.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="373">
-          <caret line="326" column="66" selection-start-line="326" selection-start-column="66" selection-end-line="326" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/splash.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="423">
@@ -3160,13 +3024,6 @@
       </provider>
       <provider editor-type-id="android-designer2">
         <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/Intro.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="313" column="46" selection-start-line="313" selection-start-column="46" selection-end-line="313" selection-end-column="46" />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/Setting.java">
@@ -3230,6 +3087,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="168">
           <caret line="107" column="21" selection-start-line="107" selection-start-column="21" selection-end-line="107" selection-end-column="21" />
+          <folding>
+            <element signature="e#4133#4134#0" expanded="true" />
+            <element signature="e#4191#4192#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -3297,6 +3158,27 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/Intro.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="313" column="46" selection-start-line="313" selection-start-column="46" selection-end-line="313" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Android/sdk/platforms/android-27/android.jar!/java/lang/String.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="13" column="19" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/splash.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="301">
+          <caret line="211" selection-start-line="211" selection-end-line="211" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="95">
@@ -3309,42 +3191,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="404" column="33" selection-start-line="404" selection-start-column="33" selection-end-line="404" selection-end-column="33" />
+        <state relative-caret-position="464">
+          <caret line="291" column="53" selection-start-line="291" selection-start-column="53" selection-end-line="291" selection-end-column="53" />
           <folding>
-            <element signature="e#3322#3879#0" expanded="true" />
-            <element signature="e#3565#3769#0" expanded="true" />
-            <element signature="e#3768#3769#0" expanded="true" />
-            <element signature="e#3878#3879#0" expanded="true" />
-            <element signature="e#4826#5171#0" expanded="true" />
-            <element signature="e#5170#5171#0" expanded="true" />
-            <element signature="e#5212#5592#0" expanded="true" />
-            <element signature="e#5591#5592#0" expanded="true" />
-            <element signature="e#5629#6239#0" expanded="true" />
-            <element signature="e#6238#6239#0" expanded="true" />
-            <element signature="e#6277#6875#0" expanded="true" />
-            <element signature="e#6874#6875#0" expanded="true" />
-            <element signature="e#6913#7508#0" expanded="true" />
-            <element signature="e#7507#7508#0" expanded="true" />
-            <element signature="e#11441#30434#0" expanded="true" />
-            <element signature="e#11868#11884#0" expanded="true" />
-            <element signature="e#14823#17178#0" expanded="true" />
-            <element signature="e#15132#17008#0" expanded="true" />
-            <element signature="e#17007#17008#0" expanded="true" />
-            <element signature="e#17177#17178#0" expanded="true" />
-            <element signature="e#17382#17635#0" expanded="true" />
-            <element signature="e#17634#17635#0" expanded="true" />
-            <element signature="e#19190#23760#0" expanded="true" />
-            <element signature="e#23759#23760#0" expanded="true" />
-            <element signature="e#23834#27098#0" expanded="true" />
-            <element signature="e#27097#27098#0" expanded="true" />
-            <element signature="e#30433#30434#0" expanded="true" />
-            <element signature="e#30436#30728#0" expanded="true" />
-            <element signature="e#30727#30728#0" expanded="true" />
             <element signature="method#post_smile#0;class#MainActivity#0" />
             <element signature="method#Notif_is#0;class#MainActivity#0" />
-            <element signature="e#39616#39781#0" expanded="true" />
-            <element signature="e#39780#39781#0" expanded="true" />
           </folding>
         </state>
       </provider>

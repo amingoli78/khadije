@@ -79,6 +79,9 @@ public class MainActivity extends AppCompatActivity {
         final Boolean arabic = shared.getBoolean("arabic", false);
         final Boolean english = shared.getBoolean("english", false);
 
+        final String myTokengName = shared.getString("myTokengName", "no-tooken");
+        final String myTokengName_code = shared.getString("myTokengName_code", "no-tooken");
+
         // Change Version from > build.gradle(Module:app)
         try {
             PackageInfo pInfo = getApplicationContext().getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -398,10 +401,6 @@ public class MainActivity extends AppCompatActivity {
 
                                     // Return true means, leave the current web view and handle the url itself
                                     return true;
-                                }
-                                if (url.equals(hert_url)){
-                                    bottomNav.getMenu().findItem(R.id.item_delneveshte).setCheckable(true);
-                                    return true;
                                 }else {
                                     bottomNav.getMenu().findItem(R.id.item_home).setCheckable(false);
                                     return true;
@@ -420,6 +419,7 @@ public class MainActivity extends AppCompatActivity {
                         public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
                             switch (item.getItemId()) {
                                 case R.id.item_home:
+                                    bottomNav.getMenu().findItem(R.id.item_home).setCheckable(true);
                                     webView.loadUrl(home_url, sernd_headers);
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
@@ -440,10 +440,6 @@ public class MainActivity extends AppCompatActivity {
 
                                                     // Return true means, leave the current web view and handle the url itself
                                                     return true;
-                                                }
-                                                if (url.equals(hert_url)){
-                                                    bottomNav.getMenu().findItem(R.id.item_delneveshte).setCheckable(true);
-                                                    return true;
                                                 }else {
                                                     bottomNav.getMenu().findItem(R.id.item_home).setCheckable(false);
                                                     return true;
@@ -459,6 +455,7 @@ public class MainActivity extends AppCompatActivity {
                                         }});
                                     break;
                                 case R.id.item_delneveshte:
+                                    bottomNav.getMenu().findItem(R.id.item_delneveshte).setCheckable(true);
                                     webView.loadUrl(hert_url, sernd_headers);
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
@@ -478,10 +475,6 @@ public class MainActivity extends AppCompatActivity {
                                                     bottomNav.setSelectedItemId(R.id.item_home);
 
                                                     // Return true means, leave the current web view and handle the url itself
-                                                    return true;
-                                                }
-                                                if (url.equals(hert_url)){
-                                                    bottomNav.getMenu().findItem(R.id.item_delneveshte).setCheckable(true);
                                                     return true;
                                                 }else {
                                                     bottomNav.getMenu().findItem(R.id.item_delneveshte).setCheckable(false);
