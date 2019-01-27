@@ -1,16 +1,13 @@
 package com.ermile.khadije;
 
-import android.content.ClipData;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -20,6 +17,10 @@ import com.ermile.khadije.network.AppContoroler;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+import static org.jsoup.nodes.Entities.escape;
+import static org.jsoup.nodes.Entities.getByName;
 
 public class about_us extends AppCompatActivity {
 

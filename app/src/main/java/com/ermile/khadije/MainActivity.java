@@ -15,7 +15,6 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -117,7 +116,8 @@ public class MainActivity extends AppCompatActivity {
         navigation_menu = findViewById(R.id.navigation_view);
         // get Header
         View header_navmenu=navigation_menu.getHeaderView(0);
-        final TextView title_header = header_navmenu.findViewById(R.id.username);
+        final TextView header_title = header_navmenu.findViewById(R.id.header_title);
+        final TextView header_desc = header_navmenu.findViewById(R.id.header_desc);
         TextView ver_hed = header_navmenu.findViewById(R.id.virsioin_hed);
         final TextView change_lang = header_navmenu.findViewById(R.id.btn_change_lang);
         final TextView close_lang = header_navmenu.findViewById(R.id.btn_close_lang);
@@ -284,8 +284,10 @@ public class MainActivity extends AppCompatActivity {
                     sernd_headers.put("x-app-request", "android");
 
                     // set Title Header
-                    String json_title_header = response.getString("desc");
-                    title_header.setText(json_title_header);
+                    String json_title_header = response.getString("name");
+                    String json_desc_header = response.getString("desc");
+                    header_title.setText(json_title_header);
+                    header_desc.setText(json_desc_header);
 
 
                     // get Param for <bottom nav>
@@ -356,6 +358,8 @@ public class MainActivity extends AppCompatActivity {
                                             if (!drawerLayout.isDrawerOpen(GravityCompat.START ) && bottomNav.getSelectedItemId() == R.id.item_setting)
                                             {
                                                 bottomNav.setSelectedItemId(R.id.item_home);
+                                                close_lang.setVisibility(View.GONE);
+                                                change_lang.setVisibility(View.VISIBLE);
                                                 language.setVisibility(View.GONE);
                                                 language.setAlpha(0);
                                             }
