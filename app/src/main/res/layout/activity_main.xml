@@ -39,7 +39,6 @@
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView
-
         android:theme="@style/menu_nav"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

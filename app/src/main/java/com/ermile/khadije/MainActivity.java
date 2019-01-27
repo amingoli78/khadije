@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         View header_navmenu=navigation_menu.getHeaderView(0);
         final TextView header_title = header_navmenu.findViewById(R.id.header_title);
         final TextView header_desc = header_navmenu.findViewById(R.id.header_desc);
-        TextView ver_hed = header_navmenu.findViewById(R.id.virsioin_hed);
+        final TextView ver_hed = header_navmenu.findViewById(R.id.virsioin_hed);
         final TextView change_lang = header_navmenu.findViewById(R.id.btn_change_lang);
         final TextView close_lang = header_navmenu.findViewById(R.id.btn_close_lang);
         final LinearLayout language =header_navmenu.findViewById(R.id.set_language);
@@ -242,9 +242,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (farsi){
-            change_lang.setText("تغییر زبان");
-            close_lang.setText("بستن");
-            ver_hed.setText("نسخه " + versionName);
             btn_fa.setSelected(true);
             btn_fa.setTextColor(Color.parseColor("#ffffff"));
             url = "https://khadije.com/api/v5/android";
@@ -252,18 +249,12 @@ public class MainActivity extends AppCompatActivity {
 
         }
         if (arabic){
-            change_lang.setText("تغيير اللغة");
-            close_lang.setText("غلق");
-            ver_hed.setText("الإصدار " + versionName);
             btn_ar.setSelected(true);
             btn_ar.setTextColor(Color.parseColor("#ffffff"));
             url = "https://khadije.com/ar/api/v5/android";
             ViewCompat.setLayoutDirection(drawerLayout,ViewCompat.LAYOUT_DIRECTION_RTL);
         }
         if (english){
-            change_lang.setText("Change Language");
-            close_lang.setText("Close");
-            ver_hed.setText("Version " + versionName);
             btn_en.setSelected(true);
             btn_en.setTextColor(Color.parseColor("#ffffff"));
             url = "https://khadije.com/en/api/v5/android";
@@ -288,6 +279,14 @@ public class MainActivity extends AppCompatActivity {
                     String json_desc_header = response.getString("desc");
                     header_title.setText(json_title_header);
                     header_desc.setText(json_desc_header);
+
+                    JSONObject trans_header = response.getJSONObject("transalate");
+                    String json_chaneg_lang = trans_header.getString("changelang");
+                    String json_close_lang = trans_header.getString("close");
+                    String json_ver_hed = trans_header.getString("version");
+                    change_lang.setText(json_chaneg_lang);
+                    close_lang.setText(json_close_lang);
+                    ver_hed.setText(json_ver_hed + " " + versionName);
 
 
                     // get Param for <bottom nav>
@@ -389,15 +388,24 @@ public class MainActivity extends AppCompatActivity {
                             headerMap.put("x-app-request", "android");
                             view.loadUrl(url, headerMap);
 
-                            if(url.startsWith("https://khadije.com/pay/") ||url.startsWith("https://khadije.com/ar/pay/") || url.startsWith("https://khadije.com/en/pay/")){
-                                // Handle the tel: link
-                                Intent browser = new Intent ( Intent.ACTION_VIEW );
-                                browser.setData ( Uri.parse ( url ) );
-                                startActivity ( browser );
-                                bottomNav.setSelectedItemId(R.id.item_home);
+                            if (!url.equals(home_url)){
+                                if(url.startsWith("https://khadije.com/pay/") ||url.startsWith("https://khadije.com/ar/pay/") || url.startsWith("https://khadije.com/en/pay/")){
+                                    // Handle the tel: link
+                                    Intent browser = new Intent ( Intent.ACTION_VIEW );
+                                    browser.setData ( Uri.parse ( url ) );
+                                    startActivity ( browser );
+                                    bottomNav.setSelectedItemId(R.id.item_home);
 
-                                // Return true means, leave the current web view and handle the url itself
-                                return true;
+                                    // Return true means, leave the current web view and handle the url itself
+                                    return true;
+                                }
+                                if (url.equals(hert_url)){
+                                    bottomNav.getMenu().findItem(R.id.item_delneveshte).setCheckable(true);
+                                    return true;
+                                }else {
+                                    bottomNav.getMenu().findItem(R.id.item_home).setCheckable(false);
+                                    return true;
+                                }
                             }
                             return false;
                         }
@@ -409,7 +417,7 @@ public class MainActivity extends AppCompatActivity {
                     // set for On Click bottom
                     bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
                         @Override
-                        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
                             switch (item.getItemId()) {
                                 case R.id.item_home:
                                     webView.loadUrl(home_url, sernd_headers);
@@ -422,16 +430,26 @@ public class MainActivity extends AppCompatActivity {
                                             headerMap.put("x-app-request", "android");
                                             view.loadUrl(url, headerMap);
 
-                                            if(url.startsWith("https://khadije.com/pay/") ||url.startsWith("https://khadije.com/ar/pay/") || url.startsWith("https://khadije.com/en/pay/")){
-                                                // Handle the tel: link
-                                                Intent browser = new Intent ( Intent.ACTION_VIEW );
-                                                browser.setData ( Uri.parse ( url ) );
-                                                startActivity ( browser );
-                                                bottomNav.setSelectedItemId(R.id.item_home);
+                                            if (!url.equals(home_url)){
+                                                if(url.startsWith("https://khadije.com/pay/") ||url.startsWith("https://khadije.com/ar/pay/") || url.startsWith("https://khadije.com/en/pay/")){
+                                                    // Handle the tel: link
+                                                    Intent browser = new Intent ( Intent.ACTION_VIEW );
+                                                    browser.setData ( Uri.parse ( url ) );
+                                                    startActivity ( browser );
+                                                    bottomNav.setSelectedItemId(R.id.item_home);
 
-                                                // Return true means, leave the current web view and handle the url itself
-                                                return true;
+                                                    // Return true means, leave the current web view and handle the url itself
+                                                    return true;
+                                                }
+                                                if (url.equals(hert_url)){
+                                                    bottomNav.getMenu().findItem(R.id.item_delneveshte).setCheckable(true);
+                                                    return true;
+                                                }else {
+                                                    bottomNav.getMenu().findItem(R.id.item_home).setCheckable(false);
+                                                    return true;
+                                                }
                                             }
+
                                             return false;
 
                                         }
@@ -451,16 +469,26 @@ public class MainActivity extends AppCompatActivity {
                                             headerMap.put("x-app-request", "android");
                                             view.loadUrl(url, headerMap);
 
-                                            if(url.startsWith("https://khadije.com/pay/") ||url.startsWith("https://khadije.com/ar/pay/") || url.startsWith("https://khadije.com/en/pay/")){
-                                                // Handle the tel: link
-                                                Intent browser = new Intent ( Intent.ACTION_VIEW );
-                                                browser.setData ( Uri.parse ( url ) );
-                                                startActivity ( browser );
-                                                bottomNav.setSelectedItemId(R.id.item_home);
+                                            if (!url.equals(hert_url)){
+                                                if(url.startsWith("https://khadije.com/pay/") ||url.startsWith("https://khadije.com/ar/pay/") || url.startsWith("https://khadije.com/en/pay/")){
+                                                    // Handle the tel: link
+                                                    Intent browser = new Intent ( Intent.ACTION_VIEW );
+                                                    browser.setData ( Uri.parse ( url ) );
+                                                    startActivity ( browser );
+                                                    bottomNav.setSelectedItemId(R.id.item_home);
 
-                                                // Return true means, leave the current web view and handle the url itself
-                                                return true;
+                                                    // Return true means, leave the current web view and handle the url itself
+                                                    return true;
+                                                }
+                                                if (url.equals(hert_url)){
+                                                    bottomNav.getMenu().findItem(R.id.item_delneveshte).setCheckable(true);
+                                                    return true;
+                                                }else {
+                                                    bottomNav.getMenu().findItem(R.id.item_delneveshte).setCheckable(false);
+                                                    return true;
+                                                }
                                             }
+
                                             return false;
                                         }
                                         @Override

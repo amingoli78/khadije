@@ -110,7 +110,7 @@
                         android:id="@+id/btn_close_lang"
                         android:gravity="bottom"
                         android:textColor="#00209e"
-                        android:textSize="10dp"
+                        android:textSize="12dp"
                         android:textStyle="bold"
                         android:text="بستن"
                         android:layout_width="match_parent"
