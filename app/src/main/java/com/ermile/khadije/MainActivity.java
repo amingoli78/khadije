@@ -53,6 +53,7 @@ import static android.app.Notification.FLAG_AUTO_CANCEL;
 
 public class MainActivity extends AppCompatActivity {
 
+    Boolean back_inhome = false;
     // get Version for > new version apk
     int versionCode = 0 ;
     String versionName = "";
@@ -124,36 +125,14 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
         navigation_menu = findViewById(R.id.navigation_view);
         // get Header
-        View header_navmenu=navigation_menu.getHeaderView(0);
+        View header_navmenu = navigation_menu.getHeaderView(0);
         final TextView header_title = header_navmenu.findViewById(R.id.header_title);
         final TextView header_desc = header_navmenu.findViewById(R.id.header_desc);
         final TextView ver_hed = header_navmenu.findViewById(R.id.virsioin_hed);
-        final TextView change_lang = header_navmenu.findViewById(R.id.btn_change_lang);
-        final TextView close_lang = header_navmenu.findViewById(R.id.btn_close_lang);
-        final LinearLayout language =header_navmenu.findViewById(R.id.set_language);
         Button btn_en = header_navmenu.findViewById(R.id.header_english);
-        Button btn_ar = header_navmenu.findViewById(R.id.header_arabic);
+        final Button btn_ar = header_navmenu.findViewById(R.id.header_arabic);
         Button btn_fa = header_navmenu.findViewById(R.id.header_farsi);
-        // set Header
-        change_lang.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                change_lang.setVisibility(View.GONE);
-                close_lang.setVisibility(View.VISIBLE);
-                language.setVisibility(View.VISIBLE);
-                language.animate().setDuration(400).alpha(1);
-            }
-        });
-        close_lang.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                language.animate().setDuration(400).alpha(0);
-                language.setVisibility(View.GONE);
-                language.setAlpha(0);
-                close_lang.setVisibility(View.GONE);
-                change_lang.setVisibility(View.VISIBLE);
-            }
-        });
+
         btn_en.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -237,18 +216,8 @@ public class MainActivity extends AppCompatActivity {
             setting_menu.setTitle(titlesetting);
         }
         // Back load for Title > load from <Setting.java>
-        if (getIntent().getBooleanExtra("home", false)) {
-            bottomNav.setSelectedItemId(R.id.item_home);
-            home_menu.setTitle(titlehome);
-            delneveshte_menu.setTitle(titledelneveshte);
-            setting_menu.setTitle(titlesetting);
-        }
-        if (getIntent().getBooleanExtra("hert", false)) {
-            bottomNav.setSelectedItemId(R.id.item_delneveshte);
-            home_menu.setTitle(titlehome);
-            delneveshte_menu.setTitle(titledelneveshte);
-            setting_menu.setTitle(titlesetting);
-        }
+        if (getIntent().getBooleanExtra("home_bol", false)) { bottomNav.setSelectedItemId(R.id.item_home); }
+
 
         if (farsi){
             btn_fa.setSelected(true);
@@ -293,8 +262,6 @@ public class MainActivity extends AppCompatActivity {
                     String json_chaneg_lang = trans_header.getString("changelang");
                     String json_close_lang = trans_header.getString("close");
                     String json_ver_hed = trans_header.getString("version");
-                    change_lang.setText(json_chaneg_lang);
-                    close_lang.setText(json_close_lang);
                     ver_hed.setText(json_ver_hed + " " + versionName);
 
 
@@ -366,10 +333,6 @@ public class MainActivity extends AppCompatActivity {
                                             if (!drawerLayout.isDrawerOpen(GravityCompat.START ) && bottomNav.getSelectedItemId() == R.id.item_setting)
                                             {
                                                 bottomNav.setSelectedItemId(R.id.item_home);
-                                                close_lang.setVisibility(View.GONE);
-                                                change_lang.setVisibility(View.VISIBLE);
-                                                language.setVisibility(View.GONE);
-                                                language.setAlpha(0);
                                             }
 
                                         }
@@ -383,6 +346,7 @@ public class MainActivity extends AppCompatActivity {
                     // load in Start
                     swipe.setRefreshing(true);
                     webView.loadUrl(home_url,sernd_headers);
+                    back_inhome = true;
                     swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                         @Override
                         public void onRefresh() {
@@ -404,11 +368,17 @@ public class MainActivity extends AppCompatActivity {
                                     browser.setData ( Uri.parse ( url ) );
                                     startActivity ( browser );
                                     bottomNav.setSelectedItemId(R.id.item_home);
+                                    back_inhome =false;
 
                                     // Return true means, leave the current web view and handle the url itself
                                     return true;
-                                }else {
+                                }
+                                if (url.startsWith(hert_url)) {
+                                    bottomNav.setSelectedItemId(R.id.item_delneveshte);
+                                    back_inhome =false;
+                                } else {
                                     bottomNav.getMenu().findItem(R.id.item_home).setCheckable(false);
+                                    back_inhome =false;
                                     return true;
                                 }
                             }
@@ -427,6 +397,7 @@ public class MainActivity extends AppCompatActivity {
                                 case R.id.item_home:
                                     bottomNav.getMenu().findItem(R.id.item_home).setCheckable(true);
                                     webView.loadUrl(home_url, sernd_headers);
+                                    back_inhome = true;
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
                                         // in refresh send header
@@ -443,11 +414,17 @@ public class MainActivity extends AppCompatActivity {
                                                     browser.setData ( Uri.parse ( url ) );
                                                     startActivity ( browser );
                                                     bottomNav.setSelectedItemId(R.id.item_home);
+                                                    back_inhome =false;
 
                                                     // Return true means, leave the current web view and handle the url itself
                                                     return true;
-                                                }else {
+                                                }
+                                                if (url.startsWith(hert_url)) {
+                                                    bottomNav.setSelectedItemId(R.id.item_delneveshte);
+                                                    back_inhome =false;
+                                                } else {
                                                     bottomNav.getMenu().findItem(R.id.item_home).setCheckable(false);
+                                                    back_inhome =false;
                                                     return true;
                                                 }
                                             }
@@ -463,6 +440,7 @@ public class MainActivity extends AppCompatActivity {
                                 case R.id.item_delneveshte:
                                     bottomNav.getMenu().findItem(R.id.item_delneveshte).setCheckable(true);
                                     webView.loadUrl(hert_url, sernd_headers);
+                                    back_inhome =false;
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
                                         // in refresh send header
@@ -479,11 +457,17 @@ public class MainActivity extends AppCompatActivity {
                                                     browser.setData ( Uri.parse ( url ) );
                                                     startActivity ( browser );
                                                     bottomNav.setSelectedItemId(R.id.item_home);
+                                                    back_inhome =false;
 
                                                     // Return true means, leave the current web view and handle the url itself
                                                     return true;
-                                                }else {
+                                                }
+                                                if (url.startsWith(home_url)) {
+                                                    bottomNav.setSelectedItemId(R.id.item_home);
+                                                    back_inhome =true;
+                                                } else {
                                                     bottomNav.getMenu().findItem(R.id.item_delneveshte).setCheckable(false);
+                                                    back_inhome =false;
                                                     return true;
                                                 }
                                             }
@@ -512,33 +496,39 @@ public class MainActivity extends AppCompatActivity {
                                 case R.id.about_us:
                                     // put url to <about_us.java>
                                     Intent sendURL_about = new Intent(MainActivity.this, about_us.class);
-                                    sendURL_about.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    sendURL_about.putExtra("about_bol", true);
-                                    sendURL_about.putExtra("about_url" , aboutus_url);
+                                    sendURL_about
+                                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                            .putExtra("about_bol", true)
+                                            .putExtra("about_url" , aboutus_url);
+
                                     startActivity(sendURL_about);
                                     break;
                                 case R.id.call_us:
                                     // put url to <about_us.java>
                                     Intent sendURL_call = new Intent(MainActivity.this, about_us.class);
-                                    sendURL_call.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    sendURL_call.putExtra("call_bol", true);
-                                    sendURL_call.putExtra("call_url" , callus_url);
+                                    sendURL_call
+                                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                            .putExtra("call_bol", true)
+                                            .putExtra("call_url" , callus_url);
                                     startActivity(sendURL_call);
                                     break;
                                 case R.id.future_view:
                                     // put url to <about_us.java>
                                     Intent sendURL_future = new Intent(MainActivity.this, about_us.class);
-                                    sendURL_future.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    sendURL_future.putExtra("future_bol", true);
-                                    sendURL_future.putExtra("future_url" , futureview_url);
+                                    sendURL_future
+                                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                            .putExtra("future_bol", true)
+                                            .putExtra("future_url" , futureview_url);
                                     startActivity(sendURL_future);
                                     break;
                                 case R.id.mission:
                                     // put url to <about_us.java>
                                     Intent sendURL_mission = new Intent(MainActivity.this, about_us.class);
-                                    sendURL_mission.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    sendURL_mission.putExtra("mission_bol", true);
-                                    sendURL_mission.putExtra("mission_url" , mission_url);
+                                    sendURL_mission
+                                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                            .putExtra("mission_url" , mission_url)
+                                            .putExtra("mission_bol", true);
+
                                     startActivity(sendURL_mission);
                                     break;
                                 case R.id.website:
@@ -596,8 +586,37 @@ public class MainActivity extends AppCompatActivity {
                     if (versionCode < 21) {
 
 
-                        Intent sendURL_about = new Intent(MainActivity.this, status.class);
-                        pendingIntent = PendingIntent.getActivity(getApplicationContext() , FLAG_AUTO_CANCEL , sendURL_about.putExtra("put_notif","N_about").putExtra("status", "notif") , 0);
+                        int as = 6;
+
+                        Intent sendURL_about = new Intent(MainActivity.this, click_on_notif.class);
+                        pendingIntent = null;
+
+                        switch (as){
+                            case 1:
+                                pendingIntent = PendingIntent.getActivity(getApplicationContext() , 0 , sendURL_about
+                                        .putExtra("put_notif","N_Ihome") , 0);
+                                break;
+                            case 2:
+                                pendingIntent = PendingIntent.getActivity(getApplicationContext() , 1 , sendURL_about
+                                        .putExtra("put_notif","N_about") , 0);
+                                break;
+                            case 3:
+                                pendingIntent = PendingIntent.getActivity(getApplicationContext() , 2 , sendURL_about
+                                        .putExtra("put_notif","N_call") , 0);
+                                break;
+                            case 4:
+                                pendingIntent = PendingIntent.getActivity(getApplicationContext() , 3, sendURL_about
+                                        .putExtra("put_notif","N_futrue") , 0);
+                                break;
+                            case 5:
+                                pendingIntent = PendingIntent.getActivity(getApplicationContext() , 4 , sendURL_about
+                                        .putExtra("put_notif","N_mission") , 0);
+                                break;
+                            case 6:
+                                pendingIntent = PendingIntent.getActivity(getApplicationContext() , 5 , sendURL_about
+                                        .putExtra("put_notif","website") , 0);
+                                break;
+                        }
 
 
                         NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -819,7 +838,7 @@ public class MainActivity extends AppCompatActivity {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             bottomNav.setSelectedItemId(R.id.item_home);
             drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
+        } else if (back_inhome ){
             this.doubleBackToExitPressedOnce = true;
 
             if (farsi){
@@ -837,6 +856,8 @@ public class MainActivity extends AppCompatActivity {
                     doubleBackToExitPressedOnce=false;
                 }
             }, 1500);
+        }else {
+            bottomNav.setSelectedItemId(R.id.item_home);
         }
     }
 

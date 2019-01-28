@@ -27,7 +27,6 @@ public class click_on_notif extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.click_on_notif);
 
-        final String getFrom_notif = getIntent().getStringExtra("status");
         final String getFrom_notif_value = getIntent().getStringExtra("put_notif");
 
         // import SharedPreferences > <Prefs.java>
@@ -39,26 +38,9 @@ public class click_on_notif extends AppCompatActivity {
 
 
         String url = "";
-
-        if (farsi){
-            url = "https://khadije.com/api/v5/android";
-        }
-        if (arabic){
-            url = "https://khadije.com/ar/api/v5/android";
-        }
-        if (english){
-            url = "https://khadije.com/en/api/v5/android";
-        }
-
-
-
-
-
-
-
-
-
-
+        if (farsi){ url = "https://khadije.com/api/v5/android"; }
+        if (arabic){ url = "https://khadije.com/ar/api/v5/android"; }
+        if (english){ url = "https://khadije.com/en/api/v5/android"; }
         // JSON Request
         JsonObjectRequest Json_MainActivityGET = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -96,29 +78,32 @@ public class click_on_notif extends AppCompatActivity {
                     switch (getFrom_notif_value){
 
                         case "N_Ihome":
-
-                            break;
-                        case "N_Ihert":
-
+                            Intent goto_home = new Intent(getApplicationContext(), MainActivity.class);
+                            goto_home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            goto_home.putExtra("home_bol", true);
+                            startActivity(goto_home);
+                            finish();
                             break;
                         case "N_about":
-                            Intent sendURL_about = new Intent(getApplicationContext(), about_us.class);
+                            Intent sendURL_about = new Intent(getApplicationContext(), abuot_get_notif.class);
                             sendURL_about.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             sendURL_about.putExtra("about_bol", true);
                             sendURL_about.putExtra("about_url" , aboutus_url);
                             startActivity(sendURL_about);
+                            finish();
                             break;
                         case "N_call":
                             // put url to <about_us.java>
-                            Intent sendURL_call = new Intent(getApplicationContext(), about_us.class);
+                            Intent sendURL_call = new Intent(getApplicationContext(), abuot_get_notif.class);
                             sendURL_call.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             sendURL_call.putExtra("call_bol", true);
                             sendURL_call.putExtra("call_url" , callus_url);
                             startActivity(sendURL_call);
+                            finish();
                             break;
                         case "N_futrue":
                             // put url to <about_us.java>
-                            Intent sendURL_future = new Intent(getApplicationContext(), about_us.class);
+                            Intent sendURL_future = new Intent(getApplicationContext(), abuot_get_notif.class);
                             sendURL_future.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             sendURL_future.putExtra("future_bol", true);
                             sendURL_future.putExtra("future_url" , futureview_url);
@@ -126,16 +111,18 @@ public class click_on_notif extends AppCompatActivity {
                             break;
                         case "N_mission":
                             // put url to <about_us.java>
-                            Intent sendURL_mission = new Intent(getApplicationContext(), about_us.class);
+                            Intent sendURL_mission = new Intent(getApplicationContext(), abuot_get_notif.class);
                             sendURL_mission.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             sendURL_mission.putExtra("mission_bol", true);
                             sendURL_mission.putExtra("mission_url" , mission_url);
                             startActivity(sendURL_mission);
+                            finish();
                             break;
                         case "website":
                             Intent browser_khadije = new Intent ( Intent.ACTION_VIEW );
                             browser_khadije.setData ( Uri.parse ( website_url ) );
                             startActivity ( browser_khadije );
+                            finish();
                             break;
 
 

@@ -40,8 +40,7 @@
         <activity
             android:name=".about_us"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppThemeActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".errornet"
             android:configChanges="orientation|keyboardHidden"
@@ -74,7 +73,15 @@
                 <data android:scheme="khadije" />
             </intent-filter>
         </activity>
-        <activity android:name=".click_on_notif"></activity>
+        <activity
+            android:name=".click_on_notif"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".abuot_get_notif"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>
