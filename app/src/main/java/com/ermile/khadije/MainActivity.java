@@ -2,6 +2,7 @@ package com.ermile.khadije;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,9 +13,11 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -46,11 +49,14 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.app.Notification.FLAG_AUTO_CANCEL;
+
 public class MainActivity extends AppCompatActivity {
 
     // get Version for > new version apk
     int versionCode = 0 ;
     String versionName = "";
+    PendingIntent pendingIntent;
     // Handle check > Notif for user
     Handler mHandler_checkNotif;
     boolean continueORstop_checkNotif;
@@ -587,17 +593,30 @@ public class MainActivity extends AppCompatActivity {
                     String nv_title = new_version.getString("title");
                     String nv_des = new_version.getString("content_text");
                     Boolean nv_caselable = new_version.getBoolean("auto_hide");
-                    if (versionCode < nv_code) {
-                        Notification.Builder nb = new Notification.Builder(MainActivity.this);
-                        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                        nb.setContentTitle( nv_title )
-                                .setContentText( nv_des )
-                                .setSmallIcon(android.R.drawable.stat_sys_download)
-                                .setAutoCancel( nv_caselable )
-                                .setSound(alarmSound);
-                        Notification notif_update = nb.build();
-                        NotificationManager notifManager_update = (NotificationManager) MainActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
-                        notifManager_update.notify(0, notif_update);
+                    if (versionCode < 21) {
+
+
+                        Intent sendURL_about = new Intent(MainActivity.this, status.class);
+                        pendingIntent = PendingIntent.getActivity(getApplicationContext() , FLAG_AUTO_CANCEL , sendURL_about.putExtra("put_notif","N_about").putExtra("status", "notif") , 0);
+
+
+                        NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
+                        builder.setSmallIcon(android.R.drawable.stat_sys_download)
+                                .setContentTitle("ثبت نام کربلا")
+                                .setContentText("لطفا سریعتر ثبتنام کنید")
+                                .setStyle(new NotificationCompat
+                                        .BigTextStyle()
+                                        .bigText("ثبت نام شما با موفقیت انجام شد \n ثبت نام شما با موفقیت انجام شد \n  ثبت نام شما با موفقیت انجام شد \n  ثبت نام شما با موفقیت انجام شد \n"))
+                                .setContentIntent(pendingIntent)
+                                .setWhen(System.currentTimeMillis())
+                                .setAutoCancel(true)
+                                .setDefaults(Notification.DEFAULT_ALL)
+                                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
+
+                        Notification notification = builder.build();
+                        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+                        notificationManager.notify(1000, notification);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -663,9 +682,6 @@ public class MainActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                continueORstop_checkNotif = false ;
-                finish();
-                startActivity(new Intent(MainActivity.this,errornet.class));
             }
         })
          // Send Header
@@ -737,6 +753,8 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     // Your Notif is
+                        Intent goooo = new Intent(getApplicationContext() , about_us.class);
+                        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, goooo, 0);
                     for (int notif_is = 0 ; notif_is < notif_length ; notif_is++){
                         JSONObject one = get_Notif_is.getJSONObject(notif_is);
                         // get object from json
@@ -748,6 +766,7 @@ public class MainActivity extends AppCompatActivity {
                         nb.setContentTitle( notif_title )
                                 .setContentText( notif_des )
                                 .setSmallIcon(android.R.drawable.ic_dialog_email)
+                                .setContentIntent(pendingIntent)
                                 .setSound(alarmSound);
                         Notification notifs = nb.build();
                         NotificationManager notifManager = (NotificationManager) MainActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);

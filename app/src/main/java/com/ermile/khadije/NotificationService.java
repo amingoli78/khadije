@@ -2,15 +2,18 @@ package com.ermile.khadije;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -18,6 +21,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.Glide;
 import com.ermile.khadije.network.AppContoroler;
 
 import org.json.JSONArray;
@@ -236,20 +240,25 @@ public class NotificationService extends Service {
                         Len_notif = 3;
                     }
 
+                    Intent goooo = new Intent(getApplicationContext() , about_us.class);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, goooo, 0);
                     for (int respone = 0 ; respone < Len_notif ; respone++){
                         JSONObject one = getRespone.getJSONObject(respone);
                         String notif_title = one.getString("title");
                         String notif_des = one.getString("cat");
                         // Notif
-                        Notification.Builder nb = new Notification.Builder(getApplicationContext());
+                        Notification.Builder notif_manager = new Notification.Builder(getApplicationContext());
                         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALL);
-                        nb.setContentTitle( notif_title )
+                        notif_manager.setContentTitle( "" )
                                 .setContentText( notif_des )
                                 .setSmallIcon(android.R.drawable.ic_dialog_email)
+                                .setContentIntent(pendingIntent)
                                 .setSound(alarmSound);
-                        Notification notifs = nb.build();
+                        Notification notifs = notif_manager.build();
                         NotificationManager notifManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
                         notifManager.notify(10 + respone + 9, notifs);
+                        //////////////
+
                     }
 
                 } catch (JSONException e) {
