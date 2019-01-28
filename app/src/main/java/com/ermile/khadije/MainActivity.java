@@ -26,6 +26,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -355,6 +357,10 @@ public class MainActivity extends AppCompatActivity {
                     });
                     webView.setWebViewClient(new WebViewClient() {
                         @Override
+                        public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error){
+                            startActivity(new Intent(getApplicationContext(), errornet.class));
+                        }
+                        @Override
                         public boolean shouldOverrideUrlLoading(WebView view, String url) {
                             HashMap<String, String> headerMap = new HashMap<>();
                             //put all headers in this header map
@@ -400,6 +406,10 @@ public class MainActivity extends AppCompatActivity {
                                     back_inhome = true;
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
+                                        @Override
+                                        public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error){
+                                            startActivity(new Intent(getApplicationContext(), errornet.class));
+                                        }
                                         // in refresh send header
                                         @Override
                                         public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -443,6 +453,10 @@ public class MainActivity extends AppCompatActivity {
                                     back_inhome =false;
                                     swipe.setRefreshing(true);
                                     webView.setWebViewClient(new WebViewClient() {
+                                        @Override
+                                        public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error){
+                                            startActivity(new Intent(getApplicationContext(), errornet.class));
+                                        }
                                         // in refresh send header
                                         @Override
                                         public boolean shouldOverrideUrlLoading(WebView view, String url) {
