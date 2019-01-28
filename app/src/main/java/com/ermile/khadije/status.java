@@ -21,6 +21,9 @@ public class status extends AppCompatActivity {
     TextView T_title , T_cunt , F_title , F_cunt;
     LinearLayout linearLayout_true , linearLayout_false;
 
+    String status = null;
+    String amount = null;
+
 
 
     @Override
@@ -51,65 +54,72 @@ public class status extends AppCompatActivity {
         // get uri form > Browser
         Uri data = getIntent().getData();
         Uri uri = Uri.parse(String.valueOf(data));
-        String status = uri.getQueryParameter("status");
-        String amount = uri.getQueryParameter("amount");
-
-        if (farsi){
-            back.setText("بازگشت");
-            T_title.setText("نذرتان قبول");
-            T_cunt.setText(" مبلغ " + amount + " با موفقیت پرداخت گردید " );
-            F_title.setText("خطا در پرداخت");
-            F_cunt.setText(" مبلغ درخواستی " + amount );
-        }
-        if (arabic){
-            back.setText("عودة");
-            T_title.setText("تقبل الله");
-            T_cunt.setText(" تم دفع مبلغ " + amount + " تومان بنجاح " );
-            F_title.setText("خطأ في الدفع");
-            F_cunt.setText(" المبلغ المقصود " + amount );
-        }
-        if (english){
-            back.setText("back");
-            T_title.setText("Accept");
-            T_cunt.setText( "successfully paid Amount " + amount + " Toman  ");
-            F_title.setText("Payment error");
-            F_cunt.setText(" requested amount " + amount );
+        if (uri.getQueryParameter("status") != null){
+            status = uri.getQueryParameter("status");
+            amount = uri.getQueryParameter("amount");
         }
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-                startActivity(new Intent(status.this , MainActivity.class));
+
+
+        if (status != null){
+            if (farsi){
+                back.setText("بازگشت");
+                T_title.setText("نذرتان قبول");
+                T_cunt.setText(" مبلغ " + amount + " با موفقیت پرداخت گردید " );
+                F_title.setText("خطا در پرداخت");
+                F_cunt.setText(" مبلغ درخواستی " + amount );
             }
-        });
-
-        if (status.equals("true")){
-            linearLayout_true.setVisibility(View.VISIBLE);
-            GifDrawable gifDrawable = null;
-            try {
-                gifDrawable = new GifDrawable(getResources(), R.drawable.payment_true);
-                gifDrawable.setLoopCount(1);
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (arabic){
+                back.setText("عودة");
+                T_title.setText("تقبل الله");
+                T_cunt.setText(" تم دفع مبلغ " + amount + " تومان بنجاح " );
+                F_title.setText("خطأ في الدفع");
+                F_cunt.setText(" المبلغ المقصود " + amount );
             }
-            git_true.setImageDrawable(gifDrawable);
-        }
-        else if (status.equals("false")){
-            linearLayout_false.setVisibility(View.VISIBLE);
-            gif_false.animate()
-                    .alpha(1)
-                    .setDuration(1000);
-            F_title.animate()
-                    .alpha(1)
-                    .translationY(0)
-                    .setDuration(800);
-            F_cunt.animate()
-                    .alpha(1)
-                    .translationY(10)
-                    .setDuration(600);
+            if (english){
+                back.setText("back");
+                T_title.setText("Accept");
+                T_cunt.setText( "successfully paid Amount " + amount + " Toman  ");
+                F_title.setText("Payment error");
+                F_cunt.setText(" requested amount " + amount );
+            }
 
-        }else {startActivity(new Intent(this , MainActivity.class));}
+            back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                    startActivity(new Intent(status.this , MainActivity.class));
+                }
+            });
+
+            if (status.equals("true")){
+                linearLayout_true.setVisibility(View.VISIBLE);
+                GifDrawable gifDrawable = null;
+                try {
+                    gifDrawable = new GifDrawable(getResources(), R.drawable.payment_true);
+                    gifDrawable.setLoopCount(1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                git_true.setImageDrawable(gifDrawable);
+            }
+            else if (status.equals("false")){
+                linearLayout_false.setVisibility(View.VISIBLE);
+                gif_false.animate()
+                        .alpha(1)
+                        .setDuration(1000);
+                F_title.animate()
+                        .alpha(1)
+                        .translationY(0)
+                        .setDuration(800);
+                F_cunt.animate()
+                        .alpha(1)
+                        .translationY(10)
+                        .setDuration(600);
+
+            }else {startActivity(new Intent(this , MainActivity.class));}
+        } else {startActivity(new Intent(this , MainActivity.class));}
+
 
 
 
