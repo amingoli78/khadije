@@ -34,10 +34,6 @@
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Setting"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".about_us"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
@@ -80,8 +76,7 @@
         <activity
             android:name=".abuot_get_notif"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

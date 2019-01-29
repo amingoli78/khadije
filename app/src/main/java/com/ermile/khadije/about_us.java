@@ -12,11 +12,13 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -47,6 +49,10 @@ public class about_us extends AppCompatActivity {
     TextView desc;
     ProgressBar progressBar;
 
+    Button show_sendPM , sendPM;
+    CardView box_sendPM;
+    EditText edt_user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +70,30 @@ public class about_us extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawerLayout_about);
         navigation_menu = findViewById(R.id.navigation_view_about);
 
+        show_sendPM = findViewById(R.id.show_sendPM);
+        box_sendPM = findViewById(R.id.box_sendPM);
+        sendPM = findViewById(R.id.sendPM);
+        edt_user = findViewById(R.id.text_user);
+
+        show_sendPM.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                box_sendPM.setVisibility(View.VISIBLE);
+                box_sendPM.animate().alpha(1).setDuration(300);
+                show_sendPM.animate().alpha(0).setDuration(150);
+            }
+        });
+
+        sendPM.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (edt_user.length() >= 15){
+                    edt_user.getText().clear();
+                    Toast.makeText(about_us.this, "پیام شما ارسال شد!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        
         // get Header
         View header_navmenu=navigation_menu.getHeaderView(0);
         final TextView header_title = header_navmenu.findViewById(R.id.header_title);
@@ -144,6 +174,7 @@ public class about_us extends AppCompatActivity {
         }
         if (getIntent().getBooleanExtra("call_bol", false)) {
             url = getIntent().getStringExtra("call_url");
+            show_sendPM.setVisibility(View.VISIBLE);
         }
         if (getIntent().getBooleanExtra("future_bol", false)) {
             url = getIntent().getStringExtra("future_url");

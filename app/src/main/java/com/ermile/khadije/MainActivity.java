@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }).start();
 
-        //Sync id > Setting Menu
+        //Sync id >  Menu
         drawerLayout = findViewById(R.id.drawer_layout);
         navigation_menu = findViewById(R.id.navigation_view);
         // get Header
@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
                 }else {Toast.makeText(MainActivity.this, "زبان فارسی شده!", Toast.LENGTH_SHORT).show();}
             }
         });
-        // Get Menu from Setting Menu
+        // Get Menu from  Menu
         Menu menu_navmenu = navigation_menu.getMenu();
         final MenuItem about_us = menu_navmenu.findItem(R.id.about_us);
         final MenuItem call_us = menu_navmenu.findItem(R.id.call_us);
@@ -217,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
             delneveshte_menu.setTitle(titledelneveshte);
             setting_menu.setTitle(titlesetting);
         }
-        // Back load for Title > load from <Setting.java>
+        // Back load for Title > load from <.java>
         if (getIntent().getBooleanExtra("home_bol", false)) { bottomNav.setSelectedItemId(R.id.item_home); }
 
 
@@ -557,7 +557,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
-                    // get Title from <Setting.java>
+                    // get Title from <.java>
                     if (getIntent().getBooleanExtra("home", false)) {
                         webView.loadUrl(home_url, sernd_headers);
                         swipe.setRefreshing(true);
