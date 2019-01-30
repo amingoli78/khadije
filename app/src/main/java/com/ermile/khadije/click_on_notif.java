@@ -28,6 +28,7 @@ public class click_on_notif extends AppCompatActivity {
         setContentView(R.layout.click_on_notif);
 
         final String getFrom_notif_value = getIntent().getStringExtra("put_notif");
+        final String url_other_website = getIntent().getStringExtra("url_other_website");
 
         // import SharedPreferences > <Prefs.java>
         final SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
@@ -124,8 +125,12 @@ public class click_on_notif extends AppCompatActivity {
                             startActivity ( browser_khadije );
                             finish();
                             break;
-
-
+                        case "other_website":
+                            Intent browser_website = new Intent ( Intent.ACTION_VIEW );
+                            browser_website.setData ( Uri.parse ( url_other_website ) );
+                            startActivity ( browser_website );
+                            finish();
+                            break;
 
                     }
 
@@ -137,7 +142,8 @@ public class click_on_notif extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                finish();
+                startActivity ( new Intent(getApplicationContext() , errornet.class ) );
             }
         });
         AppContoroler.getInstance().addToRequestQueue(Json_MainActivityGET);

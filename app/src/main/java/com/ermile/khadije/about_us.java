@@ -93,7 +93,7 @@ public class about_us extends AppCompatActivity {
                 }
             }
         });
-        
+
         // get Header
         View header_navmenu=navigation_menu.getHeaderView(0);
         final TextView header_title = header_navmenu.findViewById(R.id.header_title);
