@@ -8,14 +8,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -35,7 +32,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,20 +41,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.bumptech.glide.Glide;
 import com.ermile.khadije.network.AppContoroler;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
-
-import static android.app.Notification.FLAG_AUTO_CANCEL;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -66,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     // get Version for > new version apk
     int versionCode = 0 ;
     String versionName = "";
-    PendingIntent pendingIntent , pendingIntent_close;
+    PendingIntent onclick_notifUpdate, onclick_notifUpdate_close;
     // Handle check > Notif for user
     Handler mHandler_checkNotif;
     boolean continueORstop_checkNotif;
@@ -75,6 +65,18 @@ public class MainActivity extends AppCompatActivity {
     //nav Menu
     DrawerLayout drawerLayout;
     NavigationView navigation_menu;
+
+
+    int icon_home = R.drawable.ic_home;
+    int icon_hert = R.drawable.ic_delneveshte ;
+    int icon_setting = R.drawable.ic_seting ;
+    int icon_about = R.drawable.ic_abut_us ;
+    int icon_contact = R.drawable.ic_call_us ;
+    int icon_vision = R.drawable.ic_future_view ;
+    int icon_mission = R.drawable.ic_mission ;
+    int icon_website = R.drawable.ic_website ;
+    int icon_net_setting = R.drawable.ic_setting_net ;
+//    int icon_ = R.drawable ;
 
 
     /**
@@ -471,24 +473,24 @@ public class MainActivity extends AppCompatActivity {
                                             headerMap.put("x-app-request", "android");
                                             view.loadUrl(url, headerMap);
 
-                                            if (!url.equals(hert_url)){
-                                                if(url.startsWith("https://khadije.com/pay/") ||url.startsWith("https://khadije.com/ar/pay/") || url.startsWith("https://khadije.com/en/pay/")){
+                                            if (!url.equals(hert_url)) {
+                                                if (url.startsWith("https://khadije.com/pay/") || url.startsWith("https://khadije.com/ar/pay/") || url.startsWith("https://khadije.com/en/pay/")) {
                                                     // Handle the tel: link
-                                                    Intent browser = new Intent ( Intent.ACTION_VIEW );
-                                                    browser.setData ( Uri.parse ( url ) );
-                                                    startActivity ( browser );
+                                                    Intent browser = new Intent(Intent.ACTION_VIEW);
+                                                    browser.setData(Uri.parse(url));
+                                                    startActivity(browser);
                                                     bottomNav.setSelectedItemId(R.id.item_home);
-                                                    back_inhome =false;
+                                                    back_inhome = false;
 
                                                     // Return true means, leave the current web view and handle the url itself
                                                     return true;
                                                 }
                                                 if (url.startsWith(home_url)) {
                                                     bottomNav.setSelectedItemId(R.id.item_home);
-                                                    back_inhome =true;
+                                                    back_inhome = true;
                                                 } else {
                                                     bottomNav.getMenu().findItem(R.id.item_delneveshte).setCheckable(false);
-                                                    back_inhome =false;
+                                                    back_inhome = false;
                                                     return true;
                                                 }
                                             }
@@ -598,87 +600,6 @@ public class MainActivity extends AppCompatActivity {
                             }});
                     }
 
-                    // Notification for New version APK
-//                    JSONObject new_version = response.getJSONObject("app_version");
-//                    int nv_code = new_version.getInt("code");
-//                    String nv_title = new_version.getString("title");
-//                    String nv_des = new_version.getString("content_text");
-//                    Boolean nv_caselable = new_version.getBoolean("auto_hide");
-                    if (versionCode < 26) {
-                        String URL_other_website = "https://google.com";
-
-                        String onclick_notif = "other_website";
-                        Intent close_notif = new Intent("close_app");
-                        Intent sendURL_about = new Intent(getApplicationContext() , click_on_notif.class);
-                        pendingIntent = null;
-                        pendingIntent_close = PendingIntent.getBroadcast(getApplicationContext(), (int)
-                                System.currentTimeMillis(), close_notif, PendingIntent.FLAG_UPDATE_CURRENT);
-
-                        switch (onclick_notif){
-                            case "N_Ihome":
-                                pendingIntent = PendingIntent.getActivity(getApplicationContext() , 1 , sendURL_about
-                                        .putExtra("put_notif","N_Ihome") , 0);
-                                break;
-                            case "N_about":
-                                pendingIntent = PendingIntent.getActivity(getApplicationContext() , 2 , sendURL_about
-                                        .putExtra("put_notif","N_about") , 0);
-                                break;
-                            case "N_call":
-                                pendingIntent = PendingIntent.getActivity(getApplicationContext() , 3 , sendURL_about
-                                        .putExtra("put_notif","N_call") , 0);
-                                break;
-                            case "N_futrue":
-                                pendingIntent = PendingIntent.getActivity(getApplicationContext() , 4, sendURL_about
-                                        .putExtra("put_notif","N_futrue") , 0);
-                                break;
-                            case "N_mission":
-                                pendingIntent = PendingIntent.getActivity(getApplicationContext() , 5 , sendURL_about
-                                        .putExtra("put_notif","N_mission") , 0);
-                                break;
-                            case "website":
-                                pendingIntent = PendingIntent.getActivity(getApplicationContext() , 6 , sendURL_about
-                                        .putExtra("put_notif","website") , 0);
-                                break;
-                            case "other_website":
-                                pendingIntent = PendingIntent.getActivity(getApplicationContext() , 7 , sendURL_about
-                                        .putExtra("put_notif","other_website")
-                                        .putExtra("url_other_website" , URL_other_website ), 0);
-                                break;
-                            case "close":
-                                pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), (int)
-                                        System.currentTimeMillis(), close_notif, PendingIntent.FLAG_UPDATE_CURRENT);
-                                break;
-                        }
-
-                        NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-                        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
-
-                        builder.setSmallIcon(android.R.drawable.stat_sys_download)
-                                .setContentTitle("ثبت نام کربلا")
-                                .setContentText("لطفا سریعتر ثبتنام کنید")
-                                .setStyle(new NotificationCompat
-                                        .BigTextStyle()
-                                        .bigText("متن بزرگ متن \n بزرگ متن بزرگ متن بزرگ\n "))
-                                .setContentInfo("پشتیبانی")
-                                .setCategory("Category")
-                                .setGroup("admin")
-                                .setContentIntent(pendingIntent)
-                                .setWhen(System.currentTimeMillis())
-                                .setAutoCancel(true)
-                                .setDefaults(Notification.DEFAULT_ALL)
-                                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
-                        for (int i = 0 ; i <= 2 ; i++){
-                            builder.addAction(R.drawable.ic_website , "رفتن به وب سایت" , pendingIntent);
-                        }
-
-                        Notification notification = builder.build();
-                        notificationManager.notify(1000, notification);
-
-
-
-
-
-                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -794,6 +715,10 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 try {
                     JSONArray get_Notif_is = new JSONArray(response);
+
+
+
+
                     // Notif Cunt
                     int notif_length = 1;
                     if (get_Notif_is.length() < 4){
@@ -813,26 +738,105 @@ public class MainActivity extends AppCompatActivity {
                         notif_length = 3;
                     }
 
-                    // Your Notif is
-                        Intent goooo = new Intent(getApplicationContext() , about_us.class);
-                        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, goooo, 0);
+                    Intent sendURL_about = new Intent(getApplicationContext() , click_on_notif.class);
+                    Intent close_notif = new Intent("close_app");
+
+                    String URL_other_website = "https://google.com";
+                    String onclick_notif = "other_website";
+                    onclick_notifUpdate = null;
+                    onclick_notifUpdate_close = PendingIntent.getBroadcast(getApplicationContext(), (int)
+                            System.currentTimeMillis(), close_notif, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                    switch (onclick_notif){
+                        case "N_Ihome":
+                            onclick_notifUpdate = PendingIntent.getActivity(getApplicationContext() , 1 , sendURL_about
+                                    .putExtra("put_notif","N_Ihome") , 0);
+                            break;
+                        case "N_about":
+                            onclick_notifUpdate = PendingIntent.getActivity(getApplicationContext() , 2 , sendURL_about
+                                    .putExtra("put_notif","N_about") , 0);
+                            break;
+                        case "N_call":
+                            onclick_notifUpdate = PendingIntent.getActivity(getApplicationContext() , 3 , sendURL_about
+                                    .putExtra("put_notif","N_call") , 0);
+                            break;
+                        case "N_futrue":
+                            onclick_notifUpdate = PendingIntent.getActivity(getApplicationContext() , 4, sendURL_about
+                                    .putExtra("put_notif","N_futrue") , 0);
+                            break;
+                        case "N_mission":
+                            onclick_notifUpdate = PendingIntent.getActivity(getApplicationContext() , 5 , sendURL_about
+                                    .putExtra("put_notif","N_mission") , 0);
+                            break;
+                        case "website":
+                            onclick_notifUpdate = PendingIntent.getActivity(getApplicationContext() , 6 , sendURL_about
+                                    .putExtra("put_notif","website") , 0);
+                            break;
+                        case "other_website":
+                            onclick_notifUpdate = PendingIntent.getActivity(getApplicationContext(), 7, sendURL_about
+                                    .putExtra("put_notif", "other_website")
+                                    .putExtra("url_other_website", URL_other_website), 0);
+                            break;
+                        case "close":
+                            onclick_notifUpdate = PendingIntent.getBroadcast(getApplicationContext(), (int)
+                                    System.currentTimeMillis(), close_notif, PendingIntent.FLAG_UPDATE_CURRENT);
+                            break;
+                    }
+
+
+                    NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
+
                     for (int notif_is = 0 ; notif_is < notif_length ; notif_is++){
                         JSONObject one = get_Notif_is.getJSONObject(notif_is);
                         // get object from json
                         String notif_title = one.getString("title");
-                        String notif_des = one.getString("cat");
+                        String notif_txt_small = one.getString("small");
+                        String notif_txt_big = one.getString("big");
+                        String notif_txt_from = one.getString("from");
+                        String notif_group = one.getString("group");
+                        String notif_icon = one.getString("icon");
+                        String notif_on_click = one.getString("on_click");
+                        String notif_otherBrowser_link = one.getString("link");
+                        Boolean notif_otherBrowser_inApp = one.getBoolean("external");
+
+                        JSONArray notif_button = one.getJSONArray("btn");
+                        int count_button = notif_button.length();
+                        int array        = count_button - 1;
+                        String[] notif_button_title      = new String[count_button];
+                        String[] notif_button_icon      = new String[count_button];
+                        String[] notif_button_on_click       = new String[count_button];
+
                         // set Object for Notif
-                        Notification.Builder nb = new Notification.Builder(MainActivity.this);
-                        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALL);
-                        nb.setContentTitle( notif_title )
-                                .setContentText( notif_des )
-                                .setSmallIcon(android.R.drawable.ic_dialog_email)
-                                .setContentIntent(pendingIntent)
-                                .setSound(alarmSound);
-                        Notification notifs = nb.build();
-                        NotificationManager notifManager = (NotificationManager) MainActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
-                        notifManager.notify(10 + notif_is + 9, notifs);
+                        builder.setSmallIcon(android.R.drawable.stat_sys_download)
+                                .setContentTitle("ثبت نام کربلا")
+                                .setContentText("لطفا سریعتر ثبتنام کنید")
+                                .setStyle(new NotificationCompat
+                                        .BigTextStyle()
+                                        .bigText("متن بزرگ متن \n بزرگ متن بزرگ متن بزرگ\n "))
+                                .setContentInfo("پشتیبانی")
+                                .setContentIntent(onclick_notifUpdate)
+                                .setWhen(System.currentTimeMillis())
+                                .setAutoCancel(true)
+                                .setDefaults(Notification.DEFAULT_ALL)
+                                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
+
+                        for(int i = 0; i <= array; i++)
+                        {
+                            JSONObject notif_button_value = notif_button.getJSONObject(i);
+                            notif_button_title[i]        =  notif_button_value.getString("title");
+                            notif_button_icon[i]        =  notif_button_value.getString("icon");
+                            notif_button_on_click[i]         =  notif_button_value.getString("on_click");
+
+                            builder.addAction( logo , notif_button_title[i] , onclick_notifUpdate);
+                        }
+
+
+                        Notification notification = builder.build();
+                        notificationManager.notify(1000+notif_is, notification);
                     }
+
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
