@@ -834,89 +834,94 @@ public class MainActivity extends AppCompatActivity {
                                 .setDefaults(Notification.DEFAULT_ALL)
                                 .setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
 
-//                        if (notif_button != null){
-//                            for(int i = 0; i <= notif_button.length() ; i++)
-//                            {
-//                                JSONObject btn_notif = notif_button.getJSONObject(i);
-//
-//                                String title_notif_btn = btn_notif.getString("title");
-//                                String icon_notif_btn = btn_notif.getString("icon");
-//                                String onClick_notif_btn = btn_notif.getString("on_click");
-//
-//                                switch (onClick_notif_btn){
-//                                    case "N_Ihome":
-//                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
-//                                                .putExtra("put_notif","N_Ihome") , 0);
-//                                        break;
-//                                    case "N_about":
-//                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
-//                                                .putExtra("put_notif","N_about") , 0);
-//                                        break;
-//                                    case "N_call":
-//                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
-//                                                .putExtra("put_notif","N_call") , 0);
-//                                        break;
-//                                    case "N_futrue":
-//                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber, sendURL_about
-//                                                .putExtra("put_notif","N_futrue") , 0);
-//                                        break;
-//                                    case "N_mission":
-//                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
-//                                                .putExtra("put_notif","N_mission") , 0);
-//                                        break;
-//                                    case "website":
-//                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
-//                                                .putExtra("put_notif","website") , 0);
-//                                        break;
-//                                    case "other_website":
-//                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext(), randomNumber , sendURL_about
-//                                                .putExtra("put_notif", "other_website")
-//                                                .putExtra("url_other_website", notif_otherBrowser_link)
-//                                                .putExtra("notif_otherBrowser_inApp" , notif_otherBrowser_inApp ), 00);
-//                                        break;
-//                                    case "close":
-//                                        Button_onclick_notif = PendingIntent.getBroadcast(getApplicationContext(), (int)
-//                                                System.currentTimeMillis(), close_notif, PendingIntent.FLAG_UPDATE_CURRENT);
-//                                        break;
-//                                }
-//                                switch (icon_notif_btn){
-//                                    case "home":
-//                                        icon_notif_btn = String.valueOf(icon_home);
-//                                        break;
-//                                    case "hert":
-//                                        icon_notif_btn = String.valueOf(icon_hert);
-//                                        break;
-//                                    case "setting":
-//                                        icon_notif_btn = String.valueOf(icon_setting);
-//                                        break;
-//                                    case "about":
-//                                        icon_notif_btn = String.valueOf(icon_about);
-//                                        break;
-//                                    case "contact":
-//                                        icon_notif_btn = String.valueOf(icon_contact);
-//                                        break;
-//                                    case "vision":
-//                                        icon_notif_btn = String.valueOf(icon_vision);
-//                                        break;
-//                                    case "mission":
-//                                        icon_notif_btn = String.valueOf(icon_mission);
-//                                        break;
-//                                    case "website":
-//                                        icon_notif_btn = String.valueOf(icon_website);
-//                                        break;
-//                                    case "net-setting":
-//                                        icon_notif_btn = String.valueOf(icon_net_setting);
-//                                        break;
-//                                    case "chake":
-//                                        icon_notif_btn = String.valueOf(icon_chake);
-//                                        break;
-//                                    case "close":
-//                                        icon_notif_btn = String.valueOf(icon_close);
-//                                        break;
-//                                }
-//                                builder.addAction( Integer.parseInt(icon_notif_btn) , title_notif_btn , Button_onclick_notif);
-//                            }
-//                        }
+                        if (notif_button != null){
+                            for(int i = 0; i <= notif_button.length() ; i++)
+                            {
+                                JSONObject btn_notif = notif_button.getJSONObject(i);
+
+                                String title_notif_btn = btn_notif.getString("title");
+                                String icon_notif_btn = btn_notif.getString("icon");
+                                String onClick_notif_btn = btn_notif.getString("on_click");
+
+                                Toast.makeText(MainActivity.this, "" + icon_notif_btn , Toast.LENGTH_SHORT).show();
+
+
+                                switch (onClick_notif_btn){
+                                    case "home":
+                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
+                                                .putExtra("put_notif","N_Ihome") , 0);
+                                        break;
+                                    case "about":
+                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
+                                                .putExtra("put_notif","N_about") , 0);
+                                        break;
+                                    case "call":
+                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
+                                                .putExtra("put_notif","N_call") , 0);
+                                        break;
+                                    case "vision":
+                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber, sendURL_about
+                                                .putExtra("put_notif","N_futrue") , 0);
+                                        break;
+                                    case "mission":
+                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
+                                                .putExtra("put_notif","N_mission") , 0);
+                                        break;
+                                    case "website":
+                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
+                                                .putExtra("put_notif","website") , 0);
+                                        break;
+                                    case "other_website":
+                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext(), randomNumber , sendURL_about
+                                                .putExtra("put_notif", "other_website")
+                                                .putExtra("url_other_website", notif_otherBrowser_link)
+                                                .putExtra("notif_otherBrowser_inApp" , notif_otherBrowser_inApp ), 0);
+                                        break;
+                                    case "close":
+                                        Button_onclick_notif = PendingIntent.getBroadcast(getApplicationContext(), (int)
+                                                System.currentTimeMillis(), close_notif, PendingIntent.FLAG_UPDATE_CURRENT);
+                                        break;
+                                }
+                                switch (icon_notif_btn){
+                                    case "home":
+                                        icon_notif_btn = String.valueOf(icon_home);
+                                        break;
+                                    case "hert":
+                                        icon_notif_btn = String.valueOf(icon_hert);
+                                        break;
+                                    case "setting":
+                                        icon_notif_btn = String.valueOf(icon_setting);
+                                        break;
+                                    case "about":
+                                        icon_notif_btn = String.valueOf(icon_about);
+                                        break;
+                                    case "contact":
+                                        icon_notif_btn = String.valueOf(icon_contact);
+                                        break;
+                                    case "vision":
+                                        icon_notif_btn = String.valueOf(icon_vision);
+                                        break;
+                                    case "mission":
+                                        icon_notif_btn = String.valueOf(icon_mission);
+                                        break;
+                                    case "website":
+                                        icon_notif_btn = String.valueOf(icon_website);
+                                        break;
+                                    case "net-setting":
+                                        icon_notif_btn = String.valueOf(icon_net_setting);
+                                        break;
+                                    case "chake":
+                                        icon_notif_btn = String.valueOf(icon_chake);
+                                        break;
+                                    case "close":
+                                        icon_notif_btn = String.valueOf(icon_close);
+                                        break;
+                                }
+                                builder.addAction( Integer.parseInt(icon_notif_btn) , title_notif_btn , Button_onclick_notif);
+                                Notification notification = builder.build();
+                                notificationManager.notify(1000+notif_is, notification);
+                            }
+                        }
 
 
 

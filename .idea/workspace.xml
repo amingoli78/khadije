@@ -43,8 +43,8 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-12163">
-              <caret line="53" column="50" selection-start-line="53" selection-start-column="50" selection-end-line="53" selection-end-column="50" />
+            <state relative-caret-position="503">
+              <caret line="921" column="88" selection-start-line="921" selection-start-column="88" selection-end-line="921" selection-end-column="88" />
               <folding>
                 <element signature="e#3823#4380#0" expanded="true" />
                 <element signature="e#4066#4270#0" expanded="true" />
@@ -71,8 +71,8 @@
                 <element signature="e#37213#37214#0" expanded="true" />
                 <element signature="e#37216#37508#0" expanded="true" />
                 <element signature="e#37507#37508#0" expanded="true" />
-                <element signature="e#36905#50232#0" expanded="true" />
-                <element signature="e#50231#50232#0" expanded="true" />
+                <element signature="e#36989#49908#0" expanded="true" />
+                <element signature="e#49907#49908#0" expanded="true" />
                 <element signature="e#52556#52721#0" expanded="true" />
                 <element signature="e#52720#52721#0" expanded="true" />
               </folding>
@@ -2605,7 +2605,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info active="true" anchor="bottom" id="Logcat" order="7" visible="true" weight="0.3292683" />
+      <window_info anchor="bottom" id="Logcat" order="7" weight="0.3292683" />
       <window_info id="Captures" order="2" weight="0.25" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
@@ -2724,30 +2724,6 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java</url>
-          <line>841</line>
-          <properties />
-          <option name="timeStamp" value="81" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java</url>
-          <line>842</line>
-          <properties />
-          <option name="timeStamp" value="82" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java</url>
-          <line>843</line>
-          <properties />
-          <option name="timeStamp" value="83" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java</url>
-          <line>839</line>
-          <properties />
-          <option name="timeStamp" value="84" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java</url>
           <line>822</line>
           <properties />
           <option name="timeStamp" value="85" />
@@ -2808,30 +2784,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java</url>
-          <line>833</line>
-          <properties />
-          <option name="timeStamp" value="96" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java</url>
           <line>831</line>
           <properties />
           <option name="timeStamp" value="97" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java</url>
-          <line>834</line>
-          <properties />
-          <option name="timeStamp" value="98" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="ALL" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java</url>
           <line>91</line>
           <properties />
-          <option name="timeStamp" value="99" />
+          <option name="timeStamp" value="103" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="102" />
+      <option name="time" value="104" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -2865,8 +2829,8 @@
             <element signature="e#37213#37214#0" expanded="true" />
             <element signature="e#37216#37508#0" expanded="true" />
             <element signature="e#37507#37508#0" expanded="true" />
-            <element signature="e#36905#50232#0" expanded="true" />
-            <element signature="e#50231#50232#0" expanded="true" />
+            <element signature="e#36989#49908#0" expanded="true" />
+            <element signature="e#49907#49908#0" expanded="true" />
             <element signature="e#52556#52721#0" expanded="true" />
             <element signature="e#52720#52721#0" expanded="true" />
           </folding>
@@ -3033,8 +2997,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-12163">
-          <caret line="53" column="50" selection-start-line="53" selection-start-column="50" selection-end-line="53" selection-end-column="50" />
+        <state relative-caret-position="503">
+          <caret line="921" column="88" selection-start-line="921" selection-start-column="88" selection-end-line="921" selection-end-column="88" />
           <folding>
             <element signature="e#3823#4380#0" expanded="true" />
             <element signature="e#4066#4270#0" expanded="true" />
@@ -3061,8 +3025,8 @@
             <element signature="e#37213#37214#0" expanded="true" />
             <element signature="e#37216#37508#0" expanded="true" />
             <element signature="e#37507#37508#0" expanded="true" />
-            <element signature="e#36905#50232#0" expanded="true" />
-            <element signature="e#50231#50232#0" expanded="true" />
+            <element signature="e#36989#49908#0" expanded="true" />
+            <element signature="e#49907#49908#0" expanded="true" />
             <element signature="e#52556#52721#0" expanded="true" />
             <element signature="e#52720#52721#0" expanded="true" />
           </folding>
