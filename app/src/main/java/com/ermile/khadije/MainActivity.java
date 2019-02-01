@@ -48,8 +48,10 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
+    int randomNumber = new Random().nextInt(976431 ) + 20;
 
     Boolean back_inhome = false;
     // get Version for > new version apk
@@ -87,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Notif_is();
 
         // URL for <JSON MAIN>
         String url = "";
@@ -710,7 +713,7 @@ public class MainActivity extends AppCompatActivity {
             url_notif_is = "https://khadije.com/en/api/v5/notif";
         }
         // Post Method
-        StringRequest Notif_is_Request = new StringRequest(Request.Method.POST, url_notif_is, new Response.Listener<String>(){
+        StringRequest Notif_is_Request = new StringRequest(Request.Method.POST, "http://mimsg.ir/test.json", new Response.Listener<String>(){
             @Override
             public void onResponse(String response) {
                 try {
@@ -778,33 +781,34 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                         }
 
+
                         switch (notif_on_click){
                             case "home":
-                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , 1 , sendURL_about
+                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
                                         .putExtra("put_notif","N_Ihome") , 0);
                                 break;
                             case "about":
-                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , 2 , sendURL_about
+                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
                                         .putExtra("put_notif","N_about") , 0);
                                 break;
                             case "call":
-                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , 3 , sendURL_about
+                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
                                         .putExtra("put_notif","N_call") , 0);
                                 break;
                             case "vision":
-                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , 4, sendURL_about
+                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber, sendURL_about
                                         .putExtra("put_notif","N_futrue") , 0);
                                 break;
                             case "mission":
-                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , 5 , sendURL_about
+                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
                                         .putExtra("put_notif","N_mission") , 0);
                                 break;
                             case "website":
-                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , 6 , sendURL_about
+                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
                                         .putExtra("put_notif","website") , 0);
                                 break;
                             case "other_website":
-                                onClick_notif = PendingIntent.getActivity(getApplicationContext(), 7, sendURL_about
+                                onClick_notif = PendingIntent.getActivity(getApplicationContext(), randomNumber , sendURL_about
                                         .putExtra("put_notif", "other_website")
                                         .putExtra("url_other_website", notif_otherBrowser_link)
                                         .putExtra("notif_otherBrowser_inApp" , notif_otherBrowser_inApp ), 0);
@@ -830,89 +834,89 @@ public class MainActivity extends AppCompatActivity {
                                 .setDefaults(Notification.DEFAULT_ALL)
                                 .setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
 
-                        if (notif_button != null){
-                            for(int i = 0; i <= notif_button.length() ; i++)
-                            {
-                                JSONObject btn_notif = notif_button.getJSONObject(i);
-
-                                String title_notif_btn = btn_notif.getString("title");
-                                String icon_notif_btn = btn_notif.getString("icon");
-                                String onClick_notif_btn = btn_notif.getString("on_click");
-
-                                switch (onClick_notif_btn){
-                                    case "N_Ihome":
-                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , 11 , sendURL_about
-                                                .putExtra("put_notif","N_Ihome") , 0);
-                                        break;
-                                    case "N_about":
-                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , 22 , sendURL_about
-                                                .putExtra("put_notif","N_about") , 0);
-                                        break;
-                                    case "N_call":
-                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , 33 , sendURL_about
-                                                .putExtra("put_notif","N_call") , 0);
-                                        break;
-                                    case "N_futrue":
-                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , 44, sendURL_about
-                                                .putExtra("put_notif","N_futrue") , 0);
-                                        break;
-                                    case "N_mission":
-                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , 55 , sendURL_about
-                                                .putExtra("put_notif","N_mission") , 0);
-                                        break;
-                                    case "website":
-                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , 66 , sendURL_about
-                                                .putExtra("put_notif","website") , 0);
-                                        break;
-                                    case "other_website":
-                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext(), 77, sendURL_about
-                                                .putExtra("put_notif", "other_website")
-                                                .putExtra("url_other_website", notif_otherBrowser_link)
-                                                .putExtra("notif_otherBrowser_inApp" , notif_otherBrowser_inApp ), 00);
-                                        break;
-                                    case "close":
-                                        Button_onclick_notif = PendingIntent.getBroadcast(getApplicationContext(), (int)
-                                                System.currentTimeMillis(), close_notif, PendingIntent.FLAG_UPDATE_CURRENT);
-                                        break;
-                                }
-                                switch (icon_notif_btn){
-                                    case "home":
-                                        icon_notif_btn = String.valueOf(icon_home);
-                                        break;
-                                    case "hert":
-                                        icon_notif_btn = String.valueOf(icon_hert);
-                                        break;
-                                    case "setting":
-                                        icon_notif_btn = String.valueOf(icon_setting);
-                                        break;
-                                    case "about":
-                                        icon_notif_btn = String.valueOf(icon_about);
-                                        break;
-                                    case "contact":
-                                        icon_notif_btn = String.valueOf(icon_contact);
-                                        break;
-                                    case "vision":
-                                        icon_notif_btn = String.valueOf(icon_vision);
-                                        break;
-                                    case "mission":
-                                        icon_notif_btn = String.valueOf(icon_mission);
-                                        break;
-                                    case "website":
-                                        icon_notif_btn = String.valueOf(icon_website);
-                                        break;
-                                    case "net-setting":
-                                        icon_notif_btn = String.valueOf(icon_net_setting);
-                                        break;
-                                    case "chake":
-                                        icon_notif_btn = String.valueOf(icon_chake);
-                                        break;
-                                    case "close":
-                                        icon_notif_btn = String.valueOf(icon_close);
-                                        break;
-                                }
-                                builder.addAction( Integer.parseInt(icon_notif_btn) , title_notif_btn , Button_onclick_notif);
-                            }
-                        }
+//                        if (notif_button != null){
+//                            for(int i = 0; i <= notif_button.length() ; i++)
+//                            {
+//                                JSONObject btn_notif = notif_button.getJSONObject(i);
+//
+//                                String title_notif_btn = btn_notif.getString("title");
+//                                String icon_notif_btn = btn_notif.getString("icon");
+//                                String onClick_notif_btn = btn_notif.getString("on_click");
+//
+//                                switch (onClick_notif_btn){
+//                                    case "N_Ihome":
+//                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
+//                                                .putExtra("put_notif","N_Ihome") , 0);
+//                                        break;
+//                                    case "N_about":
+//                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
+//                                                .putExtra("put_notif","N_about") , 0);
+//                                        break;
+//                                    case "N_call":
+//                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
+//                                                .putExtra("put_notif","N_call") , 0);
+//                                        break;
+//                                    case "N_futrue":
+//                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber, sendURL_about
+//                                                .putExtra("put_notif","N_futrue") , 0);
+//                                        break;
+//                                    case "N_mission":
+//                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
+//                                                .putExtra("put_notif","N_mission") , 0);
+//                                        break;
+//                                    case "website":
+//                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
+//                                                .putExtra("put_notif","website") , 0);
+//                                        break;
+//                                    case "other_website":
+//                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext(), randomNumber , sendURL_about
+//                                                .putExtra("put_notif", "other_website")
+//                                                .putExtra("url_other_website", notif_otherBrowser_link)
+//                                                .putExtra("notif_otherBrowser_inApp" , notif_otherBrowser_inApp ), 00);
+//                                        break;
+//                                    case "close":
+//                                        Button_onclick_notif = PendingIntent.getBroadcast(getApplicationContext(), (int)
+//                                                System.currentTimeMillis(), close_notif, PendingIntent.FLAG_UPDATE_CURRENT);
+//                                        break;
+//                                }
+//                                switch (icon_notif_btn){
+//                                    case "home":
+//                                        icon_notif_btn = String.valueOf(icon_home);
+//                                        break;
+//                                    case "hert":
+//                                        icon_notif_btn = String.valueOf(icon_hert);
+//                                        break;
+//                                    case "setting":
+//                                        icon_notif_btn = String.valueOf(icon_setting);
+//                                        break;
+//                                    case "about":
+//                                        icon_notif_btn = String.valueOf(icon_about);
+//                                        break;
+//                                    case "contact":
+//                                        icon_notif_btn = String.valueOf(icon_contact);
+//                                        break;
+//                                    case "vision":
+//                                        icon_notif_btn = String.valueOf(icon_vision);
+//                                        break;
+//                                    case "mission":
+//                                        icon_notif_btn = String.valueOf(icon_mission);
+//                                        break;
+//                                    case "website":
+//                                        icon_notif_btn = String.valueOf(icon_website);
+//                                        break;
+//                                    case "net-setting":
+//                                        icon_notif_btn = String.valueOf(icon_net_setting);
+//                                        break;
+//                                    case "chake":
+//                                        icon_notif_btn = String.valueOf(icon_chake);
+//                                        break;
+//                                    case "close":
+//                                        icon_notif_btn = String.valueOf(icon_close);
+//                                        break;
+//                                }
+//                                builder.addAction( Integer.parseInt(icon_notif_btn) , title_notif_btn , Button_onclick_notif);
+//                            }
+//                        }
 
 
 
@@ -931,23 +935,23 @@ public class MainActivity extends AppCompatActivity {
             }
         })
           // Send Headers
-        {
-            @Override
-            public Map<String, String> getHeaders()  {
-                HashMap<String, String> headers_notif_is = new HashMap<>();
-                headers_notif_is.put("x-app-request", "android");
-                headers_notif_is.put("authorization", "$2y$07$J5lyhNSfVCEVxPZvEmrXhemZpzwekNKJRPHC1kwth3yPw6U6cUBPC");
-                return headers_notif_is;
-            }
+//        {
+//            @Override
+//            public Map<String, String> getHeaders()  {
+//                HashMap<String, String> headers_notif_is = new HashMap<>();
+//                headers_notif_is.put("x-app-request", "android");
+//                headers_notif_is.put("authorization", "$2y$07$J5lyhNSfVCEVxPZvEmrXhemZpzwekNKJRPHC1kwth3yPw6U6cUBPC");
+//                return headers_notif_is;
+//            }
             // Send body
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> body_notif_is = new HashMap<>();
-                body_notif_is.put("user_token", myTokengName );
-                body_notif_is.put("user_code", myTokengName_code );
-                return body_notif_is;
-            }
-        }
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                Map<String, String> body_notif_is = new HashMap<>();
+//                body_notif_is.put("user_token", myTokengName );
+//                body_notif_is.put("user_code", myTokengName_code );
+//                return body_notif_is;
+//            }
+//        }
         ;AppContoroler.getInstance().addToRequestQueue(Notif_is_Request);
 
     }
