@@ -719,7 +719,7 @@ public class MainActivity extends AppCompatActivity {
 
                     Intent sendURL_about = new Intent(getApplicationContext() , click_on_notif.class);
                     Intent close_notif = new Intent("close_app");
-                    
+
                     onClick_notif = null;
                     Button_onclick_notif = null;
                     onclick_notifUpdate_close = PendingIntent.getBroadcast(getApplicationContext(), (int)

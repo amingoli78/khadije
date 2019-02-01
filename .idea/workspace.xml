@@ -16,17 +16,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="266323d3-89c9-4c34-92e7-a69d6e4221a0" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/ic_chake.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/ic_close.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/ic_chake.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/ic_close.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/ic_chake.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/ic_close.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi/ic_chake.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi/ic_close.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xxxhdpi/ic_chake.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xxxhdpi/ic_close.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java" afterDir="false" />
     </list>
@@ -55,7 +44,7 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="642">
-              <caret line="721" column="20" selection-start-line="721" selection-start-column="20" selection-end-line="721" selection-end-column="20" />
+              <caret line="721" selection-start-line="721" selection-end-line="721" />
               <folding>
                 <element signature="e#3823#4380#0" expanded="true" />
                 <element signature="e#4066#4270#0" expanded="true" />
@@ -102,7 +91,7 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/Intro.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="296">
-              <caret line="299" column="61" lean-forward="true" selection-start-line="299" selection-start-column="61" selection-end-line="299" selection-end-column="61" />
+              <caret line="299" column="61" selection-start-line="299" selection-start-column="61" selection-end-line="299" selection-end-column="61" />
             </state>
           </provider>
         </entry>
@@ -2453,7 +2442,7 @@
     <property name="ExportApk.Flavors" value="" />
     <property name="android.sdk.path" value="C:/Android/sdk" />
     <property name="device.picker.selection" value="LGK430SWSW6SYT" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../APK" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Test_Notif" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
   </component>
   <component name="RecentsManager">
@@ -2789,7 +2778,7 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/Intro.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="296">
-          <caret line="299" column="61" lean-forward="true" selection-start-line="299" selection-start-column="61" selection-end-line="299" selection-end-column="61" />
+          <caret line="299" column="61" selection-start-line="299" selection-start-column="61" selection-end-line="299" selection-end-column="61" />
         </state>
       </provider>
     </entry>
@@ -2810,7 +2799,7 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="642">
-          <caret line="721" column="20" selection-start-line="721" selection-start-column="20" selection-end-line="721" selection-end-column="20" />
+          <caret line="721" selection-start-line="721" selection-end-line="721" />
           <folding>
             <element signature="e#3823#4380#0" expanded="true" />
             <element signature="e#4066#4270#0" expanded="true" />
