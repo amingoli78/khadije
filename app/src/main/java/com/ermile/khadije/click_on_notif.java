@@ -4,8 +4,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -27,8 +35,14 @@ public class click_on_notif extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.click_on_notif);
 
+        final ProgressBar progressBar = findViewById(R.id.progress_notif);
+        final RelativeLayout relativeLayout = findViewById(R.id.Layout_webview_notif);
+        final SwipeRefreshLayout swipeRefresh = findViewById(R.id.swipref_notif);
+        final WebView webView = findViewById(R.id.webview_notif);
+
         final String getFrom_notif_value = getIntent().getStringExtra("put_notif");
         final String url_other_website = getIntent().getStringExtra("url_other_website");
+        final Boolean browser_oppen_inapp = getIntent().getBooleanExtra("notif_otherBrowser_inApp" , false);
 
         // import SharedPreferences > <Prefs.java>
         final SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
@@ -126,11 +140,44 @@ public class click_on_notif extends AppCompatActivity {
                             finish();
                             break;
                         case "other_website":
-                            Intent browser_website = new Intent ( Intent.ACTION_VIEW );
-                            browser_website.setData ( Uri.parse ( url_other_website ) );
-                            startActivity ( browser_website );
-                            finish();
-                            break;
+                            if (browser_oppen_inapp){
+                                progressBar.setVisibility(View.GONE);
+                                relativeLayout.setVisibility(View.VISIBLE);
+                                // load in Start
+                                swipeRefresh.setRefreshing(true);
+                                webView.loadUrl(url_other_website ,sernd_headers);
+                                swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                                    @Override
+                                    public void onRefresh() {
+                                        webView.loadUrl(webView.getUrl(),sernd_headers);
+                                    }
+                                });
+                                webView.setWebViewClient(new WebViewClient() {
+                                    @Override
+                                    public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error){
+                                        startActivity(new Intent(getApplicationContext(), errornet.class));
+                                    }
+                                    @Override
+                                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                        HashMap<String, String> headerMap = new HashMap<>();
+                                        //put all headers in this header map
+                                        headerMap.put("x-app-request", "android");
+                                        view.loadUrl(url, headerMap);
+                                        return true;
+                                    }
+                                    @Override
+                                    public void onPageFinished(WebView view, String url) {
+                                        swipeRefresh.setRefreshing(false);
+                                    }});
+
+                            }else {
+                                Intent browser_website = new Intent ( Intent.ACTION_VIEW );
+                                browser_website.setData ( Uri.parse ( url_other_website ) );
+                                startActivity ( browser_website );
+                                finish();
+                                break;
+                            }
+
 
                     }
 

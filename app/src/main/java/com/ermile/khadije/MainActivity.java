@@ -719,9 +719,8 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     JSONArray get_Notif_is = new JSONArray(response);
 
-
                     Intent sendURL_about = new Intent(getApplicationContext() , click_on_notif.class);
-                    Intent close_notif = new Intent("close_app");
+                    Intent close_notif = new Intent("com.ermile.khadije.cancel");
 
                     onClick_notif = null;
                     Button_onclick_notif = null;
@@ -843,9 +842,6 @@ public class MainActivity extends AppCompatActivity {
                                 String icon_notif_btn = btn_notif.getString("icon");
                                 String onClick_notif_btn = btn_notif.getString("on_click");
 
-                                Toast.makeText(MainActivity.this, "" + icon_notif_btn , Toast.LENGTH_SHORT).show();
-
-
                                 switch (onClick_notif_btn){
                                     case "home":
                                         Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
@@ -919,14 +915,13 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 builder.addAction( Integer.parseInt(icon_notif_btn) , title_notif_btn , Button_onclick_notif);
                                 Notification notification = builder.build();
-                                notificationManager.notify(1000+notif_is, notification);
+                                notificationManager.notify(1000 + notif_is, notification);
                             }
                         }
 
 
 
-                        Notification notification = builder.build();
-                        notificationManager.notify(1000+notif_is, notification);
+
                     }
 
 

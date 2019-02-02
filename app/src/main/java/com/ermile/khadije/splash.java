@@ -3,6 +3,8 @@ package com.ermile.khadije;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -38,6 +40,8 @@ import java.util.Map;
 
 public class splash extends AppCompatActivity {
 
+    String versionName = null ;
+
     ImageView logo_splash;
     LinearLayout lang;
     TextView far , ara , eng;
@@ -47,6 +51,14 @@ public class splash extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
+
+        try {
+            PackageInfo pInfo = getApplicationContext().getPackageManager().getPackageInfo(getPackageName(), 0);
+            versionName = pInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
         // MY value
         logo_splash = findViewById(R.id.logo_splash);
         lang = findViewById(R.id.lang);
@@ -216,6 +228,7 @@ public class splash extends AppCompatActivity {
                 posting.put("sdk_version", sdk_version );
                 posting.put("time", time );
                 posting.put("modle", modle );
+                posting.put("version_name", versionName );
                 if (token_sending)
                 {
                     posting.put("user_token", myTokengName );
