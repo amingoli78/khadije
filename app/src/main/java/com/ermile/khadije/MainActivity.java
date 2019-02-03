@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -40,6 +41,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.ermile.khadije.network.AppContoroler;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import org.json.JSONArray;
@@ -727,8 +731,8 @@ public class MainActivity extends AppCompatActivity {
                     onclick_notifUpdate_close = PendingIntent.getBroadcast(getApplicationContext(), (int)
                             System.currentTimeMillis(), close_notif, PendingIntent.FLAG_UPDATE_CURRENT);
 
-                    NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
+                    final NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                    final NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
 
                     for (int notif_is = 0 ; notif_is <= get_Notif_is.length() ; notif_is++){
                         JSONObject one = get_Notif_is.getJSONObject(notif_is);
@@ -832,6 +836,31 @@ public class MainActivity extends AppCompatActivity {
                                 .setAutoCancel(true)
                                 .setDefaults(Notification.DEFAULT_ALL)
                                 .setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
+
+                        Glide.with(getApplicationContext())
+                                .asBitmap()
+                                .load("https://khadije.com/static/images/logo.png")
+                                .into(new SimpleTarget<Bitmap>() {
+                                    @Override
+                                    public void onResourceReady(Bitmap resource_bigPicture, Transition<? super Bitmap> transition) {
+                                        builder.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(Bitmap.createBitmap(resource_bigPicture)));
+                                        Notification notification = builder.build();
+                                        notificationManager.notify(1000, notification);
+                                    }
+                                });
+                        Glide.with(getApplicationContext())
+                                .asBitmap()
+                                .load("https://tejarak.com/files/1/850-d69788d7f7b1cb3a6dfeb79f2fb99798.jpg")
+                                .into(new SimpleTarget<Bitmap>() {
+                                    @Override
+                                    public void onResourceReady(Bitmap resource_LargeIcon, Transition<? super Bitmap> transition) {
+                                        builder.setLargeIcon(resource_LargeIcon);
+                                        Notification notification = builder.build();
+                                        notificationManager.notify(1000, notification);
+                                    }
+                                });
+
+
 
                         if (notif_button != null){
                             for(int i = 0; i <= notif_button.length() ; i++)
