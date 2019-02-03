@@ -18,6 +18,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -728,11 +729,10 @@ public class MainActivity extends AppCompatActivity {
 
                     onClick_notif = null;
                     Button_onclick_notif = null;
-                    onclick_notifUpdate_close = PendingIntent.getBroadcast(getApplicationContext(), (int)
-                            System.currentTimeMillis(), close_notif, PendingIntent.FLAG_UPDATE_CURRENT);
+                    onclick_notifUpdate_close = PendingIntent.getBroadcast(getApplicationContext(), (int) System.currentTimeMillis(), close_notif, PendingIntent.FLAG_UPDATE_CURRENT);
 
-                    final NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-                    final NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
+                    String CHANNEL_ID = "m";
+                    final NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext() , CHANNEL_ID);
 
                     for (int notif_is = 0 ; notif_is <= get_Notif_is.length() ; notif_is++){
                         JSONObject one = get_Notif_is.getJSONObject(notif_is);
@@ -742,11 +742,13 @@ public class MainActivity extends AppCompatActivity {
                         String notif_txt_big = one.getString("big");
                         String notif_txt_from = one.getString("from");
                         String notif_group = one.getString("group");
-                        String notif_icon = one.getString("icon");
+                        String notif_icon = one.getString("small_icon");
+                        String notif_large_icon = one.getString("large_icon");
+                        String notif_big_image = one.getString("big_image");
                         String notif_on_click = one.getString("on_click");
                         String notif_otherBrowser_link = one.getString("link");
                         Boolean notif_otherBrowser_inApp = one.getBoolean("external");
-                        JSONArray notif_button = one.getJSONArray("btn");
+
 
                         switch (notif_icon){
                             case "home":
@@ -822,7 +824,6 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                         }
 
-                        // set Object for Notif
                         builder.setSmallIcon(Integer.parseInt(notif_icon))
                                 .setContentTitle(notif_title)
                                 .setContentText(notif_txt_small)
@@ -837,121 +838,37 @@ public class MainActivity extends AppCompatActivity {
                                 .setDefaults(Notification.DEFAULT_ALL)
                                 .setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
 
+                        JSONArray notif_button = one.getJSONArray("btn");
+                        for(int i = 0; i <= notif_button.length() ; i++) {
+                            Toast.makeText(MainActivity.this, "" + notif_button.length() , Toast.LENGTH_SHORT).show();
+                            builder.addAction(R.drawable.ic_chake, "admin" , Button_onclick_notif);
+                        }
+
                         Glide.with(getApplicationContext())
                                 .asBitmap()
-                                .load("https://khadije.com/static/images/logo.png")
-                                .into(new SimpleTarget<Bitmap>() {
-                                    @Override
-                                    public void onResourceReady(Bitmap resource_bigPicture, Transition<? super Bitmap> transition) {
-                                        builder.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(Bitmap.createBitmap(resource_bigPicture)));
-                                        Notification notification = builder.build();
-                                        notificationManager.notify(1000, notification);
-                                    }
-                                });
-                        Glide.with(getApplicationContext())
-                                .asBitmap()
-                                .load("https://tejarak.com/files/1/850-d69788d7f7b1cb3a6dfeb79f2fb99798.jpg")
+                                .load(notif_large_icon)
                                 .into(new SimpleTarget<Bitmap>() {
                                     @Override
                                     public void onResourceReady(Bitmap resource_LargeIcon, Transition<? super Bitmap> transition) {
                                         builder.setLargeIcon(resource_LargeIcon);
-                                        Notification notification = builder.build();
-                                        notificationManager.notify(1000, notification);
                                     }
                                 });
 
-
-
-                        if (notif_button != null){
-                            for(int i = 0; i <= notif_button.length() ; i++)
-                            {
-                                JSONObject btn_notif = notif_button.getJSONObject(i);
-
-                                String title_notif_btn = btn_notif.getString("title");
-                                String icon_notif_btn = btn_notif.getString("icon");
-                                String onClick_notif_btn = btn_notif.getString("on_click");
-
-                                switch (onClick_notif_btn){
-                                    case "home":
-                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
-                                                .putExtra("put_notif","N_Ihome") , 0);
-                                        break;
-                                    case "about":
-                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
-                                                .putExtra("put_notif","N_about") , 0);
-                                        break;
-                                    case "call":
-                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
-                                                .putExtra("put_notif","N_call") , 0);
-                                        break;
-                                    case "vision":
-                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber, sendURL_about
-                                                .putExtra("put_notif","N_futrue") , 0);
-                                        break;
-                                    case "mission":
-                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
-                                                .putExtra("put_notif","N_mission") , 0);
-                                        break;
-                                    case "website":
-                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
-                                                .putExtra("put_notif","website") , 0);
-                                        break;
-                                    case "other_website":
-                                        Button_onclick_notif = PendingIntent.getActivity(getApplicationContext(), randomNumber , sendURL_about
-                                                .putExtra("put_notif", "other_website")
-                                                .putExtra("url_other_website", notif_otherBrowser_link)
-                                                .putExtra("notif_otherBrowser_inApp" , notif_otherBrowser_inApp ), 0);
-                                        break;
-                                    case "close":
-                                        Button_onclick_notif = PendingIntent.getBroadcast(getApplicationContext(), (int)
-                                                System.currentTimeMillis(), close_notif, PendingIntent.FLAG_UPDATE_CURRENT);
-                                        break;
-                                }
-                                switch (icon_notif_btn){
-                                    case "home":
-                                        icon_notif_btn = String.valueOf(icon_home);
-                                        break;
-                                    case "hert":
-                                        icon_notif_btn = String.valueOf(icon_hert);
-                                        break;
-                                    case "setting":
-                                        icon_notif_btn = String.valueOf(icon_setting);
-                                        break;
-                                    case "about":
-                                        icon_notif_btn = String.valueOf(icon_about);
-                                        break;
-                                    case "contact":
-                                        icon_notif_btn = String.valueOf(icon_contact);
-                                        break;
-                                    case "vision":
-                                        icon_notif_btn = String.valueOf(icon_vision);
-                                        break;
-                                    case "mission":
-                                        icon_notif_btn = String.valueOf(icon_mission);
-                                        break;
-                                    case "website":
-                                        icon_notif_btn = String.valueOf(icon_website);
-                                        break;
-                                    case "net-setting":
-                                        icon_notif_btn = String.valueOf(icon_net_setting);
-                                        break;
-                                    case "chake":
-                                        icon_notif_btn = String.valueOf(icon_chake);
-                                        break;
-                                    case "close":
-                                        icon_notif_btn = String.valueOf(icon_close);
-                                        break;
-                                }
-                                builder.addAction( Integer.parseInt(icon_notif_btn) , title_notif_btn , Button_onclick_notif);
-                                Notification notification = builder.build();
-                                notificationManager.notify(1000 + notif_is, notification);
-                            }
-                        }
-
-
-
-
+                        Glide.with(getApplicationContext())
+                                .asBitmap()
+                                .load(notif_big_image)
+                                .into(new SimpleTarget<Bitmap>() {
+                                    @Override
+                                    public void onResourceReady(Bitmap resource_bigPicture, Transition<? super Bitmap> transition) {
+                                        builder.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(Bitmap.createBitmap(resource_bigPicture)));
+                                    }
+                                });
+                        
+                        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+                        notificationManager.notify(1000 + notif_is , builder.build());
                     }
+
+
 
 
                 } catch (JSONException e) {

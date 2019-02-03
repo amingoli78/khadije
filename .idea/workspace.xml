@@ -53,15 +53,15 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="856" column="81" selection-start-line="856" selection-start-column="81" selection-end-line="856" selection-end-column="81" />
+            <state relative-caret-position="2707">
+              <caret line="871" column="66" selection-start-line="871" selection-start-column="66" selection-end-line="871" selection-end-column="66" />
               <folding>
-                <element signature="e#37166#52138#0" expanded="true" />
-                <element signature="e#44635#45229#0" expanded="true" />
-                <element signature="e#45228#45229#0" expanded="true" />
-                <element signature="e#45469#45991#0" expanded="true" />
-                <element signature="e#45990#45991#0" expanded="true" />
-                <element signature="e#52137#52138#0" expanded="true" />
+                <element signature="e#37223#51799#0" expanded="true" />
+                <element signature="e#44544#44904#0" expanded="true" />
+                <element signature="e#44903#44904#0" expanded="true" />
+                <element signature="e#44518#45123#0" expanded="true" />
+                <element signature="e#45122#45123#0" expanded="true" />
+                <element signature="e#51798#51799#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -2592,12 +2592,12 @@
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info active="true" anchor="bottom" id="Logcat" order="7" visible="true" weight="0.3292683" />
+      <window_info anchor="bottom" id="Logcat" order="7" weight="0.3292683" />
       <window_info id="Captures" order="2" weight="0.25" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
-      <window_info anchor="bottom" id="Build" order="7" sideWeight="0.4993573" weight="0.3292683" />
+      <window_info active="true" anchor="bottom" id="Build" order="7" sideWeight="0.4993573" visible="true" weight="0.3292683" />
       <window_info anchor="right" id="Gradle" order="8" weight="0.32969153" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Device File Explorer" order="5" side_tool="true" />
@@ -2621,7 +2621,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java</url>
-          <line>663</line>
+          <line>664</line>
           <properties />
           <option name="timeStamp" value="73" />
         </line-breakpoint>
@@ -2635,12 +2635,12 @@
         <state relative-caret-position="12240">
           <caret line="720" selection-start-line="720" selection-end-line="720" />
           <folding>
-            <element signature="e#37166#52138#0" expanded="true" />
-            <element signature="e#44635#45229#0" expanded="true" />
-            <element signature="e#45228#45229#0" expanded="true" />
-            <element signature="e#45469#45991#0" expanded="true" />
-            <element signature="e#45990#45991#0" expanded="true" />
-            <element signature="e#52137#52138#0" expanded="true" />
+            <element signature="e#37223#51799#0" expanded="true" />
+            <element signature="e#44544#44904#0" expanded="true" />
+            <element signature="e#44903#44904#0" expanded="true" />
+            <element signature="e#44518#45123#0" expanded="true" />
+            <element signature="e#45122#45123#0" expanded="true" />
+            <element signature="e#51798#51799#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2664,12 +2664,12 @@
         <state relative-caret-position="10387">
           <caret line="611" column="1" selection-start-line="611" selection-start-column="1" selection-end-line="611" selection-end-column="1" />
           <folding>
-            <element signature="e#37166#52138#0" expanded="true" />
-            <element signature="e#44635#45229#0" expanded="true" />
-            <element signature="e#45228#45229#0" expanded="true" />
-            <element signature="e#45469#45991#0" expanded="true" />
-            <element signature="e#45990#45991#0" expanded="true" />
-            <element signature="e#52137#52138#0" expanded="true" />
+            <element signature="e#37223#51799#0" expanded="true" />
+            <element signature="e#44544#44904#0" expanded="true" />
+            <element signature="e#44903#44904#0" expanded="true" />
+            <element signature="e#44518#45123#0" expanded="true" />
+            <element signature="e#45122#45123#0" expanded="true" />
+            <element signature="e#51798#51799#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2849,15 +2849,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/ermile/khadije/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="856" column="81" selection-start-line="856" selection-start-column="81" selection-end-line="856" selection-end-column="81" />
+        <state relative-caret-position="2707">
+          <caret line="871" column="66" selection-start-line="871" selection-start-column="66" selection-end-line="871" selection-end-column="66" />
           <folding>
-            <element signature="e#37166#52138#0" expanded="true" />
-            <element signature="e#44635#45229#0" expanded="true" />
-            <element signature="e#45228#45229#0" expanded="true" />
-            <element signature="e#45469#45991#0" expanded="true" />
-            <element signature="e#45990#45991#0" expanded="true" />
-            <element signature="e#52137#52138#0" expanded="true" />
+            <element signature="e#37223#51799#0" expanded="true" />
+            <element signature="e#44544#44904#0" expanded="true" />
+            <element signature="e#44903#44904#0" expanded="true" />
+            <element signature="e#44518#45123#0" expanded="true" />
+            <element signature="e#45122#45123#0" expanded="true" />
+            <element signature="e#51798#51799#0" expanded="true" />
           </folding>
         </state>
       </provider>
