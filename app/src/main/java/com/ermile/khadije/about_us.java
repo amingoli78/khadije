@@ -2,6 +2,8 @@ package com.ermile.khadije;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,6 +48,10 @@ public class about_us extends AppCompatActivity {
     DrawerLayout drawerLayout;
     NavigationView navigation_menu;
 
+    // get Version for > new version apk
+    int versionCode = 0 ;
+    String versionName = "";
+
     LinearLayout layout;
     TextView desc;
     ProgressBar progressBar;
@@ -57,6 +64,15 @@ public class about_us extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about_us);
+
+        // Change Version from > build.gradle(Module:app)
+        try {
+            PackageInfo pInfo = getApplicationContext().getPackageManager().getPackageInfo(getPackageName(), 0);
+            versionCode = pInfo.versionCode;
+            versionName = pInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
         // import SharedPreferences > <Prefs.java>
         final SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
@@ -174,7 +190,7 @@ public class about_us extends AppCompatActivity {
         }
         if (getIntent().getBooleanExtra("call_bol", false)) {
             url = getIntent().getStringExtra("call_url");
-            show_sendPM.setVisibility(View.VISIBLE);
+//            show_sendPM.setVisibility(View.VISIBLE);
         }
         if (getIntent().getBooleanExtra("future_bol", false)) {
             url = getIntent().getStringExtra("future_url");
@@ -197,8 +213,7 @@ public class about_us extends AppCompatActivity {
                     String title = response.getString("title");
                     getSupportActionBar().setTitle(title);
                     String dees = response.getString("content");
-                    String desc_decod = Jsoup.parse(dees).body().text();
-                    desc.setText(desc_decod);
+                    desc.setText( Html.fromHtml(dees));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -240,6 +255,16 @@ public class about_us extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+
+                    // set Title Header
+                    String json_title_header = response.getString("name");
+                    String json_desc_header = response.getString("desc");
+                    header_title.setText(json_title_header);
+                    header_desc.setText(json_desc_header);
+
+                    JSONObject trans_header = response.getJSONObject("transalate");
+                    String json_ver_hed = trans_header.getString("version");
+                    ver_hed.setText(json_ver_hed + " " + versionName);
 
                     // get Param for <menu nav>
                     JSONArray android_menu = response.getJSONArray("android_menu");

@@ -12,6 +12,9 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
+import android.provider.Settings;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -22,6 +25,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.ermile.khadije.network.AppContoroler;
 
 import org.json.JSONArray;
@@ -30,10 +35,27 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class NotificationService extends Service {
+
+    PendingIntent onClick_notif, Button_onclick_notif , onclick_notifUpdate_close;
+    int randomNumber = new Random().nextInt(976431 ) + 20;
+
+    int icon_home = R.drawable.ic_home;
+    int icon_hert = R.drawable.ic_delneveshte ;
+    int icon_setting = R.drawable.ic_seting ;
+    int icon_moreVert = R.drawable.ic_more_vert ;
+    int icon_about = R.drawable.ic_abut_us ;
+    int icon_contact = R.drawable.ic_call_us ;
+    int icon_vision = R.drawable.ic_future_view ;
+    int icon_mission = R.drawable.ic_mission ;
+    int icon_website = R.drawable.ic_website ;
+    int icon_net_setting = R.drawable.ic_setting_net ;
+    int icon_chake = R.drawable.ic_chake;
+    int icon_close = R.drawable.ic_close;
 
     Timer timer;
     TimerTask timerTask;
@@ -221,45 +243,143 @@ public class NotificationService extends Service {
             public void onResponse(String response) {
                 try {
 
-                    JSONArray getRespone = new JSONArray(response);
-                    int Len_notif = 1;
-                    if (getRespone.length() <4){
-                        switch (getRespone.length()){
-                            case 1:
-                                Len_notif = 1;
+                    JSONArray get_Notif_is = new JSONArray(response);
+
+                    Intent sendURL_about = new Intent(getApplicationContext() , click_on_notif.class);
+                    Intent close_notif = new Intent("com.ermile.khadije.cancel");
+
+                    onClick_notif = null;
+                    Button_onclick_notif = null;
+                    onclick_notifUpdate_close = PendingIntent.getBroadcast(getApplicationContext(), (int) System.currentTimeMillis(), close_notif, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                    String CHANNEL_ID = "m";
+                    final NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext() , CHANNEL_ID);
+
+                    for (int notif_is = 0 ; notif_is <= get_Notif_is.length() ; notif_is++){
+                        JSONObject one = get_Notif_is.getJSONObject(notif_is);
+                        // get object from json
+                        String notif_title = one.getString("title");
+                        String notif_txt_small = one.getString("small");
+                        String notif_txt_big = one.getString("big");
+                        if (notif_txt_big.equals("null")){ notif_txt_big = notif_txt_small;}
+                        String notif_txt_from = one.getString("from");
+                        String notif_sub_text = one.getString("sub_text");
+                        String notif_group = one.getString("group");
+                        String notif_icon = one.getString("small_icon");
+                        String notif_large_icon = one.getString("large_icon");
+                        String notif_on_click = one.getString("on_click");
+                        String notif_otherBrowser_link = one.getString("link");
+                        Boolean notif_otherBrowser_inApp = one.getBoolean("external");
+
+
+                        switch (notif_icon){
+                            case "home":
+                                notif_icon = String.valueOf(icon_home);
                                 break;
-                            case 2:
-                                Len_notif = 2;
+                            case "hert":
+                                notif_icon = String.valueOf(icon_hert);
                                 break;
-                            case 3:
-                                Len_notif = 3;
+                            case "setting":
+                                notif_icon = String.valueOf(icon_setting);
+                                break;
+                            case "more_vert":
+                                notif_icon = String.valueOf(icon_moreVert);
+                                break;
+                            case "about":
+                                notif_icon = String.valueOf(icon_about);
+                                break;
+                            case "contact":
+                                notif_icon = String.valueOf(icon_contact);
+                                break;
+                            case "vision":
+                                notif_icon = String.valueOf(icon_vision);
+                                break;
+                            case "mission":
+                                notif_icon = String.valueOf(icon_mission);
+                                break;
+                            case "website":
+                                notif_icon = String.valueOf(icon_website);
+                                break;
+                            case "net-setting":
+                                notif_icon = String.valueOf(icon_net_setting);
+                                break;
+                            case "chake":
+                                notif_icon = String.valueOf(icon_chake);
+                                break;
+                            case "close":
+                                notif_icon = String.valueOf(icon_close);
                                 break;
                         }
-                    }
-                    if (getRespone.length() >4){
-                        Len_notif = 3;
+
+
+                        switch (notif_on_click){
+                            case "home":
+                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
+                                        .putExtra("put_notif","N_Ihome") , 0);
+                                break;
+                            case "about":
+                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
+                                        .putExtra("put_notif","N_about") , 0);
+                                break;
+                            case "call":
+                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
+                                        .putExtra("put_notif","N_call") , 0);
+                                break;
+                            case "vision":
+                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber, sendURL_about
+                                        .putExtra("put_notif","N_futrue") , 0);
+                                break;
+                            case "mission":
+                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
+                                        .putExtra("put_notif","N_mission") , 0);
+                                break;
+                            case "website":
+                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
+                                        .putExtra("put_notif","website") , 0);
+                                break;
+                            case "other_website":
+                                onClick_notif = PendingIntent.getActivity(getApplicationContext(), randomNumber , sendURL_about
+                                        .putExtra("put_notif", "other_website")
+                                        .putExtra("url_other_website", notif_otherBrowser_link)
+                                        .putExtra("notif_otherBrowser_inApp" , notif_otherBrowser_inApp ), 0);
+                                break;
+                            case "close":
+                                onClick_notif = PendingIntent.getBroadcast(getApplicationContext(), (int)
+                                        System.currentTimeMillis(), close_notif, PendingIntent.FLAG_UPDATE_CURRENT);
+                                break;
+                        }
+
+                        builder.setSmallIcon(Integer.parseInt(notif_icon))
+                                .setContentTitle(notif_title)
+                                .setContentText(notif_txt_small)
+                                .setStyle(new NotificationCompat
+                                        .BigTextStyle()
+                                        .bigText(notif_txt_big))
+                                .setSubText(notif_sub_text)
+                                .setGroup(notif_group)
+                                .setContentInfo(notif_txt_from)
+                                .setContentIntent(onClick_notif)
+                                .setWhen(System.currentTimeMillis())
+                                .setAutoCancel(true)
+                                .setDefaults(Notification.DEFAULT_ALL)
+                                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
+                                .build();
+
+                        Glide.with(getApplicationContext())
+                                .asBitmap()
+                                .load(notif_large_icon)
+                                .into(new SimpleTarget<Bitmap>() {
+                                    @Override
+                                    public void onResourceReady(Bitmap resource_LargeIcon, Transition<? super Bitmap> transition) {
+                                        builder.setLargeIcon(resource_LargeIcon)
+                                                .build();
+                                    }
+                                });
+
+                        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+                        notificationManager.notify(1000 + notif_is , builder.build());
                     }
 
-                    Intent goooo = new Intent(getApplicationContext() , about_us.class);
-                    PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, goooo, 0);
-                    for (int respone = 0 ; respone < Len_notif ; respone++){
-                        JSONObject one = getRespone.getJSONObject(respone);
-                        String notif_title = one.getString("title");
-                        String notif_des = one.getString("cat");
-                        // Notif
-                        Notification.Builder notif_manager = new Notification.Builder(getApplicationContext());
-                        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALL);
-                        notif_manager.setContentTitle( "" )
-                                .setContentText( notif_des )
-                                .setSmallIcon(android.R.drawable.ic_dialog_email)
-                                .setContentIntent(pendingIntent)
-                                .setSound(alarmSound);
-                        Notification notifs = notif_manager.build();
-                        NotificationManager notifManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-                        notifManager.notify(10 + respone + 9, notifs);
-                        //////////////
-
-                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -10,6 +10,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,7 +36,6 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -50,13 +50,14 @@ import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     int randomNumber = new Random().nextInt(976431 ) + 20;
+
+    WebView webView;
 
     Boolean back_inhome = false;
     // get Version for > new version apk
@@ -76,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
     int icon_home = R.drawable.ic_home;
     int icon_hert = R.drawable.ic_delneveshte ;
     int icon_setting = R.drawable.ic_seting ;
+    int icon_moreVert = R.drawable.ic_more_vert ;
     int icon_about = R.drawable.ic_abut_us ;
     int icon_contact = R.drawable.ic_call_us ;
     int icon_vision = R.drawable.ic_future_view ;
@@ -85,8 +87,6 @@ public class MainActivity extends AppCompatActivity {
     int icon_chake = R.drawable.ic_chake;
     int icon_close = R.drawable.ic_close;
 
-
-
     /**
      * On Create
      */
@@ -94,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Notif_is();
 
         // URL for <JSON MAIN>
         String url = "";
@@ -212,13 +211,13 @@ public class MainActivity extends AppCompatActivity {
         // Sync id in <xml> to <java>
         final SwipeRefreshLayout swipe = findViewById(R.id.swipref);
         bottomNav = findViewById(R.id.bottom_navigation);
-            bottomNav.setSelectedItemId(R.id.item_home);
-            bottomNav.enableAnimation(false);
-            bottomNav.enableShiftingMode(false);
-            bottomNav.enableItemShiftingMode(false);
-            bottomNav.setTextSize(10f);
-            bottomNav.setIconSize(28,28);
-        final WebView webView = findViewById(R.id.webview);
+        bottomNav.setSelectedItemId(R.id.item_home);
+        bottomNav.enableAnimation(false);
+        bottomNav.enableShiftingMode(false);
+        bottomNav.enableItemShiftingMode(false);
+        bottomNav.setTextSize(10f);
+        bottomNav.setIconSize(28,28);
+        webView = findViewById(R.id.webview);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
@@ -278,8 +277,6 @@ public class MainActivity extends AppCompatActivity {
                     header_desc.setText(json_desc_header);
 
                     JSONObject trans_header = response.getJSONObject("transalate");
-                    String json_chaneg_lang = trans_header.getString("changelang");
-                    String json_close_lang = trans_header.getString("close");
                     String json_ver_hed = trans_header.getString("version");
                     ver_hed.setText(json_ver_hed + " " + versionName);
 
@@ -375,6 +372,7 @@ public class MainActivity extends AppCompatActivity {
                     webView.setWebViewClient(new WebViewClient() {
                         @Override
                         public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error){
+                            finish();
                             startActivity(new Intent(getApplicationContext(), errornet.class));
                         }
                         @Override
@@ -385,6 +383,30 @@ public class MainActivity extends AppCompatActivity {
                             view.loadUrl(url, headerMap);
 
                             if (!url.equals(home_url)){
+                                // Check for Title not Empty in > 300 mil <
+                                final Handler mHandler_jsonMain2 = new Handler();
+                                final boolean continueORstop_jsonMain2 = true;
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        while (continueORstop_jsonMain2) {
+                                            try {
+                                                Thread.sleep(300);
+                                                mHandler_jsonMain2.post(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        if (bottomNav.getMenu().findItem(R.id.item_setting).isChecked()){
+                                                            bottomNav.getMenu().findItem(R.id.item_setting).setCheckable(false);
+                                                        }
+                                                    }
+                                                });
+                                            } catch (Exception e) {
+                                            }
+                                        }
+                                    }
+                                }).start();
+
+
                                 if(url.startsWith("https://khadije.com/pay/") ||url.startsWith("https://khadije.com/ar/pay/") || url.startsWith("https://khadije.com/en/pay/")){
                                     // Handle the tel: link
                                     Intent browser = new Intent ( Intent.ACTION_VIEW );
@@ -425,6 +447,7 @@ public class MainActivity extends AppCompatActivity {
                                     webView.setWebViewClient(new WebViewClient() {
                                         @Override
                                         public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error){
+                                            finish();
                                             startActivity(new Intent(getApplicationContext(), errornet.class));
                                         }
                                         // in refresh send header
@@ -472,6 +495,7 @@ public class MainActivity extends AppCompatActivity {
                                     webView.setWebViewClient(new WebViewClient() {
                                         @Override
                                         public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error){
+                                            finish();
                                             startActivity(new Intent(getApplicationContext(), errornet.class));
                                         }
                                         // in refresh send header
@@ -608,6 +632,33 @@ public class MainActivity extends AppCompatActivity {
                             }});
                     }
 
+                    // Update application
+                    // new version for app
+                    JSONObject new_version = response.getJSONObject("app_version");
+                    int nv_code = new_version.getInt("code");
+                    String nv_title = new_version.getString("title");
+                    String nv_small = new_version.getString("small");
+                    String nv_big = new_version.getString("big");
+                    if (nv_big.equals("null")){nv_big = nv_small;}
+                    String nv_from = new_version.getString("from");
+                    String nv_sub_text = new_version.getString("sub_text");
+
+                    if (versionCode < nv_code) {
+                        Notification.Builder nb = new Notification.Builder(MainActivity.this);
+                        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                        nb.setContentTitle( nv_title )
+                                .setContentText( nv_small )
+                                .setStyle(new Notification.BigTextStyle().bigText(nv_big))
+                                .setContentInfo(nv_from)
+                                .setSubText(nv_sub_text)
+                                .setSmallIcon(android.R.drawable.stat_sys_download)
+                                .setAutoCancel( true )
+                                .setSound(alarmSound);
+                        Notification notif = nb.build();
+                        NotificationManager notifManager = (NotificationManager) MainActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
+                        notifManager.notify(randomNumber, notif);
+                    }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -674,7 +725,7 @@ public class MainActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
             }
         })
-         // Send Header
+                // Send Header
         {
             @Override
             public Map<String, String> getHeaders()  {
@@ -692,7 +743,7 @@ public class MainActivity extends AppCompatActivity {
                 return body_postSmile;
             }
         }
-        ;AppContoroler.getInstance().addToRequestQueue(PostSmile_Request);
+                ;AppContoroler.getInstance().addToRequestQueue(PostSmile_Request);
     }
 
     // get Notification and run for user > Yes Notif is ..
@@ -718,7 +769,7 @@ public class MainActivity extends AppCompatActivity {
             url_notif_is = "https://khadije.com/en/api/v5/notif";
         }
         // Post Method
-        StringRequest Notif_is_Request = new StringRequest(Request.Method.POST, "http://mimsg.ir/test.json", new Response.Listener<String>(){
+        StringRequest Notif_is_Request = new StringRequest(Request.Method.POST, url_notif_is, new Response.Listener<String>(){
             @Override
             public void onResponse(String response) {
                 try {
@@ -740,11 +791,12 @@ public class MainActivity extends AppCompatActivity {
                         String notif_title = one.getString("title");
                         String notif_txt_small = one.getString("small");
                         String notif_txt_big = one.getString("big");
+                        if (notif_txt_big.equals("null")){ notif_txt_big = notif_txt_small;}
                         String notif_txt_from = one.getString("from");
+                        String notif_sub_text = one.getString("sub_text");
                         String notif_group = one.getString("group");
                         String notif_icon = one.getString("small_icon");
                         String notif_large_icon = one.getString("large_icon");
-                        String notif_big_image = one.getString("big_image");
                         String notif_on_click = one.getString("on_click");
                         String notif_otherBrowser_link = one.getString("link");
                         Boolean notif_otherBrowser_inApp = one.getBoolean("external");
@@ -759,6 +811,9 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case "setting":
                                 notif_icon = String.valueOf(icon_setting);
+                                break;
+                            case "more_vert":
+                                notif_icon = String.valueOf(icon_moreVert);
                                 break;
                             case "about":
                                 notif_icon = String.valueOf(icon_about);
@@ -830,19 +885,15 @@ public class MainActivity extends AppCompatActivity {
                                 .setStyle(new NotificationCompat
                                         .BigTextStyle()
                                         .bigText(notif_txt_big))
+                                .setSubText(notif_sub_text)
                                 .setGroup(notif_group)
                                 .setContentInfo(notif_txt_from)
                                 .setContentIntent(onClick_notif)
                                 .setWhen(System.currentTimeMillis())
                                 .setAutoCancel(true)
                                 .setDefaults(Notification.DEFAULT_ALL)
-                                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
-
-                        JSONArray notif_button = one.getJSONArray("btn");
-                        for(int i = 0; i <= notif_button.length() ; i++) {
-                            Toast.makeText(MainActivity.this, "" + notif_button.length() , Toast.LENGTH_SHORT).show();
-                            builder.addAction(R.drawable.ic_chake, "admin" , Button_onclick_notif);
-                        }
+                                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
+                        .build();
 
                         Glide.with(getApplicationContext())
                                 .asBitmap()
@@ -850,20 +901,11 @@ public class MainActivity extends AppCompatActivity {
                                 .into(new SimpleTarget<Bitmap>() {
                                     @Override
                                     public void onResourceReady(Bitmap resource_LargeIcon, Transition<? super Bitmap> transition) {
-                                        builder.setLargeIcon(resource_LargeIcon);
+                                        builder.setLargeIcon(resource_LargeIcon)
+                                        .build();
                                     }
                                 });
 
-                        Glide.with(getApplicationContext())
-                                .asBitmap()
-                                .load(notif_big_image)
-                                .into(new SimpleTarget<Bitmap>() {
-                                    @Override
-                                    public void onResourceReady(Bitmap resource_bigPicture, Transition<? super Bitmap> transition) {
-                                        builder.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(Bitmap.createBitmap(resource_bigPicture)));
-                                    }
-                                });
-                        
                         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
                         notificationManager.notify(1000 + notif_is , builder.build());
                     }
@@ -880,25 +922,25 @@ public class MainActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
             }
         })
-          // Send Headers
-//        {
-//            @Override
-//            public Map<String, String> getHeaders()  {
-//                HashMap<String, String> headers_notif_is = new HashMap<>();
-//                headers_notif_is.put("x-app-request", "android");
-//                headers_notif_is.put("authorization", "$2y$07$J5lyhNSfVCEVxPZvEmrXhemZpzwekNKJRPHC1kwth3yPw6U6cUBPC");
-//                return headers_notif_is;
-//            }
-            // Send body
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//                Map<String, String> body_notif_is = new HashMap<>();
-//                body_notif_is.put("user_token", myTokengName );
-//                body_notif_is.put("user_code", myTokengName_code );
-//                return body_notif_is;
-//            }
-//        }
-        ;AppContoroler.getInstance().addToRequestQueue(Notif_is_Request);
+                // Send Headers
+        {
+            @Override
+            public Map<String, String> getHeaders()  {
+                HashMap<String, String> headers_notif_is = new HashMap<>();
+                headers_notif_is.put("x-app-request", "android");
+                headers_notif_is.put("authorization", "$2y$07$J5lyhNSfVCEVxPZvEmrXhemZpzwekNKJRPHC1kwth3yPw6U6cUBPC");
+                return headers_notif_is;
+            }
+                // Send body
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> body_notif_is = new HashMap<>();
+                body_notif_is.put("user_token", myTokengName );
+                body_notif_is.put("user_code", myTokengName_code );
+                return body_notif_is;
+            }
+        }
+                ;AppContoroler.getInstance().addToRequestQueue(Notif_is_Request);
 
     }
 
