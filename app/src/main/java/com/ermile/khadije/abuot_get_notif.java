@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -18,11 +19,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.ermile.khadije.network.AppContoroler;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-
-import static org.jsoup.nodes.Entities.escape;
-import static org.jsoup.nodes.Entities.getByName;
 
 public class abuot_get_notif extends AppCompatActivity {
 
@@ -87,8 +83,7 @@ public class abuot_get_notif extends AppCompatActivity {
                     String title = response.getString("title");
                     getSupportActionBar().setTitle(title);
                     String dees = response.getString("content");
-                    String desc_decod = Jsoup.parse(dees).body().text();
-                    desc.setText(desc_decod);
+                    desc.setText( Html.fromHtml(dees));
 
 
 

@@ -36,11 +36,6 @@ import com.ermile.khadije.network.AppContoroler;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-
-import static org.jsoup.nodes.Entities.escape;
-import static org.jsoup.nodes.Entities.getByName;
 
 public class about_us extends AppCompatActivity {
 
