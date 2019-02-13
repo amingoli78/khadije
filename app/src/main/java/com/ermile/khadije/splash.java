@@ -14,7 +14,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -39,14 +41,16 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 
 public class splash extends AppCompatActivity {
 
     String versionName = null ;
 
     ImageView logo_splash;
-    LinearLayout lang;
-    TextView far , ara , eng;
+    LinearLayout lang ;
+    CardView dep_update;
+    TextView far , ara , eng , title_load;
     ProgressBar progress_splash;
 
     @Override
@@ -68,6 +72,8 @@ public class splash extends AppCompatActivity {
         ara = findViewById(R.id.arabic);
         eng = findViewById(R.id.english);
         progress_splash = findViewById(R.id.progress_splash);
+        title_load = findViewById(R.id.title_loading);
+
         // Chake net
         new splash.NetCheck().execute();
         boolean connected = true;
@@ -76,10 +82,14 @@ public class splash extends AppCompatActivity {
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
             //we are connected to a network
             connected = true;
+            title_load.setText("ارتباط با سرور..");
+
         }
         else
         {
             connected = false;
+            title_load.setText("از اتصال به اینترنت مطمئن شوید!");
+
         }
         if (!connected)
         {
@@ -159,6 +169,7 @@ public class splash extends AppCompatActivity {
         if (lan.equals("fa") && firstoppen)
         {
             progress_splash.animate().alpha(1).setDuration(200);
+            title_load.animate().alpha(1).setDuration(200);
             editor.putBoolean("firstoppen",false);
             editor.putBoolean("farsi",true);
             editor.apply();
@@ -168,7 +179,9 @@ public class splash extends AppCompatActivity {
         if (connected && !firstoppen)
         {
             progress_splash.animate().alpha(1).setDuration(200);
-            going_byTitle();
+            title_load.animate().alpha(1).setDuration(200);
+            ast();
+//            going_byTitle();
 
         }
         // Post Method
@@ -178,6 +191,8 @@ public class splash extends AppCompatActivity {
                 try {
                     JSONObject mainObject = new JSONObject(response);
 
+                    title_load.setText("ارتباط برقرار شد!");
+                    title_load.setText("درحال بارگذاری..");
                     // get user Token
                     JSONObject result = mainObject.getJSONObject("result");
                     String token = result.getString("user_token");
@@ -194,7 +209,6 @@ public class splash extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "Error net", Toast.LENGTH_SHORT).show();
             }
         })
         // Send Headers
@@ -260,6 +274,7 @@ public class splash extends AppCompatActivity {
             @Override
             public void run() {
                 progress_splash.animate().alpha(1).setDuration(500);
+                title_load.animate().alpha(1).setDuration(400);
                 Intent i = new Intent(splash.this, Intro.class);
                 startActivity(i);
                 finish();
@@ -282,6 +297,7 @@ public class splash extends AppCompatActivity {
         lang.setVisibility(View.INVISIBLE);
         logo_splash.animate().translationY(100).setDuration(700);
         progress_splash.animate().alpha(1).setDuration(400);
+        title_load.animate().alpha(1).setDuration(400);
         going();
     }
 
@@ -356,6 +372,36 @@ public class splash extends AppCompatActivity {
         // END JSON
     }
 
+    public void ast(){
+
+        logo_splash = findViewById(R.id.logo_splash);
+        logo_splash.setVisibility(View.GONE);
+        lang = findViewById(R.id.lang);
+        progress_splash = findViewById(R.id.progress_splash);
+        title_load = findViewById(R.id.title_loading);
+
+        lang.setVisibility(View.GONE);
+        progress_splash.setVisibility(View.GONE);
+        title_load.setVisibility(View.GONE);
+
+
+        dep_update = findViewById(R.id.update_dep);
+        final ImageView dep_logo = findViewById(R.id.deprecate_logo);
+        final TextView dep_title = findViewById(R.id.deprecate_title);
+        final TextView dep_desc = findViewById(R.id.deprecate_desc);
+        final Button dep_bweb = findViewById(R.id.deprecate_web);
+        final Button dep_bgoogleplay = findViewById(R.id.deprecate_googleplay);
+
+
+        dep_update.setVisibility(View.VISIBLE);
+        dep_logo.animate().translationY(0).alpha(1).setDuration(550);
+        dep_title.animate().translationX(0).setDuration(560);
+        dep_desc.animate().scaleY(1).alpha(1).setDuration(700);
+        dep_bweb.animate().translationX(0).setDuration(780);
+        dep_bgoogleplay.animate().translationX(0).setDuration(750);
+        
+    }
+
     /**
      * Check Network
      */
@@ -393,8 +439,8 @@ public class splash extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean th){
             if(th == false){
-                View parentLayout = findViewById(android.R.id.content);
-                Snackbar snackbar = Snackbar.make(parentLayout, "به اینترنت متصل شوید", Snackbar.LENGTH_INDEFINITE)
+                LinearLayout lin_splash = findViewById(R.id.linearLayout_splash);
+                Snackbar snackbar = Snackbar.make(lin_splash, "به اینترنت متصل شوید", Snackbar.LENGTH_INDEFINITE)
                         .setAction("تلاش مجدد", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
