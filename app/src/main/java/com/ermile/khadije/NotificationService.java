@@ -81,7 +81,7 @@ public class NotificationService extends Service {
     Timer timer;
     TimerTask timerTask;
     String TAG = "Timers";
-    int Your_X_SECS = 60;
+    int Your_X_SECS = 600;
 
 
     @Override
@@ -128,7 +128,7 @@ public class NotificationService extends Service {
         initializeTimerTask();
 
         //schedule the timer, after the first 5000ms the TimerTask will run every 10000ms
-        timer.schedule(timerTask, 60000, Your_X_SECS * 1000); //
+        timer.schedule(timerTask, 600000, Your_X_SECS * 1000); //
         //timer.schedule(timerTask, 5000,1000); //
     }
 

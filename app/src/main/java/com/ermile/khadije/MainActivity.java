@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 while (continueORstop_checkNotif) {
                     try {
-                        Thread.sleep(30000);
+                        Thread.sleep(60000);
                         mHandler_checkNotif.post(new Runnable() {
                             @Override
                             public void run() {
