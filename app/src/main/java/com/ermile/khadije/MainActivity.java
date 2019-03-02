@@ -18,6 +18,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.GravityCompat;
@@ -34,6 +35,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.AuthFailureError;
@@ -56,6 +58,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
+    boolean ok = false;
     int randomNumber = new Random().nextInt(976431 ) + 20;
 
     WebView webView;
@@ -64,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
     // get Version for > new version apk
     int versionCode = 0 ;
     String versionName = "";
-    PendingIntent onClick_notif, Button_onclick_notif , onclick_notifUpdate_close;
     // Handle check > Notif for user
     Handler mHandler_checkNotif;
     boolean continueORstop_checkNotif;
@@ -87,6 +89,20 @@ public class MainActivity extends AppCompatActivity {
     int icon_net_setting = R.drawable.ic_setting_net ;
     int icon_chake = R.drawable.ic_chake;
     int icon_close = R.drawable.ic_close;
+
+
+
+    Boolean ok_getnotif = false;
+    String notif_title = "موسسه حضرت خدیجه";
+    String notif_txt_small = "پیام جدید";
+    String notif_txt_big = notif_txt_small;
+    String notif_txt_from = " ";
+    String notif_sub_text = " ";
+    String notif_group = String.valueOf(randomNumber);
+    String notif_icon = "home";
+    String notif_large_icon = "https://khadije.com/static/images/logo.png";
+    String notif_on_click = "khadije://";
+    PendingIntent onClick_notif = null;
 
     /**
      * On Create
@@ -241,20 +257,20 @@ public class MainActivity extends AppCompatActivity {
         if (farsi){
             btn_fa.setSelected(true);
             btn_fa.setTextColor(Color.parseColor("#ffffff"));
-            url = "https://khadije.com/api/v5/android";
+            url = "https://khadije.com/api/v6/android";
             ViewCompat.setLayoutDirection(drawerLayout,ViewCompat.LAYOUT_DIRECTION_RTL);
 
         }
         if (arabic){
             btn_ar.setSelected(true);
             btn_ar.setTextColor(Color.parseColor("#ffffff"));
-            url = "https://khadije.com/ar/api/v5/android";
+            url = "https://khadije.com/ar/api/v6/android";
             ViewCompat.setLayoutDirection(drawerLayout,ViewCompat.LAYOUT_DIRECTION_RTL);
         }
         if (english){
             btn_en.setSelected(true);
             btn_en.setTextColor(Color.parseColor("#ffffff"));
-            url = "https://khadije.com/en/api/v5/android";
+            url = "https://khadije.com/en/api/v6/android";
             ViewCompat.setLayoutDirection(drawerLayout,ViewCompat.LAYOUT_DIRECTION_LTR);
         }
 
@@ -262,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
         // JSON Request
         JsonObjectRequest Json_MainActivityGET = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(JSONObject responses) {
                 try {
                     // Handler for get title bottom & notif update
                     final Handler mHandler_jsonMain;
@@ -271,394 +287,400 @@ public class MainActivity extends AppCompatActivity {
                     final Map<String, String> sernd_headers = new HashMap<String, String>();
                     sernd_headers.put("x-app-request", "android");
 
-                    // set Title Header
-                    String json_title_header = response.getString("name");
-                    String json_desc_header = response.getString("desc");
-                    header_title.setText(json_title_header);
-                    header_desc.setText(json_desc_header);
+                    ok = responses.getBoolean("ok");
 
-                    JSONObject trans_header = response.getJSONObject("transalate");
-                    String json_ver_hed = trans_header.getString("version");
-                    ver_hed.setText(json_ver_hed + " " + versionName);
+                    if (ok){
+                        JSONObject response = responses.getJSONObject("result");
+                        // set Title Header
+                        String json_title_header = response.getString("name");
+                        String json_desc_header = response.getString("desc");
+                        header_title.setText(json_title_header);
+                        header_desc.setText(json_desc_header);
+
+                        JSONObject trans_header = response.getJSONObject("transalate");
+                        String json_ver_hed = trans_header.getString("version");
+                        ver_hed.setText(json_ver_hed + " " + versionName);
 
 
-                    // get Param for <bottom nav>
-                    final JSONArray navigation_btn = response.getJSONArray("navigation");
-                    JSONObject home = navigation_btn.getJSONObject(0);
-                    JSONObject hert = navigation_btn.getJSONObject(1);
-                    JSONObject setting = navigation_btn.getJSONObject(2);
-                    // Get Url item <HOME>
-                    final String home_title = home.getString("title");
-                    final String home_url = home.getString("url");
-                    // Get Url item <HERT>
-                    final String hert_title = hert.getString("title");
-                    final String hert_url = hert.getString("url");
-                    // Get Url item <SETTING>
-                    final String setting_title = setting.getString("title");
-                    final String setting_url = setting.getString("url");
+                        // get Param for <bottom nav>
+                        final JSONArray navigation_btn = response.getJSONArray("navigation");
+                        JSONObject home = navigation_btn.getJSONObject(0);
+                        JSONObject hert = navigation_btn.getJSONObject(1);
+                        JSONObject setting = navigation_btn.getJSONObject(2);
+                        // Get Url item <HOME>
+                        final String home_title = home.getString("title");
+                        final String home_url = home.getString("url");
+                        // Get Url item <HERT>
+                        final String hert_title = hert.getString("title");
+                        final String hert_url = hert.getString("url");
+                        // Get Url item <SETTING>
+                        final String setting_title = setting.getString("title");
+                        final String setting_url = setting.getString("url");
 
-                    // get Param for <menu nav>
-                    JSONArray android_menu = response.getJSONArray("android_menu");
-                    JSONObject json_about_us = android_menu.getJSONObject(0);
-                    JSONObject json_call_us = android_menu.getJSONObject(1);
-                    JSONObject json_future_view = android_menu.getJSONObject(2);
-                    JSONObject json_mission = android_menu.getJSONObject(3);
-                    JSONObject json_website = android_menu.getJSONObject(4);
-                    // Get Url item <about_us>
-                    final String aboutus_title = json_about_us.getString("title");
-                    final String aboutus_url = json_about_us.getString("url");
-                    // Get Url item <call_us>
-                    final String callus_title = json_call_us.getString("title");
-                    final String callus_url = json_call_us.getString("url");
-                    // Get Url item <future_view>
-                    final String futureview_title = json_future_view.getString("title");
-                    final String futureview_url = json_future_view.getString("url");
-                    // Get Url item <mission>
-                    final String mission_title = json_mission.getString("title");
-                    final String mission_url = json_mission.getString("url");
-                    // Get Url item <website>
-                    final String website_title = json_website.getString("title");
-                    final String website_url = json_website.getString("url");
+                        // get Param for <menu nav>
+                        JSONArray android_menu = response.getJSONArray("android_menu");
+                        JSONObject json_about_us = android_menu.getJSONObject(0);
+                        JSONObject json_call_us = android_menu.getJSONObject(1);
+                        JSONObject json_future_view = android_menu.getJSONObject(2);
+                        JSONObject json_mission = android_menu.getJSONObject(3);
+                        JSONObject json_website = android_menu.getJSONObject(4);
+                        // Get Url item <about_us>
+                        final String aboutus_title = json_about_us.getString("title");
+                        final String aboutus_url = json_about_us.getString("url");
+                        // Get Url item <call_us>
+                        final String callus_title = json_call_us.getString("title");
+                        final String callus_url = json_call_us.getString("url");
+                        // Get Url item <future_view>
+                        final String futureview_title = json_future_view.getString("title");
+                        final String futureview_url = json_future_view.getString("url");
+                        // Get Url item <mission>
+                        final String mission_title = json_mission.getString("title");
+                        final String mission_url = json_mission.getString("url");
+                        // Get Url item <website>
+                        final String website_title = json_website.getString("title");
+                        final String website_url = json_website.getString("url");
 
-                    // Check for Title not Empty in > 300 mil <
-                    mHandler_jsonMain = new Handler();
-                    continueORstop_jsonMain = true;
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            while (continueORstop_jsonMain) {
-                                try {
-                                    Thread.sleep(300);
-                                    mHandler_jsonMain.post(new Runnable() {
+                        // Check for Title not Empty in > 300 mil <
+                        mHandler_jsonMain = new Handler();
+                        continueORstop_jsonMain = true;
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                while (continueORstop_jsonMain) {
+                                    try {
+                                        Thread.sleep(300);
+                                        mHandler_jsonMain.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                // if home is empty load title again
+                                                if (home_menu.getTitle().toString().equals("") || call_us.getTitle().toString().equals(""))
+                                                {
+                                                    //set Bottom nav title
+                                                    home_menu.setTitle(home_title);
+                                                    delneveshte_menu.setTitle(hert_title);
+                                                    setting_menu.setTitle(setting_title);
+                                                    // set menu nav title
+                                                    about_us.setTitle(aboutus_title);
+                                                    call_us.setTitle(callus_title);
+                                                    future_view.setTitle(futureview_title);
+                                                    mission.setTitle(mission_title);
+                                                    website.setTitle(website_title);
+                                                }
+                                                // set out nav menu
+                                                if (!drawerLayout.isDrawerOpen(GravityCompat.START ) && bottomNav.getSelectedItemId() == R.id.item_setting)
+                                                {
+                                                    bottomNav.setSelectedItemId(R.id.item_home);
+                                                }
+
+                                            }
+                                        });
+                                    } catch (Exception e) {
+                                    }
+                                }
+                            }
+                        }).start();
+
+                        // load in Start
+                        swipe.setRefreshing(true);
+                        webView.loadUrl(home_url,sernd_headers);
+                        back_inhome = true;
+                        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                            @Override
+                            public void onRefresh() {
+                                webView.loadUrl(webView.getUrl(),sernd_headers);
+                            }
+                        });
+                        webView.setWebViewClient(new WebViewClient() {
+                            @Override
+                            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error){
+                                finish();
+                                startActivity(new Intent(getApplicationContext(), errornet.class));
+                            }
+                            @Override
+                            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                HashMap<String, String> headerMap = new HashMap<>();
+                                //put all headers in this header map
+                                headerMap.put("x-app-request", "android");
+                                view.loadUrl(url, headerMap);
+
+                                if (!url.equals(home_url)){
+                                    // Check for Title not Empty in > 300 mil <
+                                    final Handler mHandler_jsonMain2 = new Handler();
+                                    final boolean continueORstop_jsonMain2 = true;
+                                    new Thread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            // if home is empty load title again
-                                            if (home_menu.getTitle().toString().equals("") || call_us.getTitle().toString().equals(""))
-                                            {
-                                                //set Bottom nav title
-                                                home_menu.setTitle(home_title);
-                                                delneveshte_menu.setTitle(hert_title);
-                                                setting_menu.setTitle(setting_title);
-                                                // set menu nav title
-                                                about_us.setTitle(aboutus_title);
-                                                call_us.setTitle(callus_title);
-                                                future_view.setTitle(futureview_title);
-                                                mission.setTitle(mission_title);
-                                                website.setTitle(website_title);
-                                            }
-                                            // set out nav menu
-                                            if (!drawerLayout.isDrawerOpen(GravityCompat.START ) && bottomNav.getSelectedItemId() == R.id.item_setting)
-                                            {
-                                                bottomNav.setSelectedItemId(R.id.item_home);
-                                            }
-
-                                        }
-                                    });
-                                } catch (Exception e) {
-                                }
-                            }
-                        }
-                    }).start();
-
-                    // load in Start
-                    swipe.setRefreshing(true);
-                    webView.loadUrl(home_url,sernd_headers);
-                    back_inhome = true;
-                    swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                        @Override
-                        public void onRefresh() {
-                            webView.loadUrl(webView.getUrl(),sernd_headers);
-                        }
-                    });
-                    webView.setWebViewClient(new WebViewClient() {
-                        @Override
-                        public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error){
-                            finish();
-                            startActivity(new Intent(getApplicationContext(), errornet.class));
-                        }
-                        @Override
-                        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                            HashMap<String, String> headerMap = new HashMap<>();
-                            //put all headers in this header map
-                            headerMap.put("x-app-request", "android");
-                            view.loadUrl(url, headerMap);
-
-                            if (!url.equals(home_url)){
-                                // Check for Title not Empty in > 300 mil <
-                                final Handler mHandler_jsonMain2 = new Handler();
-                                final boolean continueORstop_jsonMain2 = true;
-                                new Thread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        while (continueORstop_jsonMain2) {
-                                            try {
-                                                Thread.sleep(300);
-                                                mHandler_jsonMain2.post(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        if (bottomNav.getMenu().findItem(R.id.item_setting).isChecked()){
-                                                            bottomNav.getMenu().findItem(R.id.item_setting).setCheckable(false);
+                                            while (continueORstop_jsonMain2) {
+                                                try {
+                                                    Thread.sleep(300);
+                                                    mHandler_jsonMain2.post(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            if (bottomNav.getMenu().findItem(R.id.item_setting).isChecked()){
+                                                                bottomNav.getMenu().findItem(R.id.item_setting).setCheckable(false);
+                                                            }
                                                         }
-                                                    }
-                                                });
-                                            } catch (Exception e) {
+                                                    });
+                                                } catch (Exception e) {
+                                                }
                                             }
                                         }
+                                    }).start();
+
+
+                                    if(url.startsWith("https://khadije.com/pay/") ||url.startsWith("https://khadije.com/ar/pay/") || url.startsWith("https://khadije.com/en/pay/")){
+                                        // Handle the tel: link
+                                        Intent browser = new Intent ( Intent.ACTION_VIEW );
+                                        browser.setData ( Uri.parse ( url ) );
+                                        startActivity ( browser );
+                                        bottomNav.setSelectedItemId(R.id.item_home);
+                                        back_inhome =false;
+
+                                        // Return true means, leave the current web view and handle the url itself
+                                        return true;
                                     }
-                                }).start();
-
-
-                                if(url.startsWith("https://khadije.com/pay/") ||url.startsWith("https://khadije.com/ar/pay/") || url.startsWith("https://khadije.com/en/pay/")){
-                                    // Handle the tel: link
-                                    Intent browser = new Intent ( Intent.ACTION_VIEW );
-                                    browser.setData ( Uri.parse ( url ) );
-                                    startActivity ( browser );
-                                    bottomNav.setSelectedItemId(R.id.item_home);
-                                    back_inhome =false;
-
-                                    // Return true means, leave the current web view and handle the url itself
-                                    return true;
+                                    if (url.startsWith(hert_url)) {
+                                        bottomNav.setSelectedItemId(R.id.item_delneveshte);
+                                        back_inhome =false;
+                                    } else {
+                                        bottomNav.getMenu().findItem(R.id.item_home).setCheckable(false);
+                                        back_inhome =false;
+                                        return true;
+                                    }
                                 }
-                                if (url.startsWith(hert_url)) {
-                                    bottomNav.setSelectedItemId(R.id.item_delneveshte);
-                                    back_inhome =false;
-                                } else {
-                                    bottomNav.getMenu().findItem(R.id.item_home).setCheckable(false);
-                                    back_inhome =false;
-                                    return true;
-                                }
-                            }
-                            return false;
-                        }
-                        @Override
-                        public void onPageFinished(WebView view, String url) {
-                            swipe.setRefreshing(false);
-                        }});
-
-                    // set for On Click bottom
-                    bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-                        @Override
-                        public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
-                            switch (item.getItemId()) {
-                                case R.id.item_home:
-                                    bottomNav.getMenu().findItem(R.id.item_home).setCheckable(true);
-                                    webView.loadUrl(home_url, sernd_headers);
-                                    back_inhome = true;
-                                    swipe.setRefreshing(true);
-                                    webView.setWebViewClient(new WebViewClient() {
-                                        @Override
-                                        public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error){
-                                            finish();
-                                            startActivity(new Intent(getApplicationContext(), errornet.class));
-                                        }
-                                        // in refresh send header
-                                        @Override
-                                        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                                            HashMap<String, String> headerMap = new HashMap<>();
-                                            headerMap.put("x-app-request", "android");
-                                            view.loadUrl(url, headerMap);
-
-                                            if (!url.equals(home_url)){
-                                                if(url.startsWith("https://khadije.com/pay/") ||url.startsWith("https://khadije.com/ar/pay/") || url.startsWith("https://khadije.com/en/pay/")){
-                                                    // Handle the tel: link
-                                                    Intent browser = new Intent ( Intent.ACTION_VIEW );
-                                                    browser.setData ( Uri.parse ( url ) );
-                                                    startActivity ( browser );
-                                                    bottomNav.setSelectedItemId(R.id.item_home);
-                                                    back_inhome =false;
-
-                                                    // Return true means, leave the current web view and handle the url itself
-                                                    return true;
-                                                }
-                                                if (url.startsWith(hert_url)) {
-                                                    bottomNav.setSelectedItemId(R.id.item_delneveshte);
-                                                    back_inhome =false;
-                                                } else {
-                                                    bottomNav.getMenu().findItem(R.id.item_home).setCheckable(false);
-                                                    back_inhome =false;
-                                                    return true;
-                                                }
-                                            }
-
-                                            return false;
-
-                                        }
-                                        @Override
-                                        public void onPageFinished(WebView view, String url) {
-                                            swipe.setRefreshing(false);
-                                        }});
-                                    break;
-                                case R.id.item_delneveshte:
-                                    bottomNav.getMenu().findItem(R.id.item_delneveshte).setCheckable(true);
-                                    webView.loadUrl(hert_url, sernd_headers);
-                                    back_inhome =false;
-                                    swipe.setRefreshing(true);
-                                    webView.setWebViewClient(new WebViewClient() {
-                                        @Override
-                                        public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error){
-                                            finish();
-                                            startActivity(new Intent(getApplicationContext(), errornet.class));
-                                        }
-                                        // in refresh send header
-                                        @Override
-                                        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                                            HashMap<String, String> headerMap = new HashMap<>();
-                                            headerMap.put("x-app-request", "android");
-                                            view.loadUrl(url, headerMap);
-
-                                            if (!url.equals(hert_url)) {
-                                                if (url.startsWith("https://khadije.com/pay/") || url.startsWith("https://khadije.com/ar/pay/") || url.startsWith("https://khadije.com/en/pay/")) {
-                                                    // Handle the tel: link
-                                                    Intent browser = new Intent(Intent.ACTION_VIEW);
-                                                    browser.setData(Uri.parse(url));
-                                                    startActivity(browser);
-                                                    bottomNav.setSelectedItemId(R.id.item_home);
-                                                    back_inhome = false;
-
-                                                    // Return true means, leave the current web view and handle the url itself
-                                                    return true;
-                                                }
-                                                if (url.startsWith(home_url)) {
-                                                    bottomNav.setSelectedItemId(R.id.item_home);
-                                                    back_inhome = true;
-                                                } else {
-                                                    bottomNav.getMenu().findItem(R.id.item_delneveshte).setCheckable(false);
-                                                    back_inhome = false;
-                                                    return true;
-                                                }
-                                            }
-
-                                            return false;
-                                        }
-                                        @Override
-                                        public void onPageFinished(WebView view, String url) {
-                                            swipe.setRefreshing(false);
-                                        }});
-                                    break;
-
-                                case R.id.item_setting:
-                                    drawerLayout.openDrawer(navigation_menu);
-                                    break;
-                            }
-                            return true;
-                        }
-                    });
-
-                    navigation_menu.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-                        @Override
-                        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                            int menuId = item.getItemId();
-                            switch (menuId) {
-                                case R.id.about_us:
-                                    // put url to <about_us.java>
-                                    Intent sendURL_about = new Intent(MainActivity.this, about_us.class);
-                                    sendURL_about
-                                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                                            .putExtra("about_bol", true)
-                                            .putExtra("about_url" , aboutus_url);
-
-                                    startActivity(sendURL_about);
-                                    break;
-                                case R.id.call_us:
-                                    // put url to <about_us.java>
-                                    Intent sendURL_call = new Intent(MainActivity.this, about_us.class);
-                                    sendURL_call
-                                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                                            .putExtra("call_bol", true)
-                                            .putExtra("call_url" , callus_url);
-                                    startActivity(sendURL_call);
-                                    break;
-                                case R.id.future_view:
-                                    // put url to <about_us.java>
-                                    Intent sendURL_future = new Intent(MainActivity.this, about_us.class);
-                                    sendURL_future
-                                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                                            .putExtra("future_bol", true)
-                                            .putExtra("future_url" , futureview_url);
-                                    startActivity(sendURL_future);
-                                    break;
-                                case R.id.mission:
-                                    // put url to <about_us.java>
-                                    Intent sendURL_mission = new Intent(MainActivity.this, about_us.class);
-                                    sendURL_mission
-                                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                                            .putExtra("mission_url" , mission_url)
-                                            .putExtra("mission_bol", true);
-
-                                    startActivity(sendURL_mission);
-                                    break;
-                                case R.id.website:
-                                    // Go to Browser
-                                    Intent browser_khadije = new Intent ( Intent.ACTION_VIEW );
-                                    browser_khadije.setData ( Uri.parse ( website_url ) );
-                                    startActivity ( browser_khadije );
-                                    break;
-                            }
-                            drawerLayout.closeDrawer(GravityCompat.START);
-                            return true;
-                        }
-                    });
-
-                    // get Title from <.java>
-                    if (getIntent().getBooleanExtra("home", false)) {
-                        webView.loadUrl(home_url, sernd_headers);
-                        swipe.setRefreshing(true);
-                        webView.setWebViewClient(new WebViewClient() {
-                            @Override
-                            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                                HashMap<String, String> headerMap = new HashMap<>();
-                                headerMap.put("x-app-request", "android");
-                                view.loadUrl(url, headerMap);
-                                return true;
+                                return false;
                             }
                             @Override
                             public void onPageFinished(WebView view, String url) {
                                 swipe.setRefreshing(false);
                             }});
-                    }
-                    if (getIntent().getBooleanExtra("hert", false)) {
-                        webView.loadUrl(hert_url, sernd_headers);
-                        swipe.setRefreshing(true);
-                        webView.setWebViewClient(new WebViewClient() {
+
+                        // set for On Click bottom
+                        bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
                             @Override
-                            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                                HashMap<String, String> headerMap = new HashMap<>();
-                                headerMap.put("x-app-request", "android");
-                                view.loadUrl(url, headerMap);
+                            public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
+                                switch (item.getItemId()) {
+                                    case R.id.item_home:
+                                        bottomNav.getMenu().findItem(R.id.item_home).setCheckable(true);
+                                        webView.loadUrl(home_url, sernd_headers);
+                                        back_inhome = true;
+                                        swipe.setRefreshing(true);
+                                        webView.setWebViewClient(new WebViewClient() {
+                                            @Override
+                                            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error){
+                                                finish();
+                                                startActivity(new Intent(getApplicationContext(), errornet.class));
+                                            }
+                                            // in refresh send header
+                                            @Override
+                                            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                                HashMap<String, String> headerMap = new HashMap<>();
+                                                headerMap.put("x-app-request", "android");
+                                                view.loadUrl(url, headerMap);
+
+                                                if (!url.equals(home_url)){
+                                                    if(url.startsWith("https://khadije.com/pay/") ||url.startsWith("https://khadije.com/ar/pay/") || url.startsWith("https://khadije.com/en/pay/")){
+                                                        // Handle the tel: link
+                                                        Intent browser = new Intent ( Intent.ACTION_VIEW );
+                                                        browser.setData ( Uri.parse ( url ) );
+                                                        startActivity ( browser );
+                                                        bottomNav.setSelectedItemId(R.id.item_home);
+                                                        back_inhome =false;
+
+                                                        // Return true means, leave the current web view and handle the url itself
+                                                        return true;
+                                                    }
+                                                    if (url.startsWith(hert_url)) {
+                                                        bottomNav.setSelectedItemId(R.id.item_delneveshte);
+                                                        back_inhome =false;
+                                                    } else {
+                                                        bottomNav.getMenu().findItem(R.id.item_home).setCheckable(false);
+                                                        back_inhome =false;
+                                                        return true;
+                                                    }
+                                                }
+
+                                                return false;
+
+                                            }
+                                            @Override
+                                            public void onPageFinished(WebView view, String url) {
+                                                swipe.setRefreshing(false);
+                                            }});
+                                        break;
+                                    case R.id.item_delneveshte:
+                                        bottomNav.getMenu().findItem(R.id.item_delneveshte).setCheckable(true);
+                                        webView.loadUrl(hert_url, sernd_headers);
+                                        back_inhome =false;
+                                        swipe.setRefreshing(true);
+                                        webView.setWebViewClient(new WebViewClient() {
+                                            @Override
+                                            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error){
+                                                finish();
+                                                startActivity(new Intent(getApplicationContext(), errornet.class));
+                                            }
+                                            // in refresh send header
+                                            @Override
+                                            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                                HashMap<String, String> headerMap = new HashMap<>();
+                                                headerMap.put("x-app-request", "android");
+                                                view.loadUrl(url, headerMap);
+
+                                                if (!url.equals(hert_url)) {
+                                                    if (url.startsWith("https://khadije.com/pay/") || url.startsWith("https://khadije.com/ar/pay/") || url.startsWith("https://khadije.com/en/pay/")) {
+                                                        // Handle the tel: link
+                                                        Intent browser = new Intent(Intent.ACTION_VIEW);
+                                                        browser.setData(Uri.parse(url));
+                                                        startActivity(browser);
+                                                        bottomNav.setSelectedItemId(R.id.item_home);
+                                                        back_inhome = false;
+
+                                                        // Return true means, leave the current web view and handle the url itself
+                                                        return true;
+                                                    }
+                                                    if (url.startsWith(home_url)) {
+                                                        bottomNav.setSelectedItemId(R.id.item_home);
+                                                        back_inhome = true;
+                                                    } else {
+                                                        bottomNav.getMenu().findItem(R.id.item_delneveshte).setCheckable(false);
+                                                        back_inhome = false;
+                                                        return true;
+                                                    }
+                                                }
+
+                                                return false;
+                                            }
+                                            @Override
+                                            public void onPageFinished(WebView view, String url) {
+                                                swipe.setRefreshing(false);
+                                            }});
+                                        break;
+
+                                    case R.id.item_setting:
+                                        drawerLayout.openDrawer(navigation_menu);
+                                        break;
+                                }
                                 return true;
                             }
+                        });
+
+                        navigation_menu.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
                             @Override
-                            public void onPageFinished(WebView view, String url) {
-                                swipe.setRefreshing(false);
-                            }});
+                            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                                int menuId = item.getItemId();
+                                switch (menuId) {
+                                    case R.id.about_us:
+                                        // put url to <about_us.java>
+                                        Intent sendURL_about = new Intent(MainActivity.this, about_us.class);
+                                        sendURL_about
+                                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                                .putExtra("about_bol", true)
+                                                .putExtra("about_url" , aboutus_url);
+
+                                        startActivity(sendURL_about);
+                                        break;
+                                    case R.id.call_us:
+                                        // put url to <about_us.java>
+                                        Intent sendURL_call = new Intent(MainActivity.this, about_us.class);
+                                        sendURL_call
+                                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                                .putExtra("call_bol", true)
+                                                .putExtra("call_url" , callus_url);
+                                        startActivity(sendURL_call);
+                                        break;
+                                    case R.id.future_view:
+                                        // put url to <about_us.java>
+                                        Intent sendURL_future = new Intent(MainActivity.this, about_us.class);
+                                        sendURL_future
+                                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                                .putExtra("future_bol", true)
+                                                .putExtra("future_url" , futureview_url);
+                                        startActivity(sendURL_future);
+                                        break;
+                                    case R.id.mission:
+                                        // put url to <about_us.java>
+                                        Intent sendURL_mission = new Intent(MainActivity.this, about_us.class);
+                                        sendURL_mission
+                                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                                .putExtra("mission_url" , mission_url)
+                                                .putExtra("mission_bol", true);
+
+                                        startActivity(sendURL_mission);
+                                        break;
+                                    case R.id.website:
+                                        // Go to Browser
+                                        Intent browser_khadije = new Intent ( Intent.ACTION_VIEW );
+                                        browser_khadije.setData ( Uri.parse ( website_url ) );
+                                        startActivity ( browser_khadije );
+                                        break;
+                                }
+                                drawerLayout.closeDrawer(GravityCompat.START);
+                                return true;
+                            }
+                        });
+
+                        // get Title from <.java>
+                        if (getIntent().getBooleanExtra("home", false)) {
+                            webView.loadUrl(home_url, sernd_headers);
+                            swipe.setRefreshing(true);
+                            webView.setWebViewClient(new WebViewClient() {
+                                @Override
+                                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                    HashMap<String, String> headerMap = new HashMap<>();
+                                    headerMap.put("x-app-request", "android");
+                                    view.loadUrl(url, headerMap);
+                                    return true;
+                                }
+                                @Override
+                                public void onPageFinished(WebView view, String url) {
+                                    swipe.setRefreshing(false);
+                                }});
+                        }
+                        if (getIntent().getBooleanExtra("hert", false)) {
+                            webView.loadUrl(hert_url, sernd_headers);
+                            swipe.setRefreshing(true);
+                            webView.setWebViewClient(new WebViewClient() {
+                                @Override
+                                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                    HashMap<String, String> headerMap = new HashMap<>();
+                                    headerMap.put("x-app-request", "android");
+                                    view.loadUrl(url, headerMap);
+                                    return true;
+                                }
+                                @Override
+                                public void onPageFinished(WebView view, String url) {
+                                    swipe.setRefreshing(false);
+                                }});
+                        }
+
+                        // Update application
+                        // new version for app
+                        JSONObject new_version = response.getJSONObject("app_version");
+                        int nv_code = new_version.getInt("code");
+                        String nv_title = new_version.getString("title");
+                        String nv_small = new_version.getString("small");
+                        String nv_big = new_version.getString("big");
+                        if (nv_big.equals("null")){nv_big = nv_small;}
+                        String nv_from = new_version.getString("from");
+                        String nv_sub_text = new_version.getString("sub_text");
+
+                        if (versionCode < nv_code) {
+                            Notification.Builder nb = new Notification.Builder(MainActivity.this);
+                            Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                            nb.setContentTitle( nv_title )
+                                    .setContentText( nv_small )
+                                    .setStyle(new Notification.BigTextStyle().bigText(nv_big))
+                                    .setContentInfo(nv_from)
+                                    .setSubText(nv_sub_text)
+                                    .setSmallIcon(android.R.drawable.stat_sys_download)
+                                    .setAutoCancel( true )
+                                    .setSound(alarmSound);
+                            Notification notif = nb.build();
+                            NotificationManager notifManager = (NotificationManager) MainActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
+                            notifManager.notify(randomNumber, notif);
+                        }
                     }
 
-                    // Update application
-                    // new version for app
-                    JSONObject new_version = response.getJSONObject("app_version");
-                    int nv_code = new_version.getInt("code");
-                    String nv_title = new_version.getString("title");
-                    String nv_small = new_version.getString("small");
-                    String nv_big = new_version.getString("big");
-                    if (nv_big.equals("null")){nv_big = nv_small;}
-                    String nv_from = new_version.getString("from");
-                    String nv_sub_text = new_version.getString("sub_text");
-
-                    if (versionCode < nv_code) {
-                        Notification.Builder nb = new Notification.Builder(MainActivity.this);
-                        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                        nb.setContentTitle( nv_title )
-                                .setContentText( nv_small )
-                                .setStyle(new Notification.BigTextStyle().bigText(nv_big))
-                                .setContentInfo(nv_from)
-                                .setSubText(nv_sub_text)
-                                .setSmallIcon(android.R.drawable.stat_sys_download)
-                                .setAutoCancel( true )
-                                .setSound(alarmSound);
-                        Notification notif = nb.build();
-                        NotificationManager notifManager = (NotificationManager) MainActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
-                        notifManager.notify(randomNumber, notif);
-                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -687,8 +709,7 @@ public class MainActivity extends AppCompatActivity {
         // import SharedPreferences
         final SharedPreferences sharedPerf_smile = getSharedPreferences("Prefs", MODE_PRIVATE);
         // import manual Token & Code & lang
-        final String myTokengName = sharedPerf_smile.getString("myTokengName", "no-tooken");
-        final String myTokengName_code = sharedPerf_smile.getString("myTokengName_code", "no-tooken");
+        final String apikey = sharedPerf_smile.getString("apikey", null);
         final Boolean farsi = sharedPerf_smile.getBoolean("farsi", false);
         final Boolean arabic = sharedPerf_smile.getBoolean("arabic", false);
         final Boolean english = sharedPerf_smile.getBoolean("english", false);
@@ -696,26 +717,32 @@ public class MainActivity extends AppCompatActivity {
         // set lang
         String url_postSmile = "";
         if (farsi){
-            url_postSmile = "https://khadije.com/api/v5/smile";
+            url_postSmile = "https://khadije.com/api/v6/smile";
         }
         if (arabic){
-            url_postSmile = "https://khadije.com/ar/api/v5/smile";
+            url_postSmile = "https://khadije.com/ar/api/v6/smile";
         }
         if (english){
-            url_postSmile = "https://khadije.com/en/api/v5/smile";
+            url_postSmile = "https://khadije.com/en/api/v6/smile";
         }
 
         // Json <Post Smile> Method
-        StringRequest PostSmile_Request = new StringRequest(Request.Method.POST, url_postSmile, new Response.Listener<String>(){
+        StringRequest PostSmile_Request = new StringRequest(Request.Method.POST, url_postSmile, new Response.Listener<String>()
+        {
             @Override
             public void onResponse(String response) {
                 try {
+
                     JSONObject get_postRequest = new JSONObject(response);
 
                     // Check New Notif
-                    Boolean newNotif = get_postRequest.getBoolean("notif_new");
-                    if (newNotif){
-                        Notif_is();
+                    Boolean ok_notif = get_postRequest.getBoolean("ok");
+                    if (ok_notif){
+                       JSONObject result = get_postRequest.getJSONObject("result");
+                       Boolean new_notif = result.getBoolean("notif_new");
+                       if (new_notif){
+                           Notif_is();
+                       }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -731,17 +758,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders()  {
                 HashMap<String, String> headers_postSmile = new HashMap<>();
-                headers_postSmile.put("x-app-request", "android");
-                headers_postSmile.put("authorization", "$2y$07$J5lyhNSfVCEVxPZvEmrXhemZpzwekNKJRPHC1kwth3yPw6U6cUBPC");
+                headers_postSmile.put("apikey", apikey);
                 return headers_postSmile;
-            }
-            // Send Body Token & Code
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> body_postSmile = new HashMap<>();
-                body_postSmile.put("user_token", myTokengName );
-                body_postSmile.put("user_code", myTokengName_code );
-                return body_postSmile;
             }
         }
                 ;AppContoroler.getInstance().addToRequestQueue(PostSmile_Request);
@@ -751,9 +769,8 @@ public class MainActivity extends AppCompatActivity {
     public void Notif_is(){
         // import SharedPreferences
         final SharedPreferences shared_notif_is = getSharedPreferences("Prefs", MODE_PRIVATE);
-        // import manual Token & code & lang
-        final String myTokengName = shared_notif_is.getString("myTokengName", "no-tooken");
-        final String myTokengName_code = shared_notif_is.getString("myTokengName_code", "no-tooken");
+        // import manual Token & Code & lang
+        final String apikey = shared_notif_is.getString("apikey", null);
         final Boolean farsi = shared_notif_is.getBoolean("farsi", false);
         final Boolean arabic = shared_notif_is.getBoolean("arabic", false);
         final Boolean english = shared_notif_is.getBoolean("english", false);
@@ -761,154 +778,131 @@ public class MainActivity extends AppCompatActivity {
         // set lang for get notif
         String url_notif_is = "";
         if (farsi){
-            url_notif_is = "https://khadije.com/api/v5/notif";
+            url_notif_is = "https://khadije.com/api/v6/notif";
         }
         if (arabic){
-            url_notif_is = "https://khadije.com/ar/api/v5/notif";
+            url_notif_is = "https://khadije.com/ar/api/v6/notif";
         }
         if (english){
-            url_notif_is = "https://khadije.com/en/api/v5/notif";
+            url_notif_is = "https://khadije.com/en/api/v6/notif";
         }
         // Post Method
         StringRequest Notif_is_Request = new StringRequest(Request.Method.POST, url_notif_is, new Response.Listener<String>(){
             @Override
             public void onResponse(String response) {
                 try {
-                    JSONArray get_Notif_is = new JSONArray(response);
+                    JSONObject mainObject = new JSONObject(response);
+                    ok_getnotif = mainObject.getBoolean("ok");
+                    if (ok_getnotif){
+                        JSONArray get_Notif_is = mainObject.getJSONArray("result");
 
-                    Intent sendURL_about = new Intent(getApplicationContext() , click_on_notif.class);
-                    Intent close_notif = new Intent("com.ermile.khadije.cancel");
+                        Intent sendURL_about = new Intent(getApplicationContext() , click_on_notif.class);
 
-                    onClick_notif = null;
-                    Button_onclick_notif = null;
-                    onclick_notifUpdate_close = PendingIntent.getBroadcast(getApplicationContext(), (int) System.currentTimeMillis(), close_notif, PendingIntent.FLAG_UPDATE_CURRENT);
+                        String CHANNEL_ID = "m";
+                        final NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext()
+                                , CHANNEL_ID);
 
-                    String CHANNEL_ID = "m";
-                    final NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext() , CHANNEL_ID);
-
-                    for (int notif_is = 0 ; notif_is <= get_Notif_is.length() ; notif_is++){
-                        JSONObject one = get_Notif_is.getJSONObject(notif_is);
-                        // get object from json
-                        String notif_title = one.getString("title");
-                        String notif_txt_small = one.getString("small");
-                        String notif_txt_big = one.getString("big");
-                        if (notif_txt_big.equals("null")){ notif_txt_big = notif_txt_small;}
-                        String notif_txt_from = one.getString("from");
-                        String notif_sub_text = one.getString("sub_text");
-                        String notif_group = one.getString("group");
-                        String notif_icon = one.getString("small_icon");
-                        String notif_large_icon = one.getString("large_icon");
-                        String notif_on_click = one.getString("on_click");
-                        String notif_otherBrowser_link = one.getString("link");
-                        Boolean notif_otherBrowser_inApp = one.getBoolean("external");
-
-
-                        switch (notif_icon){
-                            case "home":
-                                notif_icon = String.valueOf(icon_home);
-                                break;
-                            case "hert":
-                                notif_icon = String.valueOf(icon_hert);
-                                break;
-                            case "setting":
-                                notif_icon = String.valueOf(icon_setting);
-                                break;
-                            case "more_vert":
-                                notif_icon = String.valueOf(icon_moreVert);
-                                break;
-                            case "about":
-                                notif_icon = String.valueOf(icon_about);
-                                break;
-                            case "contact":
-                                notif_icon = String.valueOf(icon_contact);
-                                break;
-                            case "vision":
-                                notif_icon = String.valueOf(icon_vision);
-                                break;
-                            case "mission":
-                                notif_icon = String.valueOf(icon_mission);
-                                break;
-                            case "website":
-                                notif_icon = String.valueOf(icon_website);
-                                break;
-                            case "net-setting":
-                                notif_icon = String.valueOf(icon_net_setting);
-                                break;
-                            case "chake":
-                                notif_icon = String.valueOf(icon_chake);
-                                break;
-                            case "close":
-                                notif_icon = String.valueOf(icon_close);
-                                break;
-                        }
+                        for (int notif_is = 0 ; notif_is <= get_Notif_is.length() ; notif_is++) {
+                            JSONObject one = get_Notif_is.getJSONObject(notif_is);
+                            // get object from json
+                            notif_title = one.getString("title");
+                            notif_txt_small = one.getString("excerpt");
+                            notif_txt_big = one.getString("text");
+                            if (notif_txt_big.equals("") || notif_txt_big.equals("null")){
+                                notif_txt_big = notif_txt_small;
+                            }else {notif_txt_big = one.getString("text");}
+                            notif_txt_from = one.getString("cat");
+                            notif_sub_text = one.getString("footer");
+                            notif_group = one.getString("cat");
+                            notif_icon = one.getString("icon");
+                            notif_large_icon = one.getString("image");
+                            notif_on_click = one.getString("url");
 
 
-                        switch (notif_on_click){
-                            case "home":
-                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
-                                        .putExtra("put_notif","N_Ihome") , 0);
-                                break;
-                            case "about":
-                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
-                                        .putExtra("put_notif","N_about") , 0);
-                                break;
-                            case "call":
-                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
-                                        .putExtra("put_notif","N_call") , 0);
-                                break;
-                            case "vision":
-                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber, sendURL_about
-                                        .putExtra("put_notif","N_futrue") , 0);
-                                break;
-                            case "mission":
-                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
-                                        .putExtra("put_notif","N_mission") , 0);
-                                break;
-                            case "website":
-                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
-                                        .putExtra("put_notif","website") , 0);
-                                break;
-                            case "other_website":
-                                onClick_notif = PendingIntent.getActivity(getApplicationContext(), randomNumber , sendURL_about
+                            switch (notif_icon) {
+                                case "home":
+                                    notif_icon = String.valueOf(icon_home);
+                                    break;
+                                case "hart":
+                                    notif_icon = String.valueOf(icon_hert);
+                                    break;
+                                case "setting":
+                                    notif_icon = String.valueOf(icon_setting);
+                                    break;
+                                case "more_vert":
+                                    notif_icon = String.valueOf(icon_moreVert);
+                                    break;
+                                case "about":
+                                    notif_icon = String.valueOf(icon_about);
+                                    break;
+                                case "contact":
+                                    notif_icon = String.valueOf(icon_contact);
+                                    break;
+                                case "vision":
+                                    notif_icon = String.valueOf(icon_vision);
+                                    break;
+                                case "mission":
+                                    notif_icon = String.valueOf(icon_mission);
+                                    break;
+                                case "website":
+                                    notif_icon = String.valueOf(icon_website);
+                                    break;
+                                case "net-setting":
+                                    notif_icon = String.valueOf(icon_net_setting);
+                                    break;
+                                case "cheek":
+                                    notif_icon = String.valueOf(icon_chake);
+                                    break;
+                                case "close":
+                                    notif_icon = String.valueOf(icon_close);
+                                    break;
+                                default:
+                                    notif_icon = String.valueOf(icon_home);
+                            }
+
+
+                            if (notif_on_click.equals("khadije://")) {
+                                onClick_notif = PendingIntent.getActivity(getApplicationContext(), randomNumber, sendURL_about
+                                        .putExtra("put_notif", "N_Ihome"), 0);
+                            } else {
+                                onClick_notif = PendingIntent.getActivity(getApplicationContext(), randomNumber, sendURL_about
                                         .putExtra("put_notif", "other_website")
-                                        .putExtra("url_other_website", notif_otherBrowser_link)
-                                        .putExtra("notif_otherBrowser_inApp" , notif_otherBrowser_inApp ), 0);
-                                break;
-                            case "close":
-                                onClick_notif = PendingIntent.getBroadcast(getApplicationContext(), (int)
-                                        System.currentTimeMillis(), close_notif, PendingIntent.FLAG_UPDATE_CURRENT);
-                                break;
+                                        .putExtra("url_other_website", notif_on_click), 0);
+                            }
+
+
+                            builder.setSmallIcon(Integer.parseInt(notif_icon))
+                                    .setContentTitle(notif_title)
+                                    .setContentText(notif_txt_small)
+                                    .setStyle(new NotificationCompat
+                                            .BigTextStyle()
+                                            .bigText(notif_txt_big))
+                                    .setSubText(notif_sub_text)
+                                    .setGroup(notif_group)
+                                    .setContentInfo(notif_txt_from)
+                                    .setContentIntent(onClick_notif)
+                                    .setWhen(System.currentTimeMillis())
+                                    .setAutoCancel(true)
+                                    .setDefaults(Notification.DEFAULT_ALL)
+                                    .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
+                                    .build();
+
+                            Glide.with(getApplicationContext())
+                                    .asBitmap()
+                                    .load(notif_large_icon)
+                                    .into(new SimpleTarget<Bitmap>() {
+                                        @Override
+                                        public void onResourceReady(Bitmap resource_LargeIcon, Transition<? super Bitmap>
+                                                transition) {
+                                            builder.setLargeIcon(resource_LargeIcon)
+                                                    .build();
+                                        }
+                                    });
+
+                            NotificationManagerCompat notificationManager = NotificationManagerCompat.from
+                                    (getApplicationContext());
+                            notificationManager.notify(1000 + notif_is, builder.build());
                         }
-
-                        builder.setSmallIcon(Integer.parseInt(notif_icon))
-                                .setContentTitle(notif_title)
-                                .setContentText(notif_txt_small)
-                                .setStyle(new NotificationCompat
-                                        .BigTextStyle()
-                                        .bigText(notif_txt_big))
-                                .setSubText(notif_sub_text)
-                                .setGroup(notif_group)
-                                .setContentInfo(notif_txt_from)
-                                .setContentIntent(onClick_notif)
-                                .setWhen(System.currentTimeMillis())
-                                .setAutoCancel(true)
-                                .setDefaults(Notification.DEFAULT_ALL)
-                                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
-                        .build();
-
-                        Glide.with(getApplicationContext())
-                                .asBitmap()
-                                .load(notif_large_icon)
-                                .into(new SimpleTarget<Bitmap>() {
-                                    @Override
-                                    public void onResourceReady(Bitmap resource_LargeIcon, Transition<? super Bitmap> transition) {
-                                        builder.setLargeIcon(resource_LargeIcon)
-                                        .build();
-                                    }
-                                });
-
-                        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
-                        notificationManager.notify(1000 + notif_is , builder.build());
                     }
 
 
@@ -927,18 +921,9 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public Map<String, String> getHeaders()  {
-                HashMap<String, String> headers_notif_is = new HashMap<>();
-                headers_notif_is.put("x-app-request", "android");
-                headers_notif_is.put("authorization", "$2y$07$J5lyhNSfVCEVxPZvEmrXhemZpzwekNKJRPHC1kwth3yPw6U6cUBPC");
-                return headers_notif_is;
-            }
-                // Send body
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> body_notif_is = new HashMap<>();
-                body_notif_is.put("user_token", myTokengName );
-                body_notif_is.put("user_code", myTokengName_code );
-                return body_notif_is;
+                HashMap<String, String> headers_postSmile = new HashMap<>();
+                headers_postSmile.put("apikey", apikey);
+                return headers_postSmile;
             }
         }
                 ;AppContoroler.getInstance().addToRequestQueue(Notif_is_Request);
@@ -989,4 +974,45 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+    public void ERROR_GETING(){
+        String title_snackbar = "Error connecting to server";
+        String btn_snackbar = "Try again";
+        final SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
+        final Boolean farsi = shared.getBoolean("farsi", false);
+        final Boolean arabic = shared.getBoolean("arabic", false);
+        final Boolean english = shared.getBoolean("english", false);
+        View parentLayout = findViewById(android.R.id.content);
+        ViewCompat.setLayoutDirection(parentLayout,ViewCompat.LAYOUT_DIRECTION_LTR);
+
+        if (farsi){
+            ViewCompat.setLayoutDirection(parentLayout,ViewCompat.LAYOUT_DIRECTION_RTL);
+            title_snackbar = "خطا در اتصال با سرور";
+            btn_snackbar = "تلاش مجدد";
+        }
+        if (arabic){
+            ViewCompat.setLayoutDirection(parentLayout,ViewCompat.LAYOUT_DIRECTION_RTL);
+            title_snackbar = "خطأ في الاتصال بالخادم";
+            btn_snackbar = "حاول مرة أخرى";
+        }
+        if (english){
+            ViewCompat.setLayoutDirection(parentLayout,ViewCompat.LAYOUT_DIRECTION_LTR);
+            title_snackbar = "Error connecting to server";
+            btn_snackbar = "Try again";
+        }
+
+        Snackbar snackbar = Snackbar.make(parentLayout, title_snackbar, Snackbar.LENGTH_INDEFINITE)
+                .setAction(btn_snackbar, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                        startActivity(getIntent());
+                    }
+                });
+        snackbar.setActionTextColor(Color.WHITE);
+        View sbView = snackbar.getView();
+        TextView textView = sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.YELLOW);
+        snackbar.setDuration(999999999);
+        snackbar.show();
+    }
 }

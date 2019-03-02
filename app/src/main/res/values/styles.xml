@@ -15,7 +15,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">#ddd</item>
         <item name="android:fontFamily">@font/iransans</item>
-    </style>
+    </style>`
 
     <style name="menu_nav">
         <item name="android:textSize" >10sp</item>

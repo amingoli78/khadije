@@ -57,6 +57,27 @@ public class NotificationService extends Service {
     int icon_chake = R.drawable.ic_chake;
     int icon_close = R.drawable.ic_close;
 
+
+
+
+
+    Boolean ok_getnotif = false;
+    String notif_title = "موسسه حضرت خدیجه";
+    String notif_txt_small = "پیام جدید";
+    String notif_txt_big = notif_txt_small;
+    String notif_txt_from = " ";
+    String notif_sub_text = " ";
+    String notif_group = String.valueOf(randomNumber);
+    String notif_icon = "home";
+    String notif_large_icon = "https://khadije.com/static/images/logo.png";
+    String notif_on_click = "khadije://";
+    PendingIntent onClick_notifs = null;
+
+
+
+
+
+
     Timer timer;
     TimerTask timerTask;
     String TAG = "Timers";
@@ -141,43 +162,46 @@ public class NotificationService extends Service {
     /**
      * Post Smile
      */
+    // Notification send header and user Token > new Notif for me?
     public void post_smile(){
         // import SharedPreferences
-        final SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
-        final SharedPreferences.Editor editor = shared.edit();
-        // import manual
-        final String myTokengName = shared.getString("myTokengName", "no-tooken");
-        final String myTokengName_code = shared.getString("myTokengName_code", "no-tooken");
-
-        final Boolean farsi = shared.getBoolean("farsi", false);
-        final Boolean arabic = shared.getBoolean("arabic", false);
-        final Boolean english = shared.getBoolean("english", false);
+        final SharedPreferences sharedPerf_smile = getSharedPreferences("Prefs", MODE_PRIVATE);
+        // import manual Token & Code & lang
+        final String apikey = sharedPerf_smile.getString("apikey", null);
+        final Boolean farsi = sharedPerf_smile.getBoolean("farsi", false);
+        final Boolean arabic = sharedPerf_smile.getBoolean("arabic", false);
+        final Boolean english = sharedPerf_smile.getBoolean("english", false);
 
         // set lang
-        String url_post = "";
+        String url_postSmile = "";
         if (farsi){
-            url_post = "https://khadije.com/api/v5/smile";
+            url_postSmile = "https://khadije.com/api/v6/smile";
         }
         if (arabic){
-            url_post = "https://khadije.com/ar/api/v5/smile";
+            url_postSmile = "https://khadije.com/ar/api/v6/smile";
         }
         if (english){
-            url_post = "https://khadije.com/en/api/v5/smile";
+            url_postSmile = "https://khadije.com/en/api/v6/smile";
         }
 
-        // Post Method
-        StringRequest post_id = new StringRequest(Request.Method.POST, url_post, new Response.Listener<String>(){
+        // Json <Post Smile> Method
+        StringRequest PostSmile_Request = new StringRequest(Request.Method.POST, url_postSmile, new Response.Listener<String>()
+        {
             @Override
             public void onResponse(String response) {
                 try {
-                    JSONObject getRespone = new JSONObject(response);
 
-                    Boolean newNotif = getRespone.getBoolean("notif_new");
+                    JSONObject get_postRequest = new JSONObject(response);
 
-                    if (newNotif){
-                        post_notif();
+                    // Check New Notif
+                    Boolean ok_notif = get_postRequest.getBoolean("ok");
+                    if (ok_notif){
+                        JSONObject result = get_postRequest.getJSONObject("result");
+                        Boolean new_notif = result.getBoolean("notif_new");
+                        if (new_notif){
+                            Notif_is();
+                        }
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -187,198 +211,159 @@ public class NotificationService extends Service {
             public void onErrorResponse(VolleyError error) {
             }
         })
-                // Send Headers
+                // Send Header
         {
             @Override
             public Map<String, String> getHeaders()  {
-                HashMap<String, String> headers = new HashMap<>();
-                headers.put("x-app-request", "android");
-                headers.put("authorization", "$2y$07$J5lyhNSfVCEVxPZvEmrXhemZpzwekNKJRPHC1kwth3yPw6U6cUBPC");
-                return headers;
+                HashMap<String, String> headers_postSmile = new HashMap<>();
+                headers_postSmile.put("apikey", apikey);
+                return headers_postSmile;
             }
-            // Send Device info
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> posting = new HashMap<>();
-                posting.put("user_token", myTokengName );
-                posting.put("user_code", myTokengName_code );
-
-                return posting;
-            }
-        };AppContoroler.getInstance().addToRequestQueue(post_id);
+        }
+                ;AppContoroler.getInstance().addToRequestQueue(PostSmile_Request);
     }
 
-
-    /**
-     * Post Notif
-     */
-    public void post_notif(){
+    // get Notification and run for user > Yes Notif is ..
+    public void Notif_is(){
         // import SharedPreferences
-        final SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
-        final SharedPreferences.Editor editor = shared.edit();
-        // import manual
-        final String myTokengName = shared.getString("myTokengName", "no-tooken");
-        final String myTokengName_code = shared.getString("myTokengName_code", "no-tooken");
+        final SharedPreferences shared_notif_is = getSharedPreferences("Prefs", MODE_PRIVATE);
+        // import manual Token & Code & lang
+        final String apikey = shared_notif_is.getString("apikey", null);
+        final Boolean farsi = shared_notif_is.getBoolean("farsi", false);
+        final Boolean arabic = shared_notif_is.getBoolean("arabic", false);
+        final Boolean english = shared_notif_is.getBoolean("english", false);
 
-        final Boolean farsi = shared.getBoolean("farsi", false);
-        final Boolean arabic = shared.getBoolean("arabic", false);
-        final Boolean english = shared.getBoolean("english", false);
-
-        // set lang
-        String url_post = "";
+        // set lang for get notif
+        String url_notif_is = "";
         if (farsi){
-            url_post = "https://khadije.com/api/v5/notif";
+            url_notif_is = "https://khadije.com/api/v6/notif";
         }
         if (arabic){
-            url_post = "https://khadije.com/ar/api/v5/notif";
+            url_notif_is = "https://khadije.com/ar/api/v6/notif";
         }
         if (english){
-            url_post = "https://khadije.com/en/api/v5/notif";
+            url_notif_is = "https://khadije.com/en/api/v6/notif";
         }
-
-
         // Post Method
-        StringRequest post_id = new StringRequest(Request.Method.POST, url_post, new Response.Listener<String>(){
+        StringRequest Notif_is_Request = new StringRequest(Request.Method.POST, url_notif_is, new Response.Listener<String>(){
             @Override
             public void onResponse(String response) {
                 try {
+                    JSONObject mainObject = new JSONObject(response);
+                    ok_getnotif = mainObject.getBoolean("ok");
+                    if (ok_getnotif){
+                        JSONArray get_Notif_is = mainObject.getJSONArray("result");
 
-                    JSONArray get_Notif_is = new JSONArray(response);
+                        Intent sendURL_about = new Intent(getApplicationContext() , click_on_notif.class);
 
-                    Intent sendURL_about = new Intent(getApplicationContext() , click_on_notif.class);
-                    Intent close_notif = new Intent("com.ermile.khadije.cancel");
+                        String CHANNEL_ID = "m";
+                        final NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext()
+                                , CHANNEL_ID);
 
-                    onClick_notif = null;
-                    Button_onclick_notif = null;
-                    onclick_notifUpdate_close = PendingIntent.getBroadcast(getApplicationContext(), (int) System.currentTimeMillis(), close_notif, PendingIntent.FLAG_UPDATE_CURRENT);
-
-                    String CHANNEL_ID = "m";
-                    final NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext() , CHANNEL_ID);
-
-                    for (int notif_is = 0 ; notif_is <= get_Notif_is.length() ; notif_is++){
-                        JSONObject one = get_Notif_is.getJSONObject(notif_is);
-                        // get object from json
-                        String notif_title = one.getString("title");
-                        String notif_txt_small = one.getString("small");
-                        String notif_txt_big = one.getString("big");
-                        if (notif_txt_big.equals("null")){ notif_txt_big = notif_txt_small;}
-                        String notif_txt_from = one.getString("from");
-                        String notif_sub_text = one.getString("sub_text");
-                        String notif_group = one.getString("group");
-                        String notif_icon = one.getString("small_icon");
-                        String notif_large_icon = one.getString("large_icon");
-                        String notif_on_click = one.getString("on_click");
-                        String notif_otherBrowser_link = one.getString("link");
-                        Boolean notif_otherBrowser_inApp = one.getBoolean("external");
+                        for (int notif_is = 0 ; notif_is <= get_Notif_is.length() ; notif_is++) {
+                            JSONObject one = get_Notif_is.getJSONObject(notif_is);
+                            // get object from json
+                            notif_title = one.getString("title");
+                            notif_txt_small = one.getString("excerpt");
+                            notif_txt_big = one.getString("text");
+                            if (notif_txt_big.equals("") || notif_txt_big.equals("null")){
+                                notif_txt_big = notif_txt_small;
+                            }else {notif_txt_big = one.getString("text");}
+                            notif_txt_from = one.getString("cat");
+                            notif_sub_text = one.getString("footer");
+                            notif_group = one.getString("cat");
+                            notif_icon = one.getString("icon");
+                            notif_large_icon = one.getString("image");
+                            notif_on_click = one.getString("url");
 
 
-                        switch (notif_icon){
-                            case "home":
-                                notif_icon = String.valueOf(icon_home);
-                                break;
-                            case "hert":
-                                notif_icon = String.valueOf(icon_hert);
-                                break;
-                            case "setting":
-                                notif_icon = String.valueOf(icon_setting);
-                                break;
-                            case "more_vert":
-                                notif_icon = String.valueOf(icon_moreVert);
-                                break;
-                            case "about":
-                                notif_icon = String.valueOf(icon_about);
-                                break;
-                            case "contact":
-                                notif_icon = String.valueOf(icon_contact);
-                                break;
-                            case "vision":
-                                notif_icon = String.valueOf(icon_vision);
-                                break;
-                            case "mission":
-                                notif_icon = String.valueOf(icon_mission);
-                                break;
-                            case "website":
-                                notif_icon = String.valueOf(icon_website);
-                                break;
-                            case "net-setting":
-                                notif_icon = String.valueOf(icon_net_setting);
-                                break;
-                            case "chake":
-                                notif_icon = String.valueOf(icon_chake);
-                                break;
-                            case "close":
-                                notif_icon = String.valueOf(icon_close);
-                                break;
-                        }
+                            switch (notif_icon) {
+                                case "home":
+                                    notif_icon = String.valueOf(icon_home);
+                                    break;
+                                case "hart":
+                                    notif_icon = String.valueOf(icon_hert);
+                                    break;
+                                case "setting":
+                                    notif_icon = String.valueOf(icon_setting);
+                                    break;
+                                case "more_vert":
+                                    notif_icon = String.valueOf(icon_moreVert);
+                                    break;
+                                case "about":
+                                    notif_icon = String.valueOf(icon_about);
+                                    break;
+                                case "contact":
+                                    notif_icon = String.valueOf(icon_contact);
+                                    break;
+                                case "vision":
+                                    notif_icon = String.valueOf(icon_vision);
+                                    break;
+                                case "mission":
+                                    notif_icon = String.valueOf(icon_mission);
+                                    break;
+                                case "website":
+                                    notif_icon = String.valueOf(icon_website);
+                                    break;
+                                case "net-setting":
+                                    notif_icon = String.valueOf(icon_net_setting);
+                                    break;
+                                case "cheek":
+                                    notif_icon = String.valueOf(icon_chake);
+                                    break;
+                                case "close":
+                                    notif_icon = String.valueOf(icon_close);
+                                    break;
+                                default:
+                                    notif_icon = String.valueOf(icon_home);
+                            }
 
 
-                        switch (notif_on_click){
-                            case "home":
-                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
-                                        .putExtra("put_notif","N_Ihome") , 0);
-                                break;
-                            case "about":
-                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
-                                        .putExtra("put_notif","N_about") , 0);
-                                break;
-                            case "call":
-                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
-                                        .putExtra("put_notif","N_call") , 0);
-                                break;
-                            case "vision":
-                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber, sendURL_about
-                                        .putExtra("put_notif","N_futrue") , 0);
-                                break;
-                            case "mission":
-                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
-                                        .putExtra("put_notif","N_mission") , 0);
-                                break;
-                            case "website":
-                                onClick_notif = PendingIntent.getActivity(getApplicationContext() , randomNumber , sendURL_about
-                                        .putExtra("put_notif","website") , 0);
-                                break;
-                            case "other_website":
-                                onClick_notif = PendingIntent.getActivity(getApplicationContext(), randomNumber , sendURL_about
+                            if (notif_on_click.equals("khadije://")) {
+                                onClick_notifs = PendingIntent.getActivity(getApplicationContext(), randomNumber, sendURL_about
+                                        .putExtra("put_notif", "N_Ihome"), 0);
+                            } else {
+                                onClick_notifs = PendingIntent.getActivity(getApplicationContext(), randomNumber, sendURL_about
                                         .putExtra("put_notif", "other_website")
-                                        .putExtra("url_other_website", notif_otherBrowser_link)
-                                        .putExtra("notif_otherBrowser_inApp" , notif_otherBrowser_inApp ), 0);
-                                break;
-                            case "close":
-                                onClick_notif = PendingIntent.getBroadcast(getApplicationContext(), (int)
-                                        System.currentTimeMillis(), close_notif, PendingIntent.FLAG_UPDATE_CURRENT);
-                                break;
+                                        .putExtra("url_other_website", notif_on_click), 0);
+                            }
+
+
+                            builder.setSmallIcon(Integer.parseInt(notif_icon))
+                                    .setContentTitle(notif_title)
+                                    .setContentText(notif_txt_small)
+                                    .setStyle(new NotificationCompat
+                                            .BigTextStyle()
+                                            .bigText(notif_txt_big))
+                                    .setSubText(notif_sub_text)
+                                    .setGroup(notif_group)
+                                    .setContentInfo(notif_txt_from)
+                                    .setContentIntent(onClick_notif)
+                                    .setWhen(System.currentTimeMillis())
+                                    .setAutoCancel(true)
+                                    .setDefaults(Notification.DEFAULT_ALL)
+                                    .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
+                                    .build();
+
+                            Glide.with(getApplicationContext())
+                                    .asBitmap()
+                                    .load(notif_large_icon)
+                                    .into(new SimpleTarget<Bitmap>() {
+                                        @Override
+                                        public void onResourceReady(Bitmap resource_LargeIcon, Transition<? super Bitmap>
+                                                transition) {
+                                            builder.setLargeIcon(resource_LargeIcon)
+                                                    .build();
+                                        }
+                                    });
+
+                            NotificationManagerCompat notificationManager = NotificationManagerCompat.from
+                                    (getApplicationContext());
+                            notificationManager.notify(1000 + notif_is, builder.build());
                         }
-
-                        builder.setSmallIcon(Integer.parseInt(notif_icon))
-                                .setContentTitle(notif_title)
-                                .setContentText(notif_txt_small)
-                                .setStyle(new NotificationCompat
-                                        .BigTextStyle()
-                                        .bigText(notif_txt_big))
-                                .setSubText(notif_sub_text)
-                                .setGroup(notif_group)
-                                .setContentInfo(notif_txt_from)
-                                .setContentIntent(onClick_notif)
-                                .setWhen(System.currentTimeMillis())
-                                .setAutoCancel(true)
-                                .setDefaults(Notification.DEFAULT_ALL)
-                                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
-                                .build();
-
-                        Glide.with(getApplicationContext())
-                                .asBitmap()
-                                .load(notif_large_icon)
-                                .into(new SimpleTarget<Bitmap>() {
-                                    @Override
-                                    public void onResourceReady(Bitmap resource_LargeIcon, Transition<? super Bitmap> transition) {
-                                        builder.setLargeIcon(resource_LargeIcon)
-                                                .build();
-                                    }
-                                });
-
-                        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
-                        notificationManager.notify(1000 + notif_is , builder.build());
                     }
+
+
 
 
                 } catch (JSONException e) {
@@ -394,21 +379,14 @@ public class NotificationService extends Service {
         {
             @Override
             public Map<String, String> getHeaders()  {
-                HashMap<String, String> headers = new HashMap<>();
-                headers.put("x-app-request", "android");
-                headers.put("authorization", "$2y$07$J5lyhNSfVCEVxPZvEmrXhemZpzwekNKJRPHC1kwth3yPw6U6cUBPC");
-                return headers;
+                HashMap<String, String> headers_postSmile = new HashMap<>();
+                headers_postSmile.put("apikey", apikey);
+                return headers_postSmile;
             }
-            // Send Device info
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> posting = new HashMap<>();
-                posting.put("user_token", myTokengName );
-                posting.put("user_code", myTokengName_code );
-
-                return posting;
-            }
-        };AppContoroler.getInstance().addToRequestQueue(post_id);
+        }
+                ;AppContoroler.getInstance().addToRequestQueue(Notif_is_Request);
 
     }
+
+
 }

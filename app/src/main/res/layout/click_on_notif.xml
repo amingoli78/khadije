@@ -5,34 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center|top"
+    android:gravity="center"
     tools:context=".click_on_notif">
 
     <ProgressBar
+        android:layout_marginBottom="1in"
         android:id="@+id/progress_notif"
         android:indeterminateDrawable="@drawable/progress"
         android:layout_width="100dp"
-        android:layout_height="100dp" />
+        android:layout_height="100dp"
+        tools:ignore="InOrMmUsage" />
 
-    <RelativeLayout
-        android:id="@+id/Layout_webview_notif"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipref_notif"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <WebView
-                android:id="@+id/webview_notif"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-        </android.support.v4.widget.SwipeRefreshLayout>
-
-
-    </RelativeLayout>
 
 </LinearLayout>

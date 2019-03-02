@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -42,7 +43,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class Intro extends AppCompatActivity {
-
+    boolean ok = false;
     public Handler mHandler;
     public boolean continue_or_stop;
 
@@ -61,7 +62,6 @@ public class Intro extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new NetCheck().execute();
         // Checking for first time launch - before calling setContentView
         prefManager = new first_oppen(this);
         if (!prefManager.isFirstTimeLaunch()) {
@@ -72,8 +72,10 @@ public class Intro extends AppCompatActivity {
 
         // XML
         setContentView(R.layout.intro);
+
         // Chang ID XML
         dotsLayout = findViewById(R.id.layoutDots); // OOOO
+        ViewCompat.setLayoutDirection(dotsLayout,ViewCompat.LAYOUT_DIRECTION_LTR);
         btnNext = findViewById(R.id.btn_next); //  NEXT
         btnSkip = findViewById(R.id.btn_skip); //  SKIP
         viewpager = findViewById(R.id.view_pagers); // view page in XML
@@ -96,9 +98,9 @@ public class Intro extends AppCompatActivity {
                 final Boolean arabic = shared.getBoolean("arabic", false);
                 final Boolean english = shared.getBoolean("english", false);
                 String url = "";
-                if (farsi){ url = "https://khadije.com/api/v5/android"; }
-                if (arabic){ url = "https://khadije.com/ar/api/v5/android" ; }
-                if (english){ url = "https://khadije.com/en/api/v5/android"; }
+                if (farsi){ url = "https://khadije.com/api/v6/android"; }
+                if (arabic){ url = "https://khadije.com/ar/api/v6/android" ; }
+                if (english){ url = "https://khadije.com/en/api/v6/android"; }
                 // JSON Methods
                 JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url , null, new Response.Listener<JSONObject>() {
                     @Override
@@ -264,56 +266,61 @@ public class Intro extends AppCompatActivity {
             String url = "";
 
             if (farsi){
-                url = "https://khadije.com/api/v5/android";
+                url = "https://khadije.com/api/v6/android";
             }
             if (arabic){
-                url = "https://khadije.com/ar/api/v5/android" ;
+                url = "https://khadije.com/ar/api/v6/android" ;
             }
             if (english){
-                url = "https://khadije.com/en/api/v5/android";
+                url = "https://khadije.com/en/api/v6/android";
             }
             // JSON Methods
             JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url , null, new Response.Listener<JSONObject>() {
                 @Override
-                public void onResponse(JSONObject response) {
+                public void onResponse(JSONObject responses) {
                     try {
-                        // get objects
-                        JSONObject intro = response.getJSONObject("intro");
-                        JSONObject btn = intro.getJSONObject("btn");
-                        String btn_skip = btn.getString("back");
-                        String btn_next = btn.getString("next");
-                        btnSkip.setText(btn_skip);
-                        btnNext.setText(btn_next);
 
-                        JSONArray intro_slide = intro.getJSONArray("slide");
-                        int countAll = intro_slide.length();
-                        int array        = countAll - 1;
-                        String[] intro_title      = new String[countAll];
-                        String[] title_color      = new String[countAll];
-                        String[] intro_desc       = new String[countAll];
-                        String[] desc_color       = new String[countAll];
-                        String[] intro_background = new String[countAll];
-                        String[] intro_image      = new String[countAll];
-                        for(int i = 0; i <= array; i++)
-                        {
-                            JSONObject temp_intro = intro_slide.getJSONObject(i);
-                            intro_title[i]        =  temp_intro.getString("title");
-                            title_color[i]        =  temp_intro.getString("title_color");
-                            intro_desc[i]         =  temp_intro.getString("desc");
-                            desc_color[i]         =  temp_intro.getString("desc_color");
-                            intro_background[i]   =  temp_intro.getString("background");
-                            intro_image[i]        =  temp_intro.getString("image");
+                        ok = responses.getBoolean("ok");
+
+                        if (ok) {
+                            JSONObject response = responses.getJSONObject("result");
+                            // get objects
+                            JSONObject intro = response.getJSONObject("intro");
+                            JSONObject btn = intro.getJSONObject("btn");
+                            String btn_skip = btn.getString("back");
+                            String btn_next = btn.getString("next");
+                            btnSkip.setText(btn_skip);
+                            btnNext.setText(btn_next);
+
+                            JSONArray intro_slide = intro.getJSONArray("slide");
+                            int countAll = intro_slide.length();
+                            int array = countAll - 1;
+                            String[] intro_title = new String[countAll];
+                            String[] title_color = new String[countAll];
+                            String[] intro_desc = new String[countAll];
+                            String[] desc_color = new String[countAll];
+                            String[] intro_background = new String[countAll];
+                            String[] intro_image = new String[countAll];
+                            for (int i = 0; i <= array; i++) {
+                                JSONObject temp_intro = intro_slide.getJSONObject(i);
+                                intro_title[i] = temp_intro.getString("title");
+                                title_color[i] = temp_intro.getString("title_color");
+                                intro_desc[i] = temp_intro.getString("desc");
+                                desc_color[i] = temp_intro.getString("desc_color");
+                                intro_background[i] = temp_intro.getString("background");
+                                intro_image[i] = temp_intro.getString("image");
+                            }
+                            // Title
+                            title.setText(intro_title[position]);
+                            title.setTextColor(Color.parseColor(title_color[position]));
+                            // Description
+                            des.setText(intro_desc[position]);
+                            des.setTextColor(Color.parseColor(desc_color[position]));
+                            // Color Background
+                            color_bg.setBackgroundColor(Color.parseColor(intro_background[position]));
+                            // Image
+                            Glide.with(context).load(intro_image[position]).into(imgview);
                         }
-                        // Title
-                        title.setText(intro_title[position]);
-                        title.setTextColor(Color.parseColor(title_color[position]));
-                        // Description
-                        des.setText(intro_desc[position]);
-                        des.setTextColor(Color.parseColor(desc_color[position]));
-                        // Color Background
-                        color_bg.setBackgroundColor(Color.parseColor(intro_background[position]));
-                        // Image
-                        Glide.with(context).load(intro_image[position]).into(imgview);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -325,6 +332,12 @@ public class Intro extends AppCompatActivity {
                     title.setVisibility(View.GONE);
                     des.setVisibility(View.GONE);
                     imgview.setVisibility(View.GONE);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            ERROR_GETING();
+                        }
+                    }, 2000);
                 }
             });AppContoroler.getInstance().addToRequestQueue(req);
             // END JSON
@@ -338,69 +351,46 @@ public class Intro extends AppCompatActivity {
         }
     }
 
-    /**
-     * Async Task to check whether internet connection is working.
-     **/
+    public void ERROR_GETING(){
+        String title_snackbar = "Error connecting to server";
+        String btn_snackbar = "Try again";
+        final SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
+        final Boolean farsi = shared.getBoolean("farsi", false);
+        final Boolean arabic = shared.getBoolean("arabic", false);
+        final Boolean english = shared.getBoolean("english", false);
+        View parentLayout = findViewById(android.R.id.content);
+        ViewCompat.setLayoutDirection(parentLayout,ViewCompat.LAYOUT_DIRECTION_LTR);
 
-    private class NetCheck extends AsyncTask<String,String,Boolean>
-    {
-
-        @Override
-        protected void onPreExecute(){
-            super.onPreExecute();
+        if (farsi){
+            ViewCompat.setLayoutDirection(parentLayout,ViewCompat.LAYOUT_DIRECTION_RTL);
+            title_snackbar = "خطا در اتصال با سرور";
+            btn_snackbar = "تلاش مجدد";
         }
-        /**
-         * Gets current device state and checks for working internet connection by trying Google.
-         **/
-        @Override
-        protected Boolean doInBackground(String... args){
+        if (arabic){
+            ViewCompat.setLayoutDirection(parentLayout,ViewCompat.LAYOUT_DIRECTION_RTL);
+            title_snackbar = "خطأ في الاتصال بالخادم";
+            btn_snackbar = "حاول مرة أخرى";
+        }
+        if (english){
+            ViewCompat.setLayoutDirection(parentLayout,ViewCompat.LAYOUT_DIRECTION_LTR);
+            title_snackbar = "Error connecting to server";
+            btn_snackbar = "Try again";
+        }
 
-            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo netInfo = cm.getActiveNetworkInfo();
-            if (netInfo != null && netInfo.isConnected()) {
-                try {
-                    URL url = new URL("http://www.google.com");
-                    HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
-                    urlc.setConnectTimeout(3000);
-                    urlc.connect();
-                    if (urlc.getResponseCode() == 200) {
-                        return true;
+        Snackbar snackbar = Snackbar.make(parentLayout, title_snackbar, Snackbar.LENGTH_INDEFINITE)
+                .setAction(btn_snackbar, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                        startActivity(getIntent());
                     }
-                } catch (MalformedURLException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-            return false;
-
-        }
-        @Override
-        protected void onPostExecute(Boolean th){
-
-            if(th == true){
-            }
-            else{
-                View parentLayout = findViewById(android.R.id.content);
-                Snackbar snackbar = Snackbar.make(parentLayout, "به اینترنت متصل شوید", Snackbar.LENGTH_INDEFINITE).setDuration(999999999)
-                        .setAction("تلاش مجدد", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                new Intro.NetCheck().execute();
-                                finish();
-                                startActivity(getIntent());
-                            }
-                        });
-                snackbar.setActionTextColor(Color.RED);
-                View sbView = snackbar.getView();
-                TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-                textView.setTextColor(Color.YELLOW);
-                snackbar.show();
-
-            }
-        }
+                });
+        snackbar.setActionTextColor(Color.WHITE);
+        View sbView = snackbar.getView();
+        TextView textView = sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.YELLOW);
+        snackbar.setDuration(999999999);
+        snackbar.show();
     }
 
 }
