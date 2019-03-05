@@ -122,9 +122,6 @@ public class MainActivity extends AppCompatActivity {
         final Boolean arabic = shared.getBoolean("arabic", false);
         final Boolean english = shared.getBoolean("english", false);
 
-        final String myTokengName = shared.getString("myTokengName", "no-tooken");
-        final String myTokengName_code = shared.getString("myTokengName_code", "no-tooken");
-
         // Change Version from > build.gradle(Module:app)
         try {
             PackageInfo pInfo = getApplicationContext().getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -787,7 +784,7 @@ public class MainActivity extends AppCompatActivity {
             url_notif_is = "https://khadije.com/en/api/v6/notif";
         }
         // Post Method
-        StringRequest Notif_is_Request = new StringRequest(Request.Method.POST, url_notif_is, new Response.Listener<String>(){
+        StringRequest Notif_is_Request = new StringRequest(Request.Method.POST, url_notif_is , new Response.Listener<String>(){
             @Override
             public void onResponse(String response) {
                 try {
@@ -805,18 +802,33 @@ public class MainActivity extends AppCompatActivity {
                         for (int notif_is = 0 ; notif_is <= get_Notif_is.length() ; notif_is++) {
                             JSONObject one = get_Notif_is.getJSONObject(notif_is);
                             // get object from json
-                            notif_title = one.getString("title");
-                            notif_txt_small = one.getString("excerpt");
-                            notif_txt_big = one.getString("text");
-                            if (notif_txt_big.equals("") || notif_txt_big.equals("null")){
-                                notif_txt_big = notif_txt_small;
-                            }else {notif_txt_big = one.getString("text");}
-                            notif_txt_from = one.getString("cat");
-                            notif_sub_text = one.getString("footer");
-                            notif_group = one.getString("cat");
-                            notif_icon = one.getString("icon");
-                            notif_large_icon = one.getString("image");
-                            notif_on_click = one.getString("url");
+                            if(!one.isNull("title")){
+                                notif_title =  one.getString("title");;
+                            }
+                            if(!one.isNull("excerpt")){
+                                notif_txt_small = one.getString("excerpt");
+                            }
+                            if(!one.isNull("text")){
+                                notif_txt_big = one.getString("text");
+                            }
+                            if(!one.isNull("footer")){
+                                notif_sub_text = one.getString("footer");
+                            }
+                            if(!one.isNull("cat")){
+                                notif_group = one.getString("cat");
+                                notif_txt_from = one.getString("cat");
+                            }
+                            if(!one.isNull("icon")){
+                                notif_icon = one.getString("icon") ;
+                            }
+                            if(!one.isNull("image")){
+                                notif_large_icon = one.getString("image") ;
+                            }
+                            if(!one.isNull("link")){
+                                notif_on_click = one.getString("link") ;
+                            }
+
+
 
 
                             switch (notif_icon) {
