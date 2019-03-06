@@ -46,6 +46,13 @@ public class splash extends AppCompatActivity {
     String url_json = "https://khadije.com/en/api/v6/android";
     TextView txt_load;
 
+    String depver_title = "This Version Deprecated";
+    String depver_desc = "Update Now!";
+    String depver_btn_title = "Google Play";
+    String depver_url = "https://play.google.com/store/apps/details?id=com.ermile.khadije";
+
+    String update_url = "https://play.google.com/store/apps/details?id=com.ermile.khadije";
+
 
 
 
@@ -182,23 +189,45 @@ public class splash extends AppCompatActivity {
         String title_snackbar = "Error connecting to server";
         String btn_snackbar = "Try again";
         final SharedPreferences shared = getSharedPreferences("Prefs", MODE_PRIVATE);
+        final Boolean login_one = shared.getBoolean("login_one", false);
         final Boolean farsi = shared.getBoolean("farsi", false);
         final Boolean arabic = shared.getBoolean("arabic", false);
         final Boolean english = shared.getBoolean("english", false);
+        txt_load = findViewById(R.id.title_loading);
         LinearLayout lin_splash = findViewById(R.id.linearLayout_splash);
         ViewCompat.setLayoutDirection(lin_splash,ViewCompat.LAYOUT_DIRECTION_LTR);
 
-        if (lan.equals("fa")){
-            ViewCompat.setLayoutDirection(lin_splash,ViewCompat.LAYOUT_DIRECTION_RTL);
-            title_snackbar = "خطا در اتصال با سرور";
-            btn_snackbar = "تلاش مجدد";
-        }
-        if (lan.equals("ar")){
-            ViewCompat.setLayoutDirection(lin_splash,ViewCompat.LAYOUT_DIRECTION_RTL);
-            title_snackbar = "خطأ في الاتصال بالخادم";
-            btn_snackbar = "حاول مرة أخرى";
+        if (!login_one){
+            if (lan.equals("fa")){
+                ViewCompat.setLayoutDirection(lin_splash,ViewCompat.LAYOUT_DIRECTION_RTL);
+                title_snackbar = "خطا در اتصال با سرور";
+                btn_snackbar = "تلاش مجدد";
+            }
+            if (lan.equals("ar")){
+                ViewCompat.setLayoutDirection(lin_splash,ViewCompat.LAYOUT_DIRECTION_RTL);
+                title_snackbar = "خطأ في الاتصال بالخادم";
+                btn_snackbar = "حاول مرة أخرى";
+            }
+        }else {
+            if (farsi){
+                ViewCompat.setLayoutDirection(lin_splash,ViewCompat.LAYOUT_DIRECTION_RTL);
+                title_snackbar = "خطا در اتصال با سرور";
+                btn_snackbar = "تلاش مجدد";
+            }
+            if (arabic){
+                ViewCompat.setLayoutDirection(lin_splash,ViewCompat.LAYOUT_DIRECTION_RTL);
+                title_snackbar = "خطأ في الاتصال بالخادم";
+                btn_snackbar = "حاول مرة أخرى";
+            }
+            if (english){
+                ViewCompat.setLayoutDirection(lin_splash,ViewCompat.LAYOUT_DIRECTION_LTR);
+                title_snackbar = "Error connecting to server";
+                btn_snackbar = "Try again";
+            }
         }
 
+
+        txt_load.setText(title_snackbar);
         Snackbar snackbar = Snackbar.make(lin_splash, title_snackbar, Snackbar.LENGTH_INDEFINITE)
                 .setAction(btn_snackbar, new View.OnClickListener() {
                     @Override
@@ -357,12 +386,19 @@ public class splash extends AppCompatActivity {
                         JSONObject response = responses.getJSONObject("result");
                         JSONObject deprecated_version = response.getJSONObject("deprecated_version");
                         JSONObject btn = deprecated_version.getJSONObject("btn");
-
                         int reject_version = deprecated_version.getInt("reject_version");
-                        String title = deprecated_version.getString("title");
-                        String desc  = deprecated_version.getString("desc");
-                        String btn_title = btn.getString("title");
-                        final String url = btn.getString("url");
+                        if (!deprecated_version.isNull("title")){
+                            depver_title = deprecated_version.getString("title");
+                        }
+                        if (!deprecated_version.isNull("desc")){
+                            depver_desc = deprecated_version.getString("desc");
+                        }
+                        if (!btn.isNull("title")){
+                            depver_btn_title = btn.getString("title");
+                        }
+                        if (!btn.isNull("url")){
+                            depver_url = btn.getString("url");
+                        }
 
                         if (reject_version >= versionCode  ){
                             lay_loading_GONE();
@@ -373,14 +409,14 @@ public class splash extends AppCompatActivity {
                             TextView desc_dep = findViewById(R.id.desc_deprecated);
                             TextView btn_dep = findViewById(R.id.btn_deprecated);
 
-                            title_dep.setText(title);
-                            desc_dep.setText(desc);
-                            btn_dep.setText(btn_title);
+                            title_dep.setText(depver_title);
+                            desc_dep.setText(depver_desc);
+                            btn_dep.setText(depver_btn_title);
                             btn_dep.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     Intent browser_website = new Intent ( Intent.ACTION_VIEW );
-                                    browser_website.setData ( Uri.parse ( url ) );
+                                    browser_website.setData ( Uri.parse ( depver_url ) );
                                     startActivity ( browser_website );
                                     finish();
                                 }
@@ -435,11 +471,12 @@ public class splash extends AppCompatActivity {
                     Boolean ok = responses.getBoolean("ok");
                     if (ok){
                         JSONObject response = responses.getJSONObject("result");
-                        JSONObject deprecated_version = response.getJSONObject("app_version");
+                        JSONObject new_version = response.getJSONObject("app_version");
 
-                        int code = deprecated_version.getInt("code");
-                        final String content_text = deprecated_version.getString("content_text");
-
+                        int code = new_version.getInt("code");
+                        if (!new_version.isNull("content_text")){
+                            update_url = new_version.getString("content_text");
+                        }
                         if (code > versionCode ){
                             String title_snackbar = "Update!";
                             String btn_snackbar = "Get the new version";
@@ -472,7 +509,7 @@ public class splash extends AppCompatActivity {
                                         public void onClick(View v) {
                                             finish();
                                             Intent browser_website = new Intent ( Intent.ACTION_VIEW );
-                                            browser_website.setData ( Uri.parse ( content_text ) );
+                                            browser_website.setData ( Uri.parse ( update_url ) );
                                             startActivity ( browser_website );
                                         }
                                     });
