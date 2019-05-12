@@ -696,8 +696,9 @@ public class MainActivity extends AppCompatActivity {
 
     // if Finish App > get Notification
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
+        stopService(new Intent(MainActivity.this, NotificationService.class));
         startService(new Intent(MainActivity.this, NotificationService.class));
     }
 

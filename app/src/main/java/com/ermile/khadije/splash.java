@@ -588,6 +588,7 @@ public class splash extends AppCompatActivity {
                         goTo_setting_welcome_title.putExtra("delneveshteTitle", delneveshte_title);
                         goTo_setting_welcome_title.putExtra("settingTitle", setting_title);
                         startActivity(goTo_setting_welcome_title);
+                        finish();
 
                         if (farsi){
                             txt_load.setText("درحال بارگذاری..");
