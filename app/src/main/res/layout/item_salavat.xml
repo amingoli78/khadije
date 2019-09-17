@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+        <LinearLayout
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="#ddd"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/salavat_textsalavat"
+                android:textAlignment="center"
+                android:text="الهم صلی علی محمد و آل محمد"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:paddingTop="2dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:textColor="#000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="#ddd"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/salavat_cunt"
+                android:textAlignment="center"
+                android:text="432,233"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:paddingTop="2dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:textColor="#000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/salavat_readText"
+                android:textAlignment="center"
+                android:text="صلوات فرستاده شده"
+                android:textSize="12sp"
+                android:padding="5dp"
+                android:textColor="#000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
