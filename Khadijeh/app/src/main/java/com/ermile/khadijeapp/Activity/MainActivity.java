@@ -1,20 +1,26 @@
 package com.ermile.khadijeapp.Activity;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ermile.khadijeapp.Adaptor.Adaptor_Main;
@@ -33,17 +39,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity  {
 
-
+    Boolean hasNewVersion = false;
+    RelativeLayout mainLayout;
     RecyclerView recylerview;
     Adaptor_Main adaptor_main;
     LinearLayoutManager LayoutManager;
     ArrayList<item_Main> itemMains;
     ProgressBar progressBar;
+
+    LinearLayout updateBox;
+    TextView updateBox_title,updateBox_desc,updateBox_skip;
+    Button updateBox_btnUpdate;
 
     @Override
     protected void onResume() {
@@ -56,24 +68,30 @@ public class MainActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         String apikey = SaveManager.get(this).getstring_appINFO().get(SaveManager.apiKey);
         String usercode = SaveManager.get(this).getstring_appINFO().get(SaveManager.userCode);
         String zonid = SaveManager.get(this).getstring_appINFO().get(SaveManager.zoneID);
+        hasNewVersion = SaveManager.get(getApplication()).getboolen_appINFO().get(SaveManager.hasNewVersion);
+
 
         Log.d(tag.get_info_login,
                 "\n Api Key: "+apikey+
                 "\n User Code: "+usercode+
                 "\n Zon ID: "+zonid);
 
+        mainLayout = findViewById(R.id.main_layout);
         progressBar = findViewById(R.id.progress_main);
+        updateBox = findViewById(R.id.updateBox);
+        updateBox_title = findViewById(R.id.updateBox_title);
+        updateBox_desc = findViewById(R.id.updateBox_desc);
+        updateBox_skip = findViewById(R.id.updateBox_skip);
+        updateBox_btnUpdate = findViewById(R.id.updateBox_btnUpdate);
 
-        LinearLayout main_lay = findViewById(R.id.main_layout);
         String AppLanguage = SaveManager.get(this).getstring_appINFO().get(SaveManager.appLanguage);
         if (AppLanguage.equals("fa") || AppLanguage.equals("ar")){
-            ViewCompat.setLayoutDirection(main_lay,ViewCompat.LAYOUT_DIRECTION_RTL);
+            ViewCompat.setLayoutDirection(mainLayout,ViewCompat.LAYOUT_DIRECTION_RTL);
         }else {
-            ViewCompat.setLayoutDirection(main_lay,ViewCompat.LAYOUT_DIRECTION_LTR);
+            ViewCompat.setLayoutDirection(mainLayout,ViewCompat.LAYOUT_DIRECTION_LTR);
         }
 
         String url_app= getString(R.string.url_app);
@@ -83,6 +101,21 @@ public class MainActivity extends AppCompatActivity  {
         adaptor_main = new Adaptor_Main(itemMains, this);
         LayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         apiV6.app(url_app,new apiV6.appListener() {
+            @Override
+            public void lestener_GetRespone(String result) {
+                if (result != null){
+                    progressBar.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void lestener_Updateversion(String url, String title, String desc) {
+                if (hasNewVersion){
+                    UpdateBox(url,title,desc,null,null);
+                    recylerview.setVisibility(View.INVISIBLE);
+                }
+            }
+
             @Override
             public void lestener_baner(String image, String url) {
                 Baner(image,url);
@@ -150,8 +183,6 @@ public class MainActivity extends AppCompatActivity  {
 
             @Override
             public void lestener_versionApp() {
-                progressBar.setVisibility(View.GONE);
-                recylerview.setVisibility(View.VISIBLE);
                 version();
             }
 
@@ -163,17 +194,9 @@ public class MainActivity extends AppCompatActivity  {
                 new Dialog(MainActivity.this,getString(R.string.errorNet_title_snackBar),"",getString(R.string.errorNet_button_snackBar),true,getintent);
             }
         });
-
-
-
-
-
-
         recylerview.setAdapter(adaptor_main);
 
     }
-
-
 
     private void Baner(String img_url,String link){
         itemMains.add(new item_Main(item_Main.BANER,img_url,link,
@@ -537,5 +560,57 @@ public class MainActivity extends AppCompatActivity  {
         }, 1500);
     }
 
+    private void UpdateBox(String urlUpdate, String title, String desc, String btn, String skip){
+        recylerview.setVisibility(View.INVISIBLE);
+        updateBox.setVisibility(View.VISIBLE);
+        updateBox.animate().alpha(1).setDuration(500);
+
+        if (urlUpdate == null){
+            urlUpdate = "";
+        }
+        if (title != null){
+            updateBox_title.setText(title);
+        }
+        if (desc != null){
+            updateBox_desc.setText(desc);
+            updateBox_desc.setVisibility(View.VISIBLE);
+        }
+        if (btn != null){
+            updateBox_btnUpdate.setText(btn);
+
+        }
+        if (skip != null){
+            updateBox_skip.setText(skip);
+        }
+
+        updateBox_skip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goneUpdateBox();
+            }
+        });
+
+        final String finalUrlUpdate = urlUpdate;
+        updateBox_btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent brower = new Intent(Intent.ACTION_VIEW);
+                brower.setData(Uri.parse(finalUrlUpdate));
+                startActivity(brower);
+                goneUpdateBox();
+            }
+        });
+    }
+
+    private void goneUpdateBox(){
+        updateBox.animate().alpha(0).setDuration(200);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                recylerview.setVisibility(View.VISIBLE);
+                updateBox.setVisibility(View.GONE);
+            }
+        }, 200);
+    }
 
 }

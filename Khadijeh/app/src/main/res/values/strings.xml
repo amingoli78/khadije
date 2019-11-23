@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Khadije Charity</string>
 
-    <string name="url_app">https://khadije.com/api/v6/app</string>
+    <string name="url_app">https://khadije.com/en/api/v6/app</string>
     <string name="url_salawat">https://khadije.com/en/api/v6/salawat</string>
     <string name="url_news">https://khadije.com/en/api/v6/posts/get?id=</string>
     <string name="url_del">https://khadije.com/en/api/v6/delneveshte</string>
@@ -21,11 +21,11 @@
 
     <string name="say_salawat">Say Salawat!</string>
     <string name="flag_salawat">You also partake in salawat</string>
-    <string name="post">https://khadije.com/api/v6/posts</string>
-    <string name="url_mission">https://khadije.com/api/v6/mission</string>
-    <string name="url_vision">https://khadije.com/api/v6/vision</string>
-    <string name="url_contact">https://khadije.com/api/v6/contact</string>
-    <string name="url_about">https://khadije.com/api/v6/about</string>
+    <string name="post">https://khadije.com/en/api/v6/posts</string>
+    <string name="url_mission">https://khadije.com/en/api/v6/mission</string>
+    <string name="url_vision">https://khadije.com/en/api/v6/vision</string>
+    <string name="url_contact">https://khadije.com/en/api/v6/contact</string>
+    <string name="url_about">https://khadije.com/en/api/v6/about</string>
     <string name="sex_female">female</string>
     <string name="sex_male">male</string>
     <string name="edt_name">Name optional</string>
@@ -46,5 +46,6 @@
     <string name="next">Next</string>
     <string name="prev">Prev</string>
     <string name="start">Start</string>
+    <string name="update">Update</string>
 
 </resources>

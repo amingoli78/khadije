@@ -107,5 +107,4 @@ public class ListNews extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
 }

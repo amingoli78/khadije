@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">الموسسة الحضرت الخديجة</string>
 
-    <string name="url_app" translatable="false">https://khadije.com/api/v6/app</string>
+    <string name="url_app" translatable="false">https://khadije.com/ar/api/v6/app</string>
     <string name="url_salawat" translatable="false">https://khadije.com/ar/api/v6/salawat</string>
     <string name="url_news" translatable="false">https://khadije.com/ar/api/v6/posts/get?id=</string>
     <string name="url_del" translatable="false">https://khadije.com/ar/api/v6/delneveshte</string>
@@ -46,6 +46,7 @@
     <string name="next">التالي</string>
     <string name="prev">سابق</string>
     <string name="start">بداية</string>
+    <string name="update">تحدیث</string>
 
 
 </resources>

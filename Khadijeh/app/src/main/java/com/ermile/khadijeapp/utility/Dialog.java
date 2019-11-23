@@ -3,6 +3,7 @@ package com.ermile.khadijeapp.utility;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
@@ -42,6 +43,10 @@ public class Dialog {
             }
         });
         builderSingle.setCancelable(Cancelable);
-        builderSingle.show();
+        Log.e("amingoli78", "Dialog: "+activity.isFinishing() );
+        if (!activity.isFinishing()){
+            builderSingle.show();
+        }
+
     }
 }

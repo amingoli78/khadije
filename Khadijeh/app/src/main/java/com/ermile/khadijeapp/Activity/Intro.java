@@ -45,7 +45,6 @@ public class Intro extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
 
-
         nex_string = getString(R.string.next);
         pravs_string = getString(R.string.prev);
         skip_string = getString(R.string.start);
@@ -168,14 +167,6 @@ public class Intro extends AppCompatActivity {
                             }
                         });
                     }
-
-
-
-
-
-
-
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();

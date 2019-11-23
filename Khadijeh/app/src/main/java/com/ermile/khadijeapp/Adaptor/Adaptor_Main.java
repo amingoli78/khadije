@@ -45,6 +45,7 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private ArrayList<item_Main> itemMains;
     private Context mContext;
     private int total_types;
+    String appLanguage = "en";
 
 
     public static class holder_baner extends RecyclerView.ViewHolder {
@@ -125,6 +126,7 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public static class holder_title_link extends RecyclerView.ViewHolder {
 
+        ImageView img_fleshTitle;
         TextView title,go,space;
 
         holder_title_link(View itemView) {
@@ -133,6 +135,7 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             this.space = itemView.findViewById(R.id.titleLink_space);
             this.title = itemView.findViewById(R.id.titleLink_title);
             this.go = itemView.findViewById(R.id.titleLink_go);
+            this.img_fleshTitle = itemView.findViewById(R.id.img_fleshTitle);
         }
     }
 
@@ -192,7 +195,7 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public static class holder_news extends RecyclerView.ViewHolder {
 
-        ImageView imageView;
+        ImageView imageView,img_flesh;
         TextView title,desc;
 
         holder_news(View itemView) {
@@ -200,6 +203,7 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             this.imageView = itemView.findViewById(R.id.news_img);
             this.title = itemView.findViewById(R.id.news_title);
             this.desc = itemView.findViewById(R.id.news_desc);
+            this.img_flesh = itemView.findViewById(R.id.img_flesh);
 
         }
     }
@@ -374,6 +378,7 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         final item_Main object = itemMains.get(listPosition);
         if (object != null) {
+            appLanguage = SaveManager.get(mContext).getstring_appINFO().get(SaveManager.appLanguage);
             switch (object.type) {
                 case item_Main.BANER:
                     Glide.with(mContext).load(object.baner_img).into(((holder_baner) holder).baner);
@@ -513,6 +518,10 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     ((holder_title_link) holder).title.setText(object.titleLink_title);
                     ((holder_title_link) holder).go.setText(object.titleLink_go);
 
+                    if (appLanguage.equals("en")){
+                        ((holder_title_link) holder).img_fleshTitle.setRotation(180);
+                    }
+
                     ((holder_title_link) holder).space.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -618,6 +627,10 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     ((holder_news) holder).desc.setText(object.news_desc);
 
                     ((holder_news) holder).title.setTag(object.news_id);
+
+                    if (appLanguage.equals("en")){
+                        ((holder_news) holder).img_flesh.setRotation(180f);
+                    }
 
                     View.OnClickListener clickNews = new View.OnClickListener() {
                         @Override

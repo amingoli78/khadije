@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">موسسه حضرت خدیجه</string>
 
-    <string name="url_app" translatable="false">https://khadije.com/api/v6/app</string>
+    <string name="url_app" translatable="false">https://khadije.com/fa/api/v6/app</string>
     <string name="url_salawat" translatable="false">https://khadije.com/fa/api/v6/salawat</string>
     <string name="url_news" translatable="false">https://khadije.com/fa/api/v6/posts/get?id=</string>
     <string name="url_del" translatable="false">https://khadije.com/fa/api/v6/delneveshte</string>
@@ -24,7 +24,7 @@
     <string name="post">https://khadije.com/fa/api/v6/posts</string>
     <string name="url_vision">https://khadije.com/fa/api/v6/vision</string>
     <string name="url_mission">https://khadije.com/fa/api/v6/mission</string>
-    <string name="url_contact">https://khadije.com/api/v6/contact</string>
+    <string name="url_contact">https://khadije.com/fa/api/v6/contact</string>
     <string name="url_about">https://khadije.com/fa/api/v6/about</string>
     <string name="sex_female">زن</string>
     <string name="sex_male">مرد</string>
@@ -45,5 +45,6 @@
     <string name="start">شروع</string>
     <string name="next">بعدی</string>
     <string name="prev">قبلی</string>
+    <string name="update">بروزرسانی</string>
 
 </resources>

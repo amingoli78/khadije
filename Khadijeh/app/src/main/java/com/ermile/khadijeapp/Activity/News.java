@@ -50,13 +50,6 @@ public class News extends AppCompatActivity {
         final String ID = getIntent().getStringExtra("id");
 
         getNews(url,ID);
-
-
-
-
-
-
-
     }
 
     private void getNews(String url,String ID){

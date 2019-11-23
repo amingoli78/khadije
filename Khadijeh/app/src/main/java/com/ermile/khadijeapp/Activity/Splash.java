@@ -185,8 +185,5 @@ public class Splash extends AppCompatActivity {
         snackbar.setDuration(10*1000);
         snackbar.show();
         handler.postDelayed(runnable,11*1000);
-
-
     }
-
 }
