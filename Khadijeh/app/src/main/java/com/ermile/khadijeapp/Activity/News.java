@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +17,7 @@ import com.ermile.khadijeapp.Item.item_Main;
 import com.ermile.khadijeapp.R;
 import com.ermile.khadijeapp.api.apiV6;
 import com.ermile.khadijeapp.utility.Dialog;
+import com.ermile.khadijeapp.utility.SaveManager;
 import com.ermile.khadijeapp.utility.set_language_device;
 
 import org.json.JSONException;
@@ -39,6 +42,13 @@ public class News extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
+        LinearLayout news_mainLayout = findViewById(R.id.news_mainLayout);
+        String AppLanguage = SaveManager.get(this).getstring_appINFO().get(SaveManager.appLanguage);
+        if (AppLanguage.equals("fa") || AppLanguage.equals("ar")){
+            ViewCompat.setLayoutDirection(news_mainLayout,ViewCompat.LAYOUT_DIRECTION_RTL);
+        }else {
+            ViewCompat.setLayoutDirection(news_mainLayout,ViewCompat.LAYOUT_DIRECTION_LTR);
+        }
 
         itemMains = new ArrayList<>();
         recylerviewss = findViewById(R.id.recyclerview_news);

@@ -3,10 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:gravity="center|top"
-    android:orientation="vertical"
-    android:padding="0dp"
-    android:layout_margin="0dp"
+    android:gravity="center"
     android:layout_height="@dimen/_72sdp">
 
 

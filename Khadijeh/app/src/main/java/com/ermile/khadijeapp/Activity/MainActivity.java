@@ -105,7 +105,6 @@ public class MainActivity extends AppCompatActivity  {
             public void lestener_GetRespone(String result) {
                 if (result != null){
                     progressBar.setVisibility(View.GONE);
-                    recylerview.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -113,7 +112,8 @@ public class MainActivity extends AppCompatActivity  {
             public void lestener_Updateversion(String url, String title, String desc) {
                 if (hasNewVersion){
                     UpdateBox(url,title,desc,null,null);
-                    recylerview.setVisibility(View.INVISIBLE);
+                }else {
+                    recylerview.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -610,8 +610,8 @@ public class MainActivity extends AppCompatActivity  {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                recylerview.setVisibility(View.VISIBLE);
                 updateBox.setVisibility(View.GONE);
+                recylerview.setVisibility(View.VISIBLE);
             }
         }, 200);
     }

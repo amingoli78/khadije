@@ -30,7 +30,7 @@
 
     <LinearLayout
         android:visibility="gone"
-        android:alpha="1"
+        android:alpha="0"
         android:id="@+id/updateBox"
         android:gravity="center"
         android:orientation="vertical"
