@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "614726414838",
+    "firebase_url": "https://khadije-v2.firebaseio.com",
+    "project_id": "khadije-v2",
+    "storage_bucket": "khadije-v2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:614726414838:android:8a90e6fc180d84507997d7",
+        "android_client_info": {
+          "package_name": "com.ermile.khadijeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "614726414838-3ncs8f14orhldmksb00l8o4rs398mq2m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRq7vOQJV6b2QdjCakDWChXNpb1pOgLJs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "614726414838-3ncs8f14orhldmksb00l8o4rs398mq2m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

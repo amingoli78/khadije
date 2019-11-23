@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Khadije Charity</string>
+
+    <string name="url_app">https://khadije.com/api/v6/app</string>
+    <string name="url_salawat">https://khadije.com/en/api/v6/salawat</string>
+    <string name="url_news">https://khadije.com/en/api/v6/posts/get?id=</string>
+    <string name="url_del">https://khadije.com/en/api/v6/delneveshte</string>
+    <string name="url_add_del">https://khadije.com/en/api/v6/delneveshte/add</string>
+    <string name="url_del_like">https://khadije.com/en/api/v6/delneveshte/like</string>
+    <string name="url_token">https://khadije.com/en/api/v6/token</string>
+    <string name="url_user_add">https://khadije.com/en/api/v6/android/user/add</string>
+    <string name="url_language">https://khadije.com/en/api/v6/language</string>
+    <string name="url_notif">https://khadije.com/en/api/v6/notif</string>
+    <string name="url_smile">https://khadije.com/enapi/v6/smile</string>
+
+    <string name="errorNet_title_snackBar">Check your internet!</string>
+    <string name="errorNet_button_snackBar">Try Again</string>
+
+    <string name="change_language">Change Language</string>
+
+    <string name="say_salawat">Say Salawat!</string>
+    <string name="flag_salawat">You also partake in salawat</string>
+    <string name="post">https://khadije.com/api/v6/posts</string>
+    <string name="url_mission">https://khadije.com/api/v6/mission</string>
+    <string name="url_vision">https://khadije.com/api/v6/vision</string>
+    <string name="url_contact">https://khadije.com/api/v6/contact</string>
+    <string name="url_about">https://khadije.com/api/v6/about</string>
+    <string name="sex_female">female</string>
+    <string name="sex_male">male</string>
+    <string name="edt_name">Name optional</string>
+    <string name="edt_mobile">Mobile optional</string>
+    <string name="edt_writ_del">Wrote your heart sounds</string>
+    <string name="send">Send</string>
+    <string name="full_list">Full List</string>
+
+    <string name="version">"Version "</string>
+    <string name="send_delneveshteh">Send Self</string>
+    <string name="tost_exit">Please click BACK again to exit</string>
+    <string name="update_now">Update Now</string>
+    <string name="smile">https://khadije.com/en/api/v6/smile</string>
+    <string name="msg_token_fmt">msg_token_fmt</string>
+    <string name="later">Exit</string>
+    <string name="website">https://khadije.com/en</string>
+    <string name="update_android">Your Android is too old!</string>
+    <string name="next">Next</string>
+    <string name="prev">Prev</string>
+    <string name="start">Start</string>
+
+</resources>
