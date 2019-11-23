@@ -631,6 +631,11 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     if (appLanguage.equals("en")){
                         ((holder_news) holder).img_flesh.setRotation(180f);
                     }
+                    try {
+
+                    }catch (Exception e){
+
+                    }
 
                     View.OnClickListener clickNews = new View.OnClickListener() {
                         @Override

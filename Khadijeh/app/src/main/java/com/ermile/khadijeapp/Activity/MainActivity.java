@@ -46,7 +46,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity  {
 
     Boolean hasNewVersion = false;
-    RelativeLayout mainLayout;
+    LinearLayout mainLayout;
     RecyclerView recylerview;
     Adaptor_Main adaptor_main;
     LinearLayoutManager LayoutManager;
@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity  {
             public void lestener_GetRespone(String result) {
                 if (result != null){
                     progressBar.setVisibility(View.GONE);
+                    recylerview.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -479,6 +480,7 @@ public class MainActivity extends AppCompatActivity  {
 
         } catch (JSONException e) {
             e.printStackTrace();
+            Log.e("news", "news: ",e );
         }
 
 
@@ -561,7 +563,8 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     private void UpdateBox(String urlUpdate, String title, String desc, String btn, String skip){
-        recylerview.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.GONE);
+        recylerview.setVisibility(View.GONE);
         updateBox.setVisibility(View.VISIBLE);
         updateBox.animate().alpha(1).setDuration(500);
 

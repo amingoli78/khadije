@@ -34,7 +34,7 @@
 
                 <androidx.cardview.widget.CardView
                     android:padding="0dp"
-                    android:layout_marginRight="3dp"
+                    android:layout_marginStart="3dp"
                     app:cardCornerRadius="7dp"
                     android:layout_width="@dimen/_70sdp"
                     android:layout_height="@dimen/_65sdp">

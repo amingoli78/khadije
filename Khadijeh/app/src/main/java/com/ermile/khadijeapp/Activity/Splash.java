@@ -161,11 +161,14 @@ public class Splash extends AppCompatActivity {
     }
 
     private void nextActivity() {
+        Intent goToMain = new Intent(this, MainActivity.class);
+        goToMain.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
         handler.removeCallbacks(runnable);
         Boolean intro_isChecked = SaveManager.get(this).getboolen_appINFO().get(SaveManager.introIsChacked);
         if (intro_isChecked) {
             finish();
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(goToMain);
         } else {
             finish();
             startActivity(new Intent(this, Intro.class));
@@ -178,7 +181,7 @@ public class Splash extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         finish();
-                        startActivity(getIntent());
+                        startActivity(getIntent().addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
                     }
                 });
         snackbar.setActionTextColor(Color.RED);

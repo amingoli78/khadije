@@ -45,131 +45,135 @@ public class apiV6 {
                         Log.e(TAG, "api/v6/app: url || version ",e);
                     }
 
-
                     try {
                         JSONArray homepage = result.getJSONArray("homepage");
                         for (int i = 0; i < homepage.length(); i++) {
                             JSONObject object_homepage = homepage.getJSONObject(i);
                             String type = object_homepage.getString("type");
-
-                            try {
-                                if (type.equals("banner")){
-                                    String baner_image = object_homepage.getString("image");
-                                    String baner_url = object_homepage.getString("url");
-                                    appListener.lestener_baner(baner_image,baner_url);
-                                }
-                            }catch (Exception e){
-                                Log.e(TAG, "api/v6/app/homepage: banner",e);
-                            }
-
-                            try {
-                                if (type.equals("slider")){
-                                    JSONArray slider_homepage = object_homepage.getJSONArray("slider");
-                                    appListener.lestener_slider(String.valueOf(slider_homepage));
-                                }
-                            }catch (Exception e){
-                                Log.e(TAG, "api/v6/app/homepage: slider",e);
-                            }
-
-                            try {
-                                if (type.equals("link1")){
-                                    String image_link1 = object_homepage.getString("image");
-                                    String url_link1 = object_homepage.getString("url");
-                                    appListener.lestener_link_1(image_link1,url_link1);
-                                }
-                            }catch (Exception e){
-                                Log.e(TAG, "api/v6/app/homepage: link1",e);
-                            }
-
-                            try {
-                                if (type.equals("link2")){
-                                    JSONArray link2_homepage = object_homepage.getJSONArray("link");
-                                    appListener.lestener_link_2(String.valueOf(link2_homepage));
-                                }
-                            }catch (Exception e){
-                                Log.e(TAG, "api/v6/app/homepage: link2",e);
-                            }
-
-                            try {
-                                if (type.equals("linkdesc")){
-                                    String title,desc,image,url;
-                                    title = object_homepage.getString("title");
-                                    desc = object_homepage.getString("desc");
-                                    image = object_homepage.getString("image");
-                                    url = object_homepage.getString("url");
-                                    appListener.lestener_link_3_desc(title,desc,image,url);
-                                }
-                            }catch (Exception e){
-                                Log.e(TAG, "api/v6/app/homepage: linkdesc",e);
-                            }
-
-                            try {
-                                if (type.equals("link4")){
-                                    JSONArray link4_homepage = object_homepage.getJSONArray("link");
-                                    appListener.lestener_link_4(String.valueOf(link4_homepage));
-                                }
-                            }catch (Exception e){
-                                Log.e(TAG, "api/v6/app/homepage: link4",e);
-                            }
-
-                            try {
-                                if (type.equals("inapplink") || type.equals("titlelink")){
-                                    String titlelink_title = object_homepage.getString("title");
-                                    String titlelink_url = object_homepage.getString("link");
-                                    appListener.lestener_title_link(titlelink_title,null,titlelink_url);
-                                }
-                            }catch (Exception e){
-                                Log.e(TAG, "api/v6/app/homepage: inapplink || titlelink",e);
-                            }
-
-                            try {
-                                if (type.equals("title")){
-                                    String titleNONE_title = object_homepage.getString("title");
-                                    appListener.lestener_title_none(titleNONE_title);
-                                }
-                            }catch (Exception e){
-                                Log.e(TAG, "api/v6/app/homepage: title",e);
-                            }
-
-                            try {
-                                if (type.equals("salawat")){
-                                    String count_salawat = null;
-                                    if (!object_homepage.isNull("fit_count")){
-                                        count_salawat =  object_homepage.getString("fit_count");
+                            switch (type){
+                                case "banner":
+                                    try {
+                                        String baner_image = object_homepage.getString("image");
+                                        String baner_url = object_homepage.getString("url");
+                                        appListener.lestener_baner(baner_image,baner_url);
+                                        break;
+                                    }catch (Exception e){
+                                        Log.e(TAG, "onResponse: banner",e );
                                     }
-                                    else if (!object_homepage.isNull("count")){
-                                        count_salawat = String.valueOf(object_homepage.getInt("count"));
+
+                                case "slider":
+                                    try {
+                                        JSONArray slider_homepage = object_homepage.getJSONArray("slider");
+                                        appListener.lestener_slider(String.valueOf(slider_homepage));
+                                        break;
+                                    }catch (Exception e){
+                                        Log.e(TAG, "onResponse: slider",e );
+                                        break;
                                     }
-                                    if (!object_homepage.isNull("")){}
-                                    appListener.lestener_salavat(count_salawat);
-                                    break;
-                                }
-                            }catch (Exception e){
-                                Log.e(TAG, "api/v6/app/homepage: salawat",e);
-                            }
+                                case "link1":
+                                    try {
+                                        String image_link1 = object_homepage.getString("image");
+                                        String url_link1 = object_homepage.getString("url");
+                                        appListener.lestener_link_1(image_link1,url_link1);
+                                        break;
+                                    }catch (Exception e){
+                                        Log.e(TAG, "onResponse: link1",e );
+                                        break;
+                                    }
+                                case "link2":
+                                    try {
+                                        JSONArray link2_homepage = object_homepage.getJSONArray("link");
+                                        appListener.lestener_link_2(String.valueOf(link2_homepage));
+                                        break;
+                                    }catch (Exception e){
+                                        Log.e(TAG, "onResponse: link2",e );
+                                        break;
+                                    }
+                                case "linkdesc":
+                                    try {
+                                        String title,desc,image,url;
+                                        title = object_homepage.getString("title");
+                                        desc = object_homepage.getString("desc");
+                                        image = object_homepage.getString("image");
+                                        url = object_homepage.getString("url");
+                                        appListener.lestener_link_3_desc(title,desc,image,url);
+                                        break;
+                                    }catch (Exception e){
+                                        Log.e(TAG, "onResponse: linkdesc",e );
+                                        break;
+                                    }
+                                case "link4":
 
-                            try {
-                                if (type.equals("news")){
-                                    JSONArray news = object_homepage.getJSONArray("news");
-                                    appListener.lestener_news(String.valueOf(news));
-                                }
-                            }catch (Exception e){
-                                Log.e(TAG, "api/v6/app/homepage: news",e);
-                            }
-                            try {
-                                if (type.equals("hr")){
-                                    appListener.lestener_hr();
-                                }
-                            }catch (Exception e){
-                                Log.e(TAG, "api/v6/app/homepage: hr",e);
-                            }
+                                    try {
+                                        JSONArray link4_homepage = object_homepage.getJSONArray("link");
+                                        appListener.lestener_link_4(String.valueOf(link4_homepage));
+                                        break;
 
-                            try {
-                                if (type.equals("change_language")){
-                                    appListener.lestener_language();
-                                }
-                            }catch (Exception e){
-                                Log.e(TAG, "api/v6/app/homepage: change_language",e);
+                                    }catch (Exception e){
+                                        Log.e(TAG, "onResponse: link4",e );
+                                        break;
+                                    }
+                                case "inapplink":
+                                case "titlelink":
+                                    try {
+                                        String titlelink_title = object_homepage.getString("title");
+                                        String titlelink_url = object_homepage.getString("link");
+                                        appListener.lestener_title_link(titlelink_title,null,titlelink_url);
+                                        break;
+                                    }catch (Exception e){
+                                        Log.e(TAG, "onResponse: inapplink || titlelink",e );
+                                        break;
+                                    }
+                                case "title":
+                                    try {
+                                        String titleNONE_title = object_homepage.getString("title");
+                                        appListener.lestener_title_none(titleNONE_title);
+                                        break;
+                                    }catch (Exception e){
+                                        Log.e(TAG, "onResponse: title",e );
+                                        break;
+                                    }
+                                case "salawat":
+                                    try {
+                                        String count_salawat = null;
+                                        if (!object_homepage.isNull("fit_count")){
+                                            count_salawat =  object_homepage.getString("fit_count");
+                                        }
+                                        else if (!object_homepage.isNull("count")){
+                                            count_salawat = String.valueOf(object_homepage.getInt("count"));
+                                        }
+                                        if (!object_homepage.isNull("")){}
+                                        appListener.lestener_salavat(count_salawat);
+                                        break;
+                                    }catch (Exception e){
+                                        Log.e(TAG, "onResponse: salawat",e );
+                                        break;
+                                    }
+                                case "news":
+                                    try {
+                                        JSONArray news = object_homepage.getJSONArray("news");
+                                        appListener.lestener_news(String.valueOf(news));
+                                        break;
+                                    }catch (Exception e){
+                                        Log.e(TAG, "onResponse: news",e );
+                                        break;
+                                    }
+                                case "hr":
+                                    try {
+                                        appListener.lestener_hr();
+                                        break;
+                                    }catch (Exception e){
+                                        Log.e(TAG, "onResponse: hr",e );
+                                        break;
+                                    }
+                                case "change_language":
+                                    try {
+                                        appListener.lestener_language();
+                                        break;
+                                    }catch (Exception e){
+                                        Log.e(TAG, "onResponse: change_language",e );
+                                        break;
+                                    }
                             }
 
                             if (i == homepage.length()-1){
@@ -200,7 +204,7 @@ public class apiV6 {
                 return sernd_headers;
             }
         }
-        ;mainRQ.setRetryPolicy(new DefaultRetryPolicy(5 * 1000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        ;
 
         Network.getInstance().addToRequestQueue(mainRQ);
     }
