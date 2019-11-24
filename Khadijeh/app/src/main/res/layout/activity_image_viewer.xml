@@ -7,6 +7,7 @@
     tools:context=".Activity.ImageViewer">
 
     <com.github.chrisbanes.photoview.PhotoView
+        android:background="#ACACAC"
         android:id="@+id/photoViewer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
