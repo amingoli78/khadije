@@ -115,13 +115,13 @@ public class MainActivity extends AppCompatActivity  {
             }
 
             @Override
-            public void lestener_baner(String image, String url) {
-                Baner(image,url);
+            public void lestener_baner(String image, String url,String type) {
+                Baner(image,url,type);
             }
 
             @Override
-            public void lestener_link_1(String image, String url) {
-                Link_1(image,url);
+            public void lestener_link_1(String image, String url,String type) {
+                Link_1(image,url,type);
             }
 
             @Override
@@ -140,8 +140,8 @@ public class MainActivity extends AppCompatActivity  {
             }
 
             @Override
-            public void lestener_title_link(String title,String image,String url) {
-                Title_link(title,null,url);
+            public void lestener_title_link(String title,String image,String url,String type) {
+                Title_link(title,null,url,type);
             }
 
             @Override
@@ -196,8 +196,8 @@ public class MainActivity extends AppCompatActivity  {
 
     }
 
-    private void Baner(String img_url,String link){
-        itemMains.add(new item_Main(item_Main.BANER,img_url,link,null,
+    private void Baner(String img_url,String link,String type){
+        itemMains.add(new item_Main(item_Main.BANER,img_url,link,type,
                 null,null,null,
                 null,null,null,null,null,null,
                 null,null,null,null,null,
@@ -235,9 +235,9 @@ public class MainActivity extends AppCompatActivity  {
         recylerview.setItemAnimator(new DefaultItemAnimator());
     }
 
-    private void Link_1(String img_url,String link){
+    private void Link_1(String img_url,String link,String type){
         itemMains.add(new item_Main(item_Main.LINK_1,null,null,null,
-                img_url,link,null,
+                img_url,link,type,
                 null,null,null,null,null,null,
                 null,null,null,null,null,
                 null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
@@ -263,14 +263,18 @@ public class MainActivity extends AppCompatActivity  {
                 JSONObject object_link4 = link4Array.getJSONObject(i);
                 String image = object_link4.getString("image");
                 String url = object_link4.getString("url");
-                itemLink4.add(new item_link_2_4(image,null,url,null));
+                String target = null;
+                if (!object_link4.isNull("target")){
+                    target = object_link4.getString("target");
+                }
+                itemLink4.add(new item_link_2_4(image,null,url,target));
             }
 
             itemMains.add(new item_Main(item_Main.LINK_2,null,null,null,
                     null,null,null,
-
                     itemLink4.get(0).getImage(),itemLink4.get(1).getImage(),
-                    itemLink4.get(0).getUrl(),itemLink4.get(1).getUrl(),null,null,
+                    itemLink4.get(0).getUrl(),itemLink4.get(1).getUrl(),
+                    itemLink4.get(0).getType(),itemLink4.get(1).getType(),
                     null,null,null,null,null,
                     null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
                     null,null,null,null,
@@ -360,14 +364,14 @@ public class MainActivity extends AppCompatActivity  {
 
     }
 
-    private void Title_link(String title,String go,String url){
+    private void Title_link(String title,String go,String url,String type){
         itemMains.add(new item_Main(item_Main.TITEL_link,null,null,null,
                 null,null,null,
 
                 null,null,null,null,null,null,
                 null,null,null,null,null,
                 null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
-                title,go,url,null,
+                title,go,url,type,
                 null,
                 null,null,null,
                 null,null,null,
@@ -618,5 +622,4 @@ public class MainActivity extends AppCompatActivity  {
             }
         }, 200);
     }
-
 }

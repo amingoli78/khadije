@@ -387,7 +387,7 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     ((holder_baner) holder).baner.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            swiech(object.baner_url,null);
+                            swiech(object.baner_url,object.baner_type);
                         }
                     });
                     break;
@@ -403,7 +403,6 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
                     try {
                         JSONArray link4Array = new JSONArray(object.slide_title);
-
                         for (int i = 0; i < link4Array.length(); i++) {
                             JSONObject object_link4 = link4Array.getJSONObject(i);
                             JSONObject meta = object_link4.getJSONObject("meta");
@@ -420,16 +419,9 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                             ((holder_slide)holder).recyclerViewPager.setLayoutManager(layout);
                             ((holder_slide)holder).recyclerViewPager.setItemAnimator(new DefaultItemAnimator());
                         }
-
-
-
-
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-
                     break;
 
                 case item_Main.LINK_1:
@@ -438,7 +430,7 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     ((holder_link1) holder).imageView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            swiech(object.link1_url,null);
+                            swiech(object.link1_url,object.link1_type);
                         }
                     });
                     break;
@@ -450,32 +442,36 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     ((holder_link2) holder).imageView_1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            swiech(object.link2_url_1,null);
+                            swiech(object.link2_url_1,object.link2_type_1);
                         }
                     });
                     ((holder_link2) holder).imageView_2.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            swiech(object.link2_url_2,null);
+                            swiech(object.link2_url_2,object.link2_type_2);
 
                         }
                     });
                     break;
 
                 case item_Main.LINK_Desc :
-                    Glide.with(mContext).load(object.link3_url_img).into(((holder_link3Desc) holder).imageView);
-                    ((holder_link3Desc) holder).title.setText(object.link3_title);
-                    ((holder_link3Desc) holder).desc.setText(object.link3_desc);
+                    try {
+                        Glide.with(mContext).load(object.link3_url_img).into(((holder_link3Desc) holder).imageView);
+                        ((holder_link3Desc) holder).title.setText(object.link3_title);
+                        ((holder_link3Desc) holder).desc.setText(object.link3_desc);
 
-                    ((holder_link3Desc) holder).title.setTag(object.link3_link);
-                    ((holder_link3Desc) holder).desc.setTag(object.link3_link);
-                    ((holder_link3Desc)holder).imageView.setTag(object.link3_link);
+                        ((holder_link3Desc) holder).title.setTag(object.link3_link);
+                        ((holder_link3Desc) holder).desc.setTag(object.link3_link);
 
 
-                    ((holder_link3Desc) holder).title.setOnClickListener(link);
-                    ((holder_link3Desc) holder).desc.setOnClickListener(link);
-                    ((holder_link3Desc)holder).imageView.setOnClickListener(link);
-                    break;
+                        ((holder_link3Desc) holder).title.setOnClickListener(link);
+                        ((holder_link3Desc) holder).desc.setOnClickListener(link);
+                        break;
+                    }catch (Exception e){
+                        Log.e("Adaprot_Main", "onBindViewHolder: item_Main.LINK_Desc",e);
+                        break;
+                    }
+
                     case item_Main.LINK_4:
                         Glide.with(mContext).load(object.link4_url_img1).into(((holder_link4) holder).imageView_1);
                         Glide.with(mContext).load(object.link4_url_img2).into(((holder_link4) holder).imageView_2);
@@ -531,13 +527,13 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     ((holder_title_link) holder).space.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            swiech(object.titleLink_url,null);
+                            swiech(object.titleLink_url,object.titleLink_type);
                         }
                     });
                     View.OnClickListener links = new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            swiech(object.titleLink_url,null);
+                            swiech(object.titleLink_url,object.titleLink_type);
                         }
                     };
 

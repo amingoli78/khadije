@@ -18,8 +18,8 @@
         tools:ignore="UselessParent">
         <TextView
             android:textAlignment="center"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
             android:paddingBottom="1dp"
             android:paddingTop="1dp"
             android:id="@+id/titlenone_title"
@@ -46,6 +46,7 @@
             android:layout_height="wrap_content"/>
 
         <ImageView
+            android:visibility="gone"
             android:paddingEnd="5dp"
             android:src="@drawable/ic_flesh_r"
             android:layout_width="wrap_content"

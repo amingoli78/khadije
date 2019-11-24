@@ -56,7 +56,11 @@ public class apiV6 {
                             try {
                                 String baner_image = object_homepage.getString("image");
                                 String baner_url = object_homepage.getString("url");
-                                appListener.lestener_baner(baner_image,baner_url);
+                                String baner_target = null;
+                                if (!object_homepage.isNull("target")){
+                                    baner_target = object_homepage.getString("target");
+                                }
+                                appListener.lestener_baner(baner_image,baner_url,baner_target);
                                 break;
                             }catch (Exception e){
                                 Log.e(TAG, "onResponse: banner",e );
@@ -75,7 +79,11 @@ public class apiV6 {
                             try {
                                 String image_link1 = object_homepage.getString("image");
                                 String url_link1 = object_homepage.getString("url");
-                                appListener.lestener_link_1(image_link1,url_link1);
+                                String link1_target = null;
+                                if (!object_homepage.isNull("target")){
+                                    link1_target = object_homepage.getString("target");
+                                }
+                                appListener.lestener_link_1(image_link1,url_link1,link1_target);
                                 break;
                             }catch (Exception e){
                                 Log.e(TAG, "onResponse: link1",e );
@@ -119,7 +127,11 @@ public class apiV6 {
                             try {
                                 String titlelink_title = object_homepage.getString("title");
                                 String titlelink_url = object_homepage.getString("link");
-                                appListener.lestener_title_link(titlelink_title,null,titlelink_url);
+                                String titlelink_target = null;
+                                if (!object_homepage.isNull("target")){
+                                    titlelink_target = object_homepage.getString("target");
+                                }
+                                appListener.lestener_title_link(titlelink_title,null,titlelink_url,titlelink_target);
                                 break;
                             }catch (Exception e){
                                 Log.e(TAG, "onResponse: inapplink || titlelink",e );
@@ -221,12 +233,12 @@ public class apiV6 {
     public interface appListener{
         void lestener_GetRespone(String result);
         void lestener_Updateversion(String url,String title,String desc);
-        void lestener_baner(String image,String url);
-        void lestener_link_1(String image,String url);
+        void lestener_baner(String image,String url,String type);
+        void lestener_link_1(String image,String url,String type);
         void lestener_link_2(String link2Array);
         void lestener_link_3_desc(String title,String desc,String image,String url);
         void lestener_link_4(String link4Array);
-        void lestener_title_link(String title,String image,String url);
+        void lestener_title_link(String title,String image,String url,String type);
         void lestener_title_none(String title);
         void lestener_salavat(int count);
         void lestener_hadith();
