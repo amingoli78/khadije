@@ -1,16 +1,16 @@
 package com.ermile.khadijeapp.Activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.ViewCompat;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
 import android.widget.LinearLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ermile.khadijeapp.Adaptor.Adaptor_Main;
 import com.ermile.khadijeapp.Item.item_Main;
@@ -97,12 +97,12 @@ public class ListNews extends AppCompatActivity {
                     text_news = text_news.substring(0,110) + " ...";
                 }
 
-                itemMains.add(new item_Main(item_Main.NEWS,null,null,
-                        null,null,
-                        null,null,null,null,
-                        null,null,null,null,
-                        null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+                itemMains.add(new item_Main(item_Main.NEWS,null,null,null,
                         null,null,null,
+                        null,null,null,null,null,null,
+                        null,null,null,null,null,
+                        null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+                        null,null,null,null,
                         null,
                         null,null,null,
                         null,null,null,

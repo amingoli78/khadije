@@ -8,6 +8,7 @@
     android:id="@+id/linear_inro_item">
 
     <ImageView
+        android:src="@drawable/logo"
         android:id="@+id/intro_img"
         android:layout_width="@dimen/_220sdp"
         android:layout_height="@dimen/_220sdp" />

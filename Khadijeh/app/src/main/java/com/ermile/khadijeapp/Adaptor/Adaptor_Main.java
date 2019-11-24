@@ -361,8 +361,6 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         View.OnClickListener link = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 switch (view.getTag().toString()){
                     case "news":
                         mContext.startActivity(new Intent(mContext, ListNews.class));

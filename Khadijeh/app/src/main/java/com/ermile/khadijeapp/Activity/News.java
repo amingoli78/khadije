@@ -74,13 +74,13 @@ public class News extends AppCompatActivity {
 
                     JSONObject meta = result.getJSONObject("meta");
                     String thumb = meta.getString("thumb");
-                    itemMains.add(new item_Main(item_Main.NEWS_TEXT,null,null,
-                            null,null,
-
-                            null,null,null,null,
-                            null,null,null,null,
-                            null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+                    itemMains.add(new item_Main(item_Main.NEWS_TEXT,null,null,null,
                             null,null,null,
+
+                            null,null,null,null,null,null,
+                            null,null,null,null,null,
+                            null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+                            null,null,null,null,
                             null,
                             null,null,null,
                             title,String.valueOf(html_content),thumb,
@@ -100,12 +100,12 @@ public class News extends AppCompatActivity {
             @Override
             public void resultGaleryNws(String responeArray) {
                 itemMains.add(new item_Main(item_Main.SLIDE_NEWS,
-                        null,null,
-                        null,null,
-                        null,null,null,null,
-                        null,null,null,null,
-                        null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
                         null,null,null,
+                        null,null,null,
+                        null,null,null,null,null,null,
+                        null,null,null,null,null,
+                        null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+                        null,null,null,null,
                         null,
                         null,null,null,
                         null,null,null,

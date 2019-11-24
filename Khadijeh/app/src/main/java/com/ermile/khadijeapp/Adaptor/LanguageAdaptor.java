@@ -3,9 +3,6 @@ package com.ermile.khadijeapp.Adaptor;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +21,6 @@ import com.ermile.khadijeapp.utility.set_language_device;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Locale;
 
 public class LanguageAdaptor extends RecyclerView.Adapter<LanguageAdaptor.MyViewHolder> {
 
