@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name="com.ermile.khadijeapp.utility.Network"
+        android:name=".utility.Network"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,54 +15,55 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".Activity.ImageViewer"></activity>
         <activity
-            android:name="com.ermile.khadijeapp.Activity.ListNews"
-            tools:ignore="InnerclassSeparator"
+            android:name=".Activity.ListNews"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.ermile.khadijeapp.Activity.Language"
+            android:screenOrientation="portrait"
             tools:ignore="InnerclassSeparator" />
-
-        <activity android:name="com.ermile.khadijeapp.Activity.MainActivity"
-            tools:ignore="InnerclassSeparator"
+        <activity
+            android:name=".Activity.Language"
+            tools:ignore="InnerclassSeparator" />
+        <activity
+            android:name=".Activity.MainActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name="com.ermile.khadijeapp.Activity.Intro"
-            tools:ignore="InnerclassSeparator"
+            android:screenOrientation="portrait"
+            tools:ignore="InnerclassSeparator" />
+        <activity
+            android:name=".Activity.Intro"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name="com.ermile.khadijeapp.Activity.Delneveshte"
-            tools:ignore="InnerclassSeparator"
+            android:screenOrientation="portrait"
+            tools:ignore="InnerclassSeparator" />
+        <activity
+            android:name=".Activity.Delneveshte"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name="com.ermile.khadijeapp.Activity.ApiView"
-            tools:ignore="InnerclassSeparator"
+            android:screenOrientation="portrait"
+            tools:ignore="InnerclassSeparator" />
+        <activity
+            android:name=".Activity.ApiView"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name="com.ermile.khadijeapp.Activity.Video_View"
-            tools:ignore="InnerclassSeparator"
+            android:screenOrientation="portrait"
+            tools:ignore="InnerclassSeparator" />
+        <activity
+            android:name=".Activity.Video_View"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name="com.ermile.khadijeapp.Activity.News"
-            tools:ignore="InnerclassSeparator"
+            android:screenOrientation="portrait"
+            tools:ignore="InnerclassSeparator" />
+        <activity
+            android:name=".Activity.News"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name="com.ermile.khadijeapp.Activity.Web_View"
-            tools:ignore="InnerclassSeparator"
+            android:screenOrientation="portrait"
+            tools:ignore="InnerclassSeparator" />
+        <activity
+            android:name=".Activity.Web_View"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name="com.ermile.khadijeapp.Activity.Splash"
-            tools:ignore="InnerclassSeparator"
+            android:screenOrientation="portrait"
+            tools:ignore="InnerclassSeparator" />
+        <activity
+            android:name=".Activity.Splash"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            tools:ignore="InnerclassSeparator">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -70,17 +71,18 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".Service.Notification"
+        <service
+            android:name=".Service.Notification"
             tools:ignore="ExportedService,InnerclassSeparator">
             <intent-filter>
                 <action android:name="com.ermile.khadije.NotificationService" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
         </service>
 
         <activity
-            android:name="com.ermile.khadijeapp.Activity.status"
+            android:name=".Activity.status"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             tools:ignore="InnerclassSeparator">
@@ -92,35 +94,28 @@
 
                 <data android:scheme="khadije" />
             </intent-filter>
-        </activity>
-
-
-        <!-- ADD this lines before </application> close tag -->
+        </activity> <!-- ADD this lines before </application> close tag -->
         <service
             android:name=".utility.Firebase.FCMInstanceIDService"
             tools:ignore="ExportedService,InnerclassSeparator">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-
         <service
             android:name=".utility.Firebase.FCMService"
             tools:ignore="InnerclassSeparator">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/logo_xml" />
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorPrimary" />
-
-
     </application>
 
 </manifest>

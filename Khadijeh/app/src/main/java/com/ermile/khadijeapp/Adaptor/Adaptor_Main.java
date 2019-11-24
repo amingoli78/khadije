@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -518,8 +519,13 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     ((holder_title_link) holder).title.setText(object.titleLink_title);
                     ((holder_title_link) holder).go.setText(object.titleLink_go);
 
-                    if (appLanguage.equals("en")){
-                        ((holder_title_link) holder).img_fleshTitle.setRotation(180);
+                    switch (appLanguage){
+                        case "fa":
+                        case "ar":
+                            break;
+                        default:
+                            ((holder_title_link) holder).img_fleshTitle.setRotation(180);
+                        break;
                     }
 
                     ((holder_title_link) holder).space.setOnClickListener(new View.OnClickListener() {
@@ -628,10 +634,14 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
                     ((holder_news) holder).title.setTag(object.news_id);
 
-                    if (appLanguage.equals("en")){
-                        ((holder_news) holder).img_flesh.setRotation(180f);
+                    switch (appLanguage){
+                        case "fa":
+                        case "ar":
+                            break;
+                        default:
+                            ((holder_news) holder).img_flesh.setRotation(180f);
+                            break;
                     }
-
                     View.OnClickListener clickNews = new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {

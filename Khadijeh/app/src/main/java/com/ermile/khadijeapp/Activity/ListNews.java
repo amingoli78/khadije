@@ -1,6 +1,7 @@
 package com.ermile.khadijeapp.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,12 +10,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
+import android.widget.LinearLayout;
 
 import com.ermile.khadijeapp.Adaptor.Adaptor_Main;
 import com.ermile.khadijeapp.Item.item_Main;
 import com.ermile.khadijeapp.R;
 import com.ermile.khadijeapp.api.apiV6;
 import com.ermile.khadijeapp.utility.Dialog;
+import com.ermile.khadijeapp.utility.SaveManager;
 import com.ermile.khadijeapp.utility.set_language_device;
 
 import org.json.JSONArray;
@@ -40,6 +43,15 @@ public class ListNews extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_news);
+
+        LinearLayout news_mainLayout = findViewById(R.id.listNews_mainLayout);
+        String AppLanguage = SaveManager.get(this).getstring_appINFO().get(SaveManager.appLanguage);
+        if (AppLanguage.equals("fa") || AppLanguage.equals("ar")){
+            ViewCompat.setLayoutDirection(news_mainLayout,ViewCompat.LAYOUT_DIRECTION_RTL);
+        }else {
+            ViewCompat.setLayoutDirection(news_mainLayout,ViewCompat.LAYOUT_DIRECTION_LTR);
+        }
+
 
         String url_app= getString(R.string.post);
         itemMains = new ArrayList<>();
