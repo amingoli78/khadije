@@ -283,12 +283,9 @@ public class apiV6 {
                     if (ok){
                         JSONArray msg = mainObject.getJSONArray("msg");
                         JSONObject result = mainObject.getJSONObject("result");
-                        String count_salawat = null;
-                        if (!result.isNull("fit_count")){
-                            count_salawat =  result.getString("fit_count");
-                        }
-                        else if (!result.isNull("count")){
-                            count_salawat = String.valueOf(result.getInt("count"));
+                        int count_salawat = 0;
+                        if (!result.isNull("count")){
+                            count_salawat = result.getInt("count");
                         }
                         salawatListener.saveSalawat(count_salawat, String.valueOf(msg));
                     }else {
@@ -323,7 +320,7 @@ public class apiV6 {
     }
 
     public interface salawatListener{
-        void saveSalawat(String count,String msgArray);
+        void saveSalawat(int count,String msgArray);
         void errorSalawat(String error);
     }
 
@@ -536,30 +533,6 @@ public class apiV6 {
     }
 
     public interface sendelListener{
-        void result(String respone);
-        void error(String error);
-    }
-
-
-    public static void getLanguage(String url,final languageListener languageListener){
-
-        StringRequest getLangRQ = new StringRequest(Request.Method.GET, url, new Response.Listener<String>(){
-            @Override
-            public void onResponse(String response) {
-                languageListener.result(String.valueOf(response));
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError e) {
-                languageListener.error("VolleyError: "+e);
-            }
-        });
-        getLangRQ.setRetryPolicy(new DefaultRetryPolicy(5 * 1000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        Network.getInstance().addToRequestQueue(getLangRQ);
-
-    }
-
-    public interface languageListener{
         void result(String respone);
         void error(String error);
     }

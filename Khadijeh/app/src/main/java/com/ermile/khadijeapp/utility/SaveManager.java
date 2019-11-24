@@ -27,6 +27,8 @@ public class SaveManager extends ContextWrapper {
 
 
     /** App Info */
+    public static final String apiV6_URL = "apiV6_URL";
+
     public static final String salawatCount = "salawatCount";
 
     public static final String introIsChacked = "introIsChacked";
@@ -40,6 +42,11 @@ public class SaveManager extends ContextWrapper {
     public static final String apiKey = "apiKey";
     public static final String userCode = "userCode";
     public static final String zoneID = "zoneID";
+
+    public void change_apiV6_URL(String local_URL) {
+        editor.putString(apiV6_URL, local_URL);
+        editor.apply();
+    }
 
     public void change_salawatCount(int count) {
         editor.putInt(salawatCount, count);
@@ -97,6 +104,8 @@ public class SaveManager extends ContextWrapper {
 
     public Map<String, String> getstring_appINFO() {
         HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put(apiV6_URL, sharedPreferences.getString(apiV6_URL, "https://khadije.com/en/api/v6/app" ));
+
         hashMap.put(appLanguage, sharedPreferences.getString(appLanguage, null ));
 
         hashMap.put(apiKey, sharedPreferences.getString(apiKey, null ));

@@ -56,7 +56,8 @@ public class News extends AppCompatActivity {
         LayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         recylerviewss.setAdapter(adaptor_main);
 
-        String url = getString(R.string.url_news);
+        String url = SaveManager.get(getApplicationContext()).getstring_appINFO().get(SaveManager.apiV6_URL)+ com.ermile.khadijeapp.Static.url.news;
+
         final String ID = getIntent().getStringExtra("id");
 
         getNews(url,ID);

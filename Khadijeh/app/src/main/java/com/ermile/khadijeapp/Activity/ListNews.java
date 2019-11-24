@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ermile.khadijeapp.Adaptor.Adaptor_Main;
 import com.ermile.khadijeapp.Item.item_Main;
 import com.ermile.khadijeapp.R;
+import com.ermile.khadijeapp.Static.url;
 import com.ermile.khadijeapp.api.apiV6;
 import com.ermile.khadijeapp.utility.Dialog;
 import com.ermile.khadijeapp.utility.SaveManager;
@@ -53,7 +54,7 @@ public class ListNews extends AppCompatActivity {
         }
 
 
-        String url_app= getString(R.string.post);
+        String urlApp = SaveManager.get(getApplication()).getstring_appINFO().get(SaveManager.apiV6_URL)+ url.posts;
         itemMains = new ArrayList<>();
         recylerview_listNews = findViewById(R.id.recyclerview_listnews);
 
@@ -61,7 +62,7 @@ public class ListNews extends AppCompatActivity {
         LayoutManager_list = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         recylerview_listNews.setAdapter(adaptor_main_list);
 
-        apiV6.listNews(url_app,"50", new apiV6.listNewsListener() {
+        apiV6.listNews(urlApp,"50", new apiV6.listNewsListener() {
 
             @Override
             public void lestener_news(String newsArray) {

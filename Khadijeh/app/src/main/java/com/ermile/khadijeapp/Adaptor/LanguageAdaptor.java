@@ -44,7 +44,7 @@ public class LanguageAdaptor extends RecyclerView.Adapter<LanguageAdaptor.MyView
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
-        item_Language aItem = itemList.get(position);
+        final item_Language aItem = itemList.get(position);
 
         holder.tik.setVisibility(View.GONE);
         holder.titel.setText(aItem.getTitle());
@@ -61,6 +61,7 @@ public class LanguageAdaptor extends RecyclerView.Adapter<LanguageAdaptor.MyView
             public void onClick(View view) {
                 SaveManager.get(mContext).change_appLanguage(holder.titel.getTag().toString());
                 SaveManager.get(mContext).change_LanguageByUser(false);
+                SaveManager.get(mContext).change_apiV6_URL(aItem.getLocal_URL());
                 new set_language_device(mContext);
                 Intent refresh = new Intent(mContext, Splash.class);
                 ((Activity)mContext).finish();

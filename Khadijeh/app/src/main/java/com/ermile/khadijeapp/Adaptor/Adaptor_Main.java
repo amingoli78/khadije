@@ -31,6 +31,7 @@ import com.ermile.khadijeapp.Activity.Web_View;
 import com.ermile.khadijeapp.Item.item_Main;
 import com.ermile.khadijeapp.Item.item_slider;
 import com.ermile.khadijeapp.R;
+import com.ermile.khadijeapp.Static.url;
 import com.ermile.khadijeapp.api.apiV6;
 import com.ermile.khadijeapp.utility.SaveManager;
 import com.ermile.khadijeapp.utility.changeNumber;
@@ -374,7 +375,7 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             }
         };
 
-        final String url_salawat = mContext.getString(R.string.url_salawat);
+        final String url_salawat = SaveManager.get(mContext).getstring_appINFO().get(SaveManager.apiV6_URL)+ url.salawat;
 
         final item_Main object = itemMains.get(listPosition);
         if (object != null) {
@@ -575,7 +576,9 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                             String apikey = SaveManager.get(mContext).getstring_appINFO().get(SaveManager.apiKey);
                             apiV6.salawat(url_salawat,apikey, new apiV6.salawatListener() {
                                 @Override
-                                public void saveSalawat(String count, String msgArray) {}
+                                public void saveSalawat(int count, String msgArray) {
+                                    SaveManager.get(mContext).change_salawatCount(count);
+                                }
                                 @Override
                                 public void errorSalawat(String error) {}
                             });

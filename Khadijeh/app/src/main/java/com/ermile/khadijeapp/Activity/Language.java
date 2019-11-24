@@ -14,7 +14,6 @@ import com.ermile.khadijeapp.Item.item_Language;
 import com.ermile.khadijeapp.R;
 import com.ermile.khadijeapp.Static.file;
 import com.ermile.khadijeapp.Static.format;
-import com.ermile.khadijeapp.api.GetAndroidDetail;
 import com.ermile.khadijeapp.utility.Dialog;
 import com.ermile.khadijeapp.utility.FileManager;
 import com.ermile.khadijeapp.utility.SaveManager;
@@ -81,13 +80,15 @@ public class Language extends AppCompatActivity {
                         mItem.add(new item_Language(
                                 lang_key.getString("localname"),
                                 lang_key.getString("name"),
-                                true));
+                                true,
+                                lang_key.getString("api_url")));
                         mAdapter.notifyDataSetChanged();
                     } else {
                         mItem.add(new item_Language(
                                 lang_key.getString("localname"),
                                 lang_key.getString("name"),
-                                false));
+                                false,
+                                lang_key.getString("api_url")));
                         mAdapter.notifyDataSetChanged();
                     }
                 }
