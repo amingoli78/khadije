@@ -33,6 +33,7 @@ import com.ermile.khadijeapp.Item.item_slider;
 import com.ermile.khadijeapp.R;
 import com.ermile.khadijeapp.api.apiV6;
 import com.ermile.khadijeapp.utility.SaveManager;
+import com.ermile.khadijeapp.utility.changeNumber;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 
 import org.json.JSONArray;
@@ -549,32 +550,34 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     break;
 
                 case item_Main.SALAVAT:
-                    ((holder_salavet) holder).count.setText(object.salavat_count);
+                    ((holder_salavet) holder).count.setText(setCountSalawatByLanguage(object.salavat_count));
                     ((holder_salavet) holder).readText.setText(mContext.getString(R.string.flag_salawat));
 
                     View.OnClickListener salawat = new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            String gettext0 = ((holder_salavet) holder).count.getText().toString();
+                            String gettext1 = gettext0.replace(",","");
+                            String gettext2 = changeNumber.toEn(gettext1);
+                            Log.d("amingoli78", "errorSalawat: "+gettext2);
+                            int count = Integer.valueOf(gettext2);
+                            count++;
+                            String count_spilit = changeNumber.splitDigits(count);
+
+                            // Set Text
+                            ((holder_salavet) holder).count.setText(setCountSalawatByLanguage(count_spilit));
+                            // Toast Salawat
+                            Toast.makeText(mContext, mContext.getString(R.string.salawat), Toast.LENGTH_SHORT).show();
+                            // Save Number
+                            SaveManager.get(mContext).change_salawatCount(count);
+
+                            // send to Server
                             String apikey = SaveManager.get(mContext).getstring_appINFO().get(SaveManager.apiKey);
                             apiV6.salawat(url_salawat,apikey, new apiV6.salawatListener() {
                                 @Override
-                                public void saveSalawat(String count, String msgArray) {
-                                    ((holder_salavet) holder).count.setText(count);
-                                    try {
-                                        JSONArray msg = new JSONArray(msgArray);
-                                        for (int i = 0; i < msg.length(); i++) {
-                                            JSONObject object1 = msg.getJSONObject(i);
-                                            String text = object1.getString("text");
-                                            Toast.makeText(mContext, text, Toast.LENGTH_SHORT).show();
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-
+                                public void saveSalawat(String count, String msgArray) {}
                                 @Override
-                                public void errorSalawat(String error) {
-                                }
+                                public void errorSalawat(String error) {}
                             });
                         }
                     };
@@ -734,6 +737,13 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 }
         }
 
+    }
+
+    private String setCountSalawatByLanguage(String number){
+        if (appLanguage.equals("fa") || appLanguage.equals("ar")){
+            return changeNumber.toFa(number);
+        }
+        return changeNumber.toEn(number);
     }
 
 

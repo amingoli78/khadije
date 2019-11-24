@@ -27,6 +27,8 @@ public class SaveManager extends ContextWrapper {
 
 
     /** App Info */
+    public static final String salawatCount = "salawatCount";
+
     public static final String introIsChacked = "introIsChacked";
 
     public static final String appLanguage = "appLanguage";
@@ -38,6 +40,11 @@ public class SaveManager extends ContextWrapper {
     public static final String apiKey = "apiKey";
     public static final String userCode = "userCode";
     public static final String zoneID = "zoneID";
+
+    public void change_salawatCount(int count) {
+        editor.putInt(salawatCount, count);
+        editor.apply();
+    }
 
     public void change_appLanguage(String Language) {
         editor.putString(appLanguage, Language);
@@ -72,6 +79,11 @@ public class SaveManager extends ContextWrapper {
     }
 
 
+    public Map<String, Integer> getInt_appINFO() {
+        HashMap<String, Integer> hashMap = new HashMap<>();
+        hashMap.put(salawatCount, sharedPreferences.getInt(salawatCount, 0 ));
+        return hashMap;
+    }
 
     public Map<String, Boolean> getboolen_appINFO() {
         HashMap<String, Boolean> hashMap = new HashMap<>();

@@ -30,6 +30,7 @@ import com.ermile.khadijeapp.Static.value;
 import com.ermile.khadijeapp.api.apiV6;
 import com.ermile.khadijeapp.utility.Dialog;
 import com.ermile.khadijeapp.utility.SaveManager;
+import com.ermile.khadijeapp.utility.changeNumber;
 import com.ermile.khadijeapp.utility.set_language_device;
 
 import org.json.JSONArray;
@@ -149,8 +150,8 @@ public class MainActivity extends AppCompatActivity  {
             }
 
             @Override
-            public void lestener_salavat(String count) {
-                salavat(null,count,null);
+            public void lestener_salavat(int count) {
+                salawat(null,count,null);
             }
 
             @Override
@@ -397,7 +398,13 @@ public class MainActivity extends AppCompatActivity  {
         recylerview.setItemAnimator(new DefaultItemAnimator());
     }
 
-    private void salavat(String title,String count,String readText){
+    private void salawat(String title, int counts, String readText){
+        Integer count_INT = SaveManager.get(getApplicationContext()).getInt_appINFO().get(SaveManager.salawatCount);
+        if (counts > count_INT){
+            count_INT = counts;
+            SaveManager.get(getApplication()).change_salawatCount(counts);
+        }
+        String count_spilit = changeNumber.splitDigits(count_INT);
         itemMains.add(new item_Main(item_Main.SALAVAT,null,null,null,
                 null,null,null,
 
@@ -406,7 +413,7 @@ public class MainActivity extends AppCompatActivity  {
                 null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
                 null,null,null,null,
                 null,
-                count,readText,title,
+                count_spilit,readText,title,
                 null,null,null,
                 null,null,null,null,
                 null,

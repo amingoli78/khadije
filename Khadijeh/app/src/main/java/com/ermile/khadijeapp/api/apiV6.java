@@ -136,14 +136,10 @@ public class apiV6 {
                             }
                         case "salawat":
                             try {
-                                String count_salawat = null;
-                                if (!object_homepage.isNull("fit_count")){
-                                    count_salawat =  object_homepage.getString("fit_count");
+                                int count_salawat = 0;
+                                if (!object_homepage.isNull("count")){
+                                    count_salawat = object_homepage.getInt("count");
                                 }
-                                else if (!object_homepage.isNull("count")){
-                                    count_salawat = String.valueOf(object_homepage.getInt("count"));
-                                }
-                                if (!object_homepage.isNull("")){}
                                 appListener.lestener_salavat(count_salawat);
                                 break;
                             }catch (Exception e){
@@ -232,7 +228,7 @@ public class apiV6 {
         void lestener_link_4(String link4Array);
         void lestener_title_link(String title,String image,String url);
         void lestener_title_none(String title);
-        void lestener_salavat(String count);
+        void lestener_salavat(int count);
         void lestener_hadith();
         void lestener_slider(String respone);
         void lestener_news(String newsArray);
@@ -321,7 +317,7 @@ public class apiV6 {
                 }
                 return headers;
             }
-        };salawayRQ.setRetryPolicy(new DefaultRetryPolicy(5 * 1000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        };salawayRQ.setRetryPolicy(new DefaultRetryPolicy(2 * 1000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Network.getInstance().addToRequestQueue(salawayRQ);
 
     }
