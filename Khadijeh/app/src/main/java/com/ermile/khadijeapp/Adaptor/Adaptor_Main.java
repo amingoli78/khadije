@@ -553,31 +553,33 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     View.OnClickListener salawat = new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            String gettext0 = ((holder_salavet) holder).count.getText().toString();
-                            String gettext1 = gettext0.replace(",","");
-                            String gettext2 = changeNumber.toEn(gettext1);
-                            Log.d("amingoli78", "errorSalawat: "+gettext2);
-                            int count = Integer.valueOf(gettext2);
-                            count++;
-                            String count_spilit = changeNumber.splitDigits(count);
+                            try {
+                                Integer count = SaveManager.get(mContext).getInt_appINFO().get(SaveManager.salawatCount);
+                                count++;
+                                Log.d("amingoli78", "errorSalawat: "+count);
+                                String count_spilit = changeNumber.splitDigits(count);
 
-                            // Set Text
-                            ((holder_salavet) holder).count.setText(setCountSalawatByLanguage(count_spilit));
-                            // Toast Salawat
-                            Toast.makeText(mContext, mContext.getString(R.string.salawat), Toast.LENGTH_SHORT).show();
-                            // Save Number
-                            SaveManager.get(mContext).change_salawatCount(count);
+                                // Set Text
+                                ((holder_salavet) holder).count.setText(setCountSalawatByLanguage(count_spilit));
+                                // Toast Salawat
+                                Toast.makeText(mContext, mContext.getString(R.string.salawat), Toast.LENGTH_SHORT).show();
+                                // Save Number
+                                SaveManager.get(mContext).change_salawatCount(count);
 
-                            // send to Server
-                            String apikey = SaveManager.get(mContext).getstring_appINFO().get(SaveManager.apiKey);
-                            apiV6.salawat(url_salawat,apikey, new apiV6.salawatListener() {
-                                @Override
-                                public void saveSalawat(int count, String msgArray) {
-                                    SaveManager.get(mContext).change_salawatCount(count);
-                                }
-                                @Override
-                                public void errorSalawat(String error) {}
-                            });
+                                // send to Server
+                                String apikey = SaveManager.get(mContext).getstring_appINFO().get(SaveManager.apiKey);
+                                apiV6.salawat(url_salawat,apikey, new apiV6.salawatListener() {
+                                    @Override
+                                    public void saveSalawat(int count, String msgArray) {
+                                        SaveManager.get(mContext).change_salawatCount(count);
+                                    }
+                                    @Override
+                                    public void errorSalawat(String error) {}
+                                });
+                            }catch (Exception e){
+
+                            }
+
                         }
                     };
 

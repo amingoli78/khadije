@@ -67,19 +67,19 @@ public class LanguageAdaptor extends RecyclerView.Adapter<LanguageAdaptor.MyView
             public void onClick(View view) {
                 String choseLanguage = holder.titel.getTag().toString();
                 String appLanguage = SaveManager.get(mContext).getstring_appINFO().get(SaveManager.appLanguage);
-                if (!choseLanguage.equals(appLanguage)){
+                if (!choseLanguage.equals(appLanguage) || choseLanguage.equals("en") ){
                     SaveManager.get(mContext).change_appLanguage(choseLanguage);
                     SaveManager.get(mContext).change_LanguageByUser(false);
                     SaveManager.get(mContext).change_apiV6_URL(aItem.getLocal_URL());
                     FileManager.write_OutStorage(mContext, file.setting, format.json,"");
                     new set_language_device(mContext);
+                    Toast.makeText(mContext, mContext.getString(R.string.language_is_selected), Toast.LENGTH_SHORT).show();
                     final Intent refresh1 = new Intent(mContext, Splash.class);
                     refresh1.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     ((Activity)mContext).finish();
                     mContext.startActivity(refresh1);
                 }
-                else {
-                    Toast.makeText(mContext, mContext.getString(R.string.language_is_selected), Toast.LENGTH_SHORT).show();
+                else{
                     final Intent refresh2 = new Intent(mContext, MainActivity.class);
                     refresh2.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     ((Activity)mContext).finish();
