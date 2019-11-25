@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +31,10 @@ import com.ermile.khadijeapp.Activity.Web_View;
 import com.ermile.khadijeapp.Item.item_Main;
 import com.ermile.khadijeapp.Item.item_slider;
 import com.ermile.khadijeapp.R;
+import com.ermile.khadijeapp.Static.url;
 import com.ermile.khadijeapp.api.apiV6;
 import com.ermile.khadijeapp.utility.SaveManager;
+import com.ermile.khadijeapp.utility.changeNumber;
 import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 
 import org.json.JSONArray;
@@ -360,8 +363,6 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         View.OnClickListener link = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 switch (view.getTag().toString()){
                     case "news":
                         mContext.startActivity(new Intent(mContext, ListNews.class));
@@ -374,7 +375,7 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             }
         };
 
-        final String url_salawat = mContext.getString(R.string.url_salawat);
+        final String url_salawat = SaveManager.get(mContext).getstring_appINFO().get(SaveManager.apiV6_URL)+ url.salawat;
 
         final item_Main object = itemMains.get(listPosition);
         if (object != null) {
@@ -386,7 +387,7 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     ((holder_baner) holder).baner.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            swiech(object.baner_url,null);
+                            swiech(object.baner_url,object.baner_type);
                         }
                     });
                     break;
@@ -402,7 +403,6 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
                     try {
                         JSONArray link4Array = new JSONArray(object.slide_title);
-
                         for (int i = 0; i < link4Array.length(); i++) {
                             JSONObject object_link4 = link4Array.getJSONObject(i);
                             JSONObject meta = object_link4.getJSONObject("meta");
@@ -419,16 +419,9 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                             ((holder_slide)holder).recyclerViewPager.setLayoutManager(layout);
                             ((holder_slide)holder).recyclerViewPager.setItemAnimator(new DefaultItemAnimator());
                         }
-
-
-
-
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-
                     break;
 
                 case item_Main.LINK_1:
@@ -437,7 +430,7 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     ((holder_link1) holder).imageView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            swiech(object.link1_url,null);
+                            swiech(object.link1_url,object.link1_type);
                         }
                     });
                     break;
@@ -449,32 +442,36 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     ((holder_link2) holder).imageView_1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            swiech(object.link2_url_1,null);
+                            swiech(object.link2_url_1,object.link2_type_1);
                         }
                     });
                     ((holder_link2) holder).imageView_2.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            swiech(object.link2_url_2,null);
+                            swiech(object.link2_url_2,object.link2_type_2);
 
                         }
                     });
                     break;
 
                 case item_Main.LINK_Desc :
-                    Glide.with(mContext).load(object.link3_url_img).into(((holder_link3Desc) holder).imageView);
-                    ((holder_link3Desc) holder).title.setText(object.link3_title);
-                    ((holder_link3Desc) holder).desc.setText(object.link3_desc);
+                    try {
+                        Glide.with(mContext).load(object.link3_url_img).into(((holder_link3Desc) holder).imageView);
+                        ((holder_link3Desc) holder).title.setText(object.link3_title);
+                        ((holder_link3Desc) holder).desc.setText(object.link3_desc);
 
-                    ((holder_link3Desc) holder).title.setTag(object.link3_link);
-                    ((holder_link3Desc) holder).desc.setTag(object.link3_link);
-                    ((holder_link3Desc)holder).imageView.setTag(object.link3_link);
+                        ((holder_link3Desc) holder).title.setTag(object.link3_link);
+                        ((holder_link3Desc) holder).desc.setTag(object.link3_link);
 
 
-                    ((holder_link3Desc) holder).title.setOnClickListener(link);
-                    ((holder_link3Desc) holder).desc.setOnClickListener(link);
-                    ((holder_link3Desc)holder).imageView.setOnClickListener(link);
-                    break;
+                        ((holder_link3Desc) holder).title.setOnClickListener(link);
+                        ((holder_link3Desc) holder).desc.setOnClickListener(link);
+                        break;
+                    }catch (Exception e){
+                        Log.e("Adaprot_Main", "onBindViewHolder: item_Main.LINK_Desc",e);
+                        break;
+                    }
+
                     case item_Main.LINK_4:
                         Glide.with(mContext).load(object.link4_url_img1).into(((holder_link4) holder).imageView_1);
                         Glide.with(mContext).load(object.link4_url_img2).into(((holder_link4) holder).imageView_2);
@@ -518,20 +515,25 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     ((holder_title_link) holder).title.setText(object.titleLink_title);
                     ((holder_title_link) holder).go.setText(object.titleLink_go);
 
-                    if (appLanguage.equals("en")){
-                        ((holder_title_link) holder).img_fleshTitle.setRotation(180);
+                    switch (appLanguage){
+                        case "fa":
+                        case "ar":
+                            break;
+                        default:
+                            ((holder_title_link) holder).img_fleshTitle.setRotation(180);
+                        break;
                     }
 
                     ((holder_title_link) holder).space.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            swiech(object.titleLink_url,null);
+                            swiech(object.titleLink_url,object.titleLink_type);
                         }
                     });
                     View.OnClickListener links = new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            swiech(object.titleLink_url,null);
+                            swiech(object.titleLink_url,object.titleLink_type);
                         }
                     };
 
@@ -545,32 +547,36 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     break;
 
                 case item_Main.SALAVAT:
-                    ((holder_salavet) holder).count.setText(object.salavat_count);
+                    ((holder_salavet) holder).count.setText(setCountSalawatByLanguage(object.salavat_count));
                     ((holder_salavet) holder).readText.setText(mContext.getString(R.string.flag_salawat));
 
                     View.OnClickListener salawat = new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            String gettext0 = ((holder_salavet) holder).count.getText().toString();
+                            String gettext1 = gettext0.replace(",","");
+                            String gettext2 = changeNumber.toEn(gettext1);
+                            Log.d("amingoli78", "errorSalawat: "+gettext2);
+                            int count = Integer.valueOf(gettext2);
+                            count++;
+                            String count_spilit = changeNumber.splitDigits(count);
+
+                            // Set Text
+                            ((holder_salavet) holder).count.setText(setCountSalawatByLanguage(count_spilit));
+                            // Toast Salawat
+                            Toast.makeText(mContext, mContext.getString(R.string.salawat), Toast.LENGTH_SHORT).show();
+                            // Save Number
+                            SaveManager.get(mContext).change_salawatCount(count);
+
+                            // send to Server
                             String apikey = SaveManager.get(mContext).getstring_appINFO().get(SaveManager.apiKey);
                             apiV6.salawat(url_salawat,apikey, new apiV6.salawatListener() {
                                 @Override
-                                public void saveSalawat(String count, String msgArray) {
-                                    ((holder_salavet) holder).count.setText(count);
-                                    try {
-                                        JSONArray msg = new JSONArray(msgArray);
-                                        for (int i = 0; i < msg.length(); i++) {
-                                            JSONObject object1 = msg.getJSONObject(i);
-                                            String text = object1.getString("text");
-                                            Toast.makeText(mContext, text, Toast.LENGTH_SHORT).show();
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
+                                public void saveSalawat(int count, String msgArray) {
+                                    SaveManager.get(mContext).change_salawatCount(count);
                                 }
-
                                 @Override
-                                public void errorSalawat(String error) {
-                                }
+                                public void errorSalawat(String error) {}
                             });
                         }
                     };
@@ -628,10 +634,14 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
                     ((holder_news) holder).title.setTag(object.news_id);
 
-                    if (appLanguage.equals("en")){
-                        ((holder_news) holder).img_flesh.setRotation(180f);
+                    switch (appLanguage){
+                        case "fa":
+                        case "ar":
+                            break;
+                        default:
+                            ((holder_news) holder).img_flesh.setRotation(180f);
+                            break;
                     }
-
                     View.OnClickListener clickNews = new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -726,6 +736,13 @@ public class Adaptor_Main extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 }
         }
 
+    }
+
+    private String setCountSalawatByLanguage(String number){
+        if (appLanguage.equals("fa") || appLanguage.equals("ar")){
+            return changeNumber.toFa(number);
+        }
+        return changeNumber.toEn(number);
     }
 
 

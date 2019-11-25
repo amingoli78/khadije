@@ -3,28 +3,29 @@ package com.ermile.khadijeapp.Adaptor;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ermile.khadijeapp.Activity.MainActivity;
 import com.ermile.khadijeapp.Activity.Splash;
 import com.ermile.khadijeapp.Item.item_Language;
 import com.ermile.khadijeapp.R;
+import com.ermile.khadijeapp.Static.file;
+import com.ermile.khadijeapp.Static.format;
+import com.ermile.khadijeapp.utility.FileManager;
 import com.ermile.khadijeapp.utility.SaveManager;
 import com.ermile.khadijeapp.utility.set_language_device;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Locale;
 
 public class LanguageAdaptor extends RecyclerView.Adapter<LanguageAdaptor.MyViewHolder> {
 
@@ -48,7 +49,7 @@ public class LanguageAdaptor extends RecyclerView.Adapter<LanguageAdaptor.MyView
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
-        item_Language aItem = itemList.get(position);
+        final item_Language aItem = itemList.get(position);
 
         holder.tik.setVisibility(View.GONE);
         holder.titel.setText(aItem.getTitle());
@@ -60,15 +61,31 @@ public class LanguageAdaptor extends RecyclerView.Adapter<LanguageAdaptor.MyView
 /*
         holder.checkLanguage.setVisibility(aItem.getChBoxVisibel());
 */
+
         holder.linrLnaguage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SaveManager.get(mContext).change_appLanguage(holder.titel.getTag().toString());
-                SaveManager.get(mContext).change_LanguageByUser(false);
-                new set_language_device(mContext);
-                Intent refresh = new Intent(mContext, Splash.class);
-                ((Activity)mContext).finish();
-                mContext.startActivity(refresh);
+                String choseLanguage = holder.titel.getTag().toString();
+                String appLanguage = SaveManager.get(mContext).getstring_appINFO().get(SaveManager.appLanguage);
+                if (!choseLanguage.equals(appLanguage)){
+                    SaveManager.get(mContext).change_appLanguage(choseLanguage);
+                    SaveManager.get(mContext).change_LanguageByUser(false);
+                    SaveManager.get(mContext).change_apiV6_URL(aItem.getLocal_URL());
+                    FileManager.write_OutStorage(mContext, file.setting, format.json,"");
+                    new set_language_device(mContext);
+                    final Intent refresh1 = new Intent(mContext, Splash.class);
+                    refresh1.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    ((Activity)mContext).finish();
+                    mContext.startActivity(refresh1);
+                }
+                else {
+                    Toast.makeText(mContext, mContext.getString(R.string.language_is_selected), Toast.LENGTH_SHORT).show();
+                    final Intent refresh2 = new Intent(mContext, MainActivity.class);
+                    refresh2.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    ((Activity)mContext).finish();
+                    mContext.startActivity(refresh2);
+                }
+                
             }
         });
 

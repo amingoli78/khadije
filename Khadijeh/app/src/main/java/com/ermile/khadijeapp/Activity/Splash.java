@@ -9,16 +9,17 @@ import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
 import com.ermile.khadijeapp.R;
+import com.ermile.khadijeapp.Static.file;
+import com.ermile.khadijeapp.Static.format;
 import com.ermile.khadijeapp.api.GetAndroidDetail;
 import com.ermile.khadijeapp.api.SingUpUser;
 import com.ermile.khadijeapp.api.Token;
 import com.ermile.khadijeapp.utility.CheckVersion;
+import com.ermile.khadijeapp.utility.FileManager;
 import com.ermile.khadijeapp.utility.SaveManager;
 import com.ermile.khadijeapp.utility.set_language_device;
 import com.google.android.material.snackbar.Snackbar;
@@ -59,6 +60,7 @@ public class Splash extends AppCompatActivity {
     private void setAppLanguage(){
         String AppLanguage = SaveManager.get(this).getstring_appINFO().get(appLanguage);
         if (AppLanguage == null){
+            FileManager.write_OutStorage(getApplicationContext(), file.setting   ,  format.json,"" );
             setFirstLanguages();
         }
         else {
@@ -94,26 +96,33 @@ public class Splash extends AppCompatActivity {
         res.updateConfiguration(conf, dm);
     }
     private void setSettingApp(){
-        GetAndroidDetail.GetJson(new GetAndroidDetail.JsonLocalListener() {
+        GetAndroidDetail.GetJson(getApplicationContext(),new GetAndroidDetail.JsonLocalListener() {
             @Override
             public void onGetJson_Online(String ResponeOnline) {
-                choseLanguage(ResponeOnline);
+                FileManager.write_OutStorage(getApplicationContext(), file.setting, format.json,ResponeOnline);
+                choseLanguage();
             }
 
             @Override
-            public void onGetJson_error(String error) {
-                SnackBar();
+            public void onGetJson_Offline(String ResponeOffline) {
+                FileManager.write_OutStorage(getApplicationContext(), file.setting, format.json,ResponeOffline);
+                choseLanguage();
+            }
+
+            @Override
+            public void onGetJson_Offline_NoNull() {
+                choseLanguage();
             }
 
         });
     }
-    private void choseLanguage(String respone){
+    private void choseLanguage(){
         Boolean changeLanguageByUser = SaveManager.get(this).getboolen_appINFO().get(SaveManager.changeLanguageByUser);
         if (changeLanguageByUser){
             finish();
             startActivity( new Intent(this, Language.class));
         }else {
-            if (!CheckVersion.Deprecated(Splash.this,getApplicationContext(),respone)){
+            if (!CheckVersion.Deprecated(Splash.this,getApplicationContext())){
                 singUpTemp();
             }
         }
@@ -138,7 +147,7 @@ public class Splash extends AppCompatActivity {
 
                 @Override
                 public void onTokenFailed(String error) {
-                    SnackBar();
+                    nextActivity();
                 }
             });
         }
@@ -155,17 +164,20 @@ public class Splash extends AppCompatActivity {
 
             @Override
             public void FiledUserAdd(Boolean FiledUserAdd) {
-                SnackBar();
+                nextActivity();
             }
         }, getApplicationContext(), Token);
     }
 
     private void nextActivity() {
+        Intent goToMain = new Intent(this, MainActivity.class);
+        goToMain.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
         handler.removeCallbacks(runnable);
         Boolean intro_isChecked = SaveManager.get(this).getboolen_appINFO().get(SaveManager.introIsChacked);
         if (intro_isChecked) {
             finish();
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(goToMain);
         } else {
             finish();
             startActivity(new Intent(this, Intro.class));
@@ -178,7 +190,7 @@ public class Splash extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         finish();
-                        startActivity(getIntent());
+                        startActivity(getIntent().addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
                     }
                 });
         snackbar.setActionTextColor(Color.RED);

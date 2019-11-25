@@ -6,15 +6,20 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.ermile.khadijeapp.R;
+import com.ermile.khadijeapp.Static.file;
+import com.ermile.khadijeapp.Static.format;
 import com.ermile.khadijeapp.Static.value;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+
 public class CheckVersion {
-    public static Boolean Deprecated(Activity activity,Context context, String respones){
+    public static Boolean Deprecated(Activity activity,Context context){
         try {
-            JSONObject respone = new JSONObject(respones);
+            String settingApp = FileManager.read_FromStorage(context, file.setting, format.json);
+            JSONObject respone = new JSONObject(settingApp);
             JSONObject result = respone.getJSONObject("result");
             JSONObject url = result.getJSONObject("url");
             JSONObject version = result.getJSONObject("version");
@@ -41,7 +46,7 @@ public class CheckVersion {
                 updateVersion(context,lastVersion);
                 return false;
             }
-        } catch (JSONException e) {
+        } catch (JSONException | IOException e) {
             e.printStackTrace();
             return false;
         }

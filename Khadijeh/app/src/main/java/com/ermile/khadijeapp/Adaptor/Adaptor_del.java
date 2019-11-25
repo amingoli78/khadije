@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,7 +28,6 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import static com.ermile.khadijeapp.R.drawable.logo;
 import static com.ermile.khadijeapp.R.drawable.woman;
 
 public class Adaptor_del extends RecyclerView.Adapter<Adaptor_del.ViewHolder> {
@@ -130,7 +128,8 @@ public class Adaptor_del extends RecyclerView.Adapter<Adaptor_del.ViewHolder> {
 
 
     private void Like(TextView plus, ImageView bg_img_plus, final String id, final ImageView imgHertDubelClick){
-        final String url = context.getString(R.string.url_del_like);
+        final String url = SaveManager.get(context).getstring_appINFO().get(SaveManager.apiV6_URL)+ com.ermile.khadijeapp.Static.url.like_del;
+
         SQLiteDatabase databases = new Database(context).getReadableDatabase();
         @SuppressLint("Recycle") Cursor checkID_del = databases.rawQuery(Database.select_del(id),null);
         if (checkID_del.getCount() == 0 ){

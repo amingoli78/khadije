@@ -2,7 +2,6 @@ package com.ermile.khadijeapp.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -13,14 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ermile.khadijeapp.Adaptor.LanguageAdaptor;
 import com.ermile.khadijeapp.Item.item_Language;
 import com.ermile.khadijeapp.R;
-import com.ermile.khadijeapp.api.apiV6;
+import com.ermile.khadijeapp.Static.file;
+import com.ermile.khadijeapp.Static.format;
 import com.ermile.khadijeapp.utility.Dialog;
+import com.ermile.khadijeapp.utility.FileManager;
 import com.ermile.khadijeapp.utility.SaveManager;
 import com.ermile.khadijeapp.utility.set_language_device;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -57,60 +59,55 @@ public class Language extends AppCompatActivity {
         relv_Language.setItemAnimator(new DefaultItemAnimator());
         relv_Language.setHasFixedSize(true);
         relv_Language.setAdapter(mAdapter);
-        GetLanguage(url);
+        GetLanguage();
     }
 
     /*Get Language*/
-    void GetLanguage(String url) {
-        apiV6.getLanguage(url,new apiV6.languageListener() {
-            @Override
-            public void result(String respone) {
-                String appLanguage = SaveManager.get(getApplicationContext()).getstring_appINFO().get(SaveManager.appLanguage);
-                try {
-                    JSONObject jsonOffline = new JSONObject(respone);
-                    boolean ok = jsonOffline.getBoolean("ok");
-                    JSONObject result = jsonOffline.getJSONObject("result");
-                    JSONObject lang_list = jsonOffline.getJSONObject("result");
-                    Iterator<?> keys = lang_list.keys();
-                    while (keys.hasNext()) {
-                        String key = (String) keys.next();
-                        JSONObject lang_key = lang_list.getJSONObject(key);
-                        if (lang_list.get(key) instanceof JSONObject) {
-                            if (appLanguage.equals(lang_key.getString("name"))) {
-                                mItem.add(new item_Language(
-                                        lang_key.getString("localname"),
-                                        lang_key.getString("name"),
-                                        true));
-                                mAdapter.notifyDataSetChanged();
-                            } else {
-                                mItem.add(new item_Language(
-                                        lang_key.getString("localname"),
-                                        lang_key.getString("name"),
-                                        false));
-                                mAdapter.notifyDataSetChanged();
-                            }
-                        }
+    void GetLanguage() {
+        String appLanguage = SaveManager.get(getApplicationContext()).getstring_appINFO().get(SaveManager.appLanguage);
+        try {
+            String settingApp = FileManager.read_FromStorage(getApplication(), file.setting, format.json);
+            JSONObject jsonOffline = new JSONObject(settingApp);
+            boolean ok = jsonOffline.getBoolean("ok");
+            JSONObject result = jsonOffline.getJSONObject("result");
+            JSONObject lang_list = result.getJSONObject("lang_list");
+            Iterator<?> keys = lang_list.keys();
+            while (keys.hasNext()) {
+                String key = (String) keys.next();
+                JSONObject lang_key = lang_list.getJSONObject(key);
+                if (lang_list.get(key) instanceof JSONObject) {
+                    if (appLanguage.equals(lang_key.getString("name"))) {
+                        mItem.add(new item_Language(
+                                lang_key.getString("localname"),
+                                lang_key.getString("name"),
+                                true,
+                                lang_key.getString("api_url")));
+                        mAdapter.notifyDataSetChanged();
+                    } else {
+                        mItem.add(new item_Language(
+                                lang_key.getString("localname"),
+                                lang_key.getString("name"),
+                                false,
+                                lang_key.getString("api_url")));
+                        mAdapter.notifyDataSetChanged();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
             }
-
-            @Override
-            public void error(String error) {
-                Intent getintent = getIntent();
-                new Dialog(Language.this,getString(R.string.errorNet_title_snackBar),"",getString(R.string.errorNet_button_snackBar),false,getintent);
-            }
-        });
-
-
-
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+            Intent getintent = getIntent();
+            new Dialog(Language.this,getString(R.string.errorNet_title_snackBar),"",getString(R.string.errorNet_button_snackBar),false,getintent);
+        }
     }
+
+
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         finish();
-        startActivity(new Intent(this,MainActivity.class));
+        Intent goTo_MainActivity = new Intent(this,MainActivity.class);
+        goTo_MainActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(goTo_MainActivity);
     }
 }

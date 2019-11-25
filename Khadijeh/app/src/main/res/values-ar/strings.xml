@@ -47,6 +47,8 @@
     <string name="prev">سابق</string>
     <string name="start">بداية</string>
     <string name="update">تحدیث</string>
+    <string name="salawat">االّلهُمَّ صَلِّ عَلَی مُحَمَّدٍ وَآلِ مُحَمَّدٍ</string>
+    <string name="language_is_selected">اللغة المختارة</string>
 
 
 </resources>

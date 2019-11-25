@@ -47,5 +47,7 @@
     <string name="prev">Prev</string>
     <string name="start">Start</string>
     <string name="update">Update</string>
+    <string name="salawat">Allahouma sali ala mohamed wa ali muhammad</string>
+    <string name="language_is_selected">Language is Selected</string>
 
 </resources>
