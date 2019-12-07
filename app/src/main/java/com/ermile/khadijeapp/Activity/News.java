@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
@@ -42,7 +45,7 @@ public class News extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
-        LinearLayout news_mainLayout = findViewById(R.id.news_mainLayout);
+        RelativeLayout news_mainLayout = findViewById(R.id.news_mainLayout);
         String AppLanguage = SaveManager.get(this).getstring_appINFO().get(SaveManager.appLanguage);
         if (AppLanguage.equals("fa") || AppLanguage.equals("ar")){
             ViewCompat.setLayoutDirection(news_mainLayout,ViewCompat.LAYOUT_DIRECTION_RTL);
@@ -68,6 +71,7 @@ public class News extends AppCompatActivity {
             @Override
             public void resultValueNes(String respone) {
                 try {
+                    hiddenProgress();
                     JSONObject result = new JSONObject(respone);
                     String content = result.getString("content");
                     Spanned html_content = Html.fromHtml(content);
@@ -126,5 +130,14 @@ public class News extends AppCompatActivity {
                 new Dialog(News.this,getString(R.string.errorNet_title_snackBar),"",getString(R.string.errorNet_button_snackBar),false,getintent);
             }
         });
+    }
+
+    private void hiddenProgress(){
+        try {
+            ProgressBar progressBar = findViewById(R.id.showNews_progress);
+            if (progressBar.getVisibility() == View.VISIBLE){
+                progressBar.setVisibility(View.GONE);
+            }
+        }catch (Exception e){}
     }
 }

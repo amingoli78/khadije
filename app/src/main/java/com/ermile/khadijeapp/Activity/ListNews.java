@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
@@ -45,7 +48,7 @@ public class ListNews extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_news);
 
-        LinearLayout news_mainLayout = findViewById(R.id.listNews_mainLayout);
+        RelativeLayout news_mainLayout = findViewById(R.id.listNews_mainLayout);
         String AppLanguage = SaveManager.get(this).getstring_appINFO().get(SaveManager.appLanguage);
         if (AppLanguage.equals("fa") || AppLanguage.equals("ar")){
             ViewCompat.setLayoutDirection(news_mainLayout,ViewCompat.LAYOUT_DIRECTION_RTL);
@@ -67,6 +70,7 @@ public class ListNews extends AppCompatActivity {
             @Override
             public void lestener_news(String newsArray) {
                 news(newsArray);
+                hiddenProgress();
             }
 
             @Override
@@ -119,5 +123,13 @@ public class ListNews extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+    private void hiddenProgress(){
+        try {
+            ProgressBar progressBar = findViewById(R.id.listNews_progress);
+            if (progressBar.getVisibility() == View.VISIBLE){
+                progressBar.setVisibility(View.GONE);
+            }
+        }catch (Exception e){}
     }
 }
