@@ -9,16 +9,30 @@ android {
         applicationId "com.ermile.khadijeapp"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 48
-        versionName "48.0.0"
+        versionCode 49
+        versionName "49.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        release {
+            storeFile file("storeFile")
+            storePassword 'storePassword'
+            keyAlias 'keyAlias'
+            keyPassword 'keyPassword'
+        }
+    }
+
+
+
     buildTypes {
         release {
-            minifyEnabled false
+            signingConfig signingConfigs.release
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     lintOptions {
         checkReleaseBuilds false
         // Or, if you prefer, you can continue to check for errors in release builds,
