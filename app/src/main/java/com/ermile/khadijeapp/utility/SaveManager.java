@@ -104,7 +104,7 @@ public class SaveManager extends ContextWrapper {
 
     public Map<String, String> getstring_appINFO() {
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put(apiV6_URL, sharedPreferences.getString(apiV6_URL, "https://khadije.com/api/v6/app" ));
+        hashMap.put(apiV6_URL, sharedPreferences.getString(apiV6_URL, "https://khadije.com/api/v6" ));
 
         hashMap.put(appLanguage, sharedPreferences.getString(appLanguage, null ));
 

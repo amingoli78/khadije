@@ -52,7 +52,10 @@ public class GetAndroidDetail {
                 }
             }
         });
-        get_local.setRetryPolicy(new DefaultRetryPolicy(5 * 1000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        get_local.setRetryPolicy(new DefaultRetryPolicy(
+                3000
+                , DefaultRetryPolicy.DEFAULT_MAX_RETRIES
+                , DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Network.getInstance().addToRequestQueue(get_local);
 
     }
